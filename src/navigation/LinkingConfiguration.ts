@@ -6,14 +6,9 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Elections: {
             screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
+              Elections: 'Elections',
             },
           },
         },
