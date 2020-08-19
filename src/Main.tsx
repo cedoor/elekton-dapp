@@ -9,12 +9,11 @@ import {
     DefaultTheme as PaperDefaultTheme,
     Provider as PaperProvider
 } from "react-native-paper";
-import {useColorScheme} from 'react-native-appearance';
 import {PreferencesContext} from './context/PreferencesContext';
 import LinkingConfiguration from "./navigation/LinkingConfiguration";
-import DrawerContent from "./components/DrawerContent";
-import {createDrawerNavigator} from "@react-navigation/drawer";
-import StackNavigator from "./StackNavigator";
+import {AuthContext} from "./context/AuthContext";
+import RootNavigator from "./navigation/RootNavigator";
+import useColorScheme from "./hooks/useColorScheme";
 
 const CombinedDefaultTheme = {
     ...PaperDefaultTheme, ...NavigationDefaultTheme,
@@ -25,36 +24,48 @@ const CombinedDarkTheme = {
     colors: {...PaperDarkTheme.colors, ...NavigationDarkTheme.colors}
 };
 
-const Drawer = createDrawerNavigator();
-
-export function Main() {
+export default function Main() {
     const colorScheme = useColorScheme();
-    const [theme, setTheme] = React.useState<'light' | 'dark'>(
+    const [themeType, setTheme] = React.useState<'light' | 'dark'>(
         colorScheme === 'dark' ? 'dark' : 'light'
     );
-    const combinedTheme: any = theme === 'light' ? CombinedDarkTheme : CombinedDefaultTheme;
+    const combinedTheme: any = themeType === 'light' ? CombinedDefaultTheme : CombinedDarkTheme;
 
     function toggleTheme() {
-        setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
+        setTheme(themeType => (themeType === 'light' ? 'dark' : 'light'));
     }
 
     const preferences = React.useMemo(
         () => ({
             toggleTheme,
-            theme,
+            themeType,
         }),
-        [theme]
+        [themeType]
     );
 
+    const [userToken, setUserToken] = React.useState<string | null>("ciao");
+
+    const authContext = React.useMemo(() => ({
+        signIn: () => {
+            setUserToken("ciao")
+        },
+        signUp: () => {
+            setUserToken("ciao")
+        },
+        signOut: () => {
+            setUserToken(null)
+        },
+    }), [])
+
     return (
-        <PreferencesContext.Provider value={preferences}>
+        <AuthContext.Provider value={authContext}>
             <PaperProvider theme={combinedTheme}>
                 <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
-                    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-                        <Drawer.Screen name="root" component={StackNavigator}/>
-                    </Drawer.Navigator>
+                    <PreferencesContext.Provider value={preferences}>
+                        <RootNavigator userToken={userToken}/>
+                    </PreferencesContext.Provider>
                 </NavigationContainer>
             </PaperProvider>
-        </PreferencesContext.Provider>
+        </AuthContext.Provider>
     );
 };

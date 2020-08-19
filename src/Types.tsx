@@ -1,6 +1,6 @@
 export type StackNavigatorParamlist = {
-    elections: undefined;
-    details: {
+    Elections: undefined;
+    Details: {
         id: number;
     };
 };

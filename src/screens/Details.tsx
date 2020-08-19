@@ -4,7 +4,7 @@ import {Text, View} from "react-native";
 import {StackNavigatorParamlist} from "../Types";
 
 type Props = {
-    route: RouteProp<StackNavigatorParamlist, 'details'>;
+    route: RouteProp<StackNavigatorParamlist, 'Details'>;
 };
 
 export const Details = (props: Props) => {

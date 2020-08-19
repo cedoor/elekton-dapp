@@ -5,6 +5,7 @@ import {Caption, Drawer, Paragraph, Switch, Text, Title, TouchableRipple, useThe
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {PreferencesContext} from "../context/PreferencesContext";
 import Animated from "react-native-reanimated";
+import {AuthContext} from "../context/AuthContext";
 
 export default function DrawerContent(props: DrawerContentComponentProps<any>) {
     const theme = useTheme();
@@ -14,6 +15,8 @@ export default function DrawerContent(props: DrawerContentComponentProps<any>) {
         inputRange: [0, 0.5, 0.7, 0.8, 1],
         outputRange: [-100, -85, -70, -45, 0],
     });
+
+    const {signOut} = React.useContext(AuthContext)
 
     return (
         <DrawerContentScrollView {...props}>
@@ -56,8 +59,7 @@ export default function DrawerContent(props: DrawerContentComponentProps<any>) {
                             <MaterialCommunityIcons name="logout" color={color} size={size}/>
                         )}
                         label="Logout"
-                        onPress={() => {
-                        }}
+                        onPress={signOut}
                     />
                 </Drawer.Section>
                 <Drawer.Section title="Preferences">

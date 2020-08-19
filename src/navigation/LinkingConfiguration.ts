@@ -1,19 +1,25 @@
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 
 export default {
-  prefixes: [Linking.makeUrl('/')],
-  config: {
-    screens: {
-      Root: {
+    prefixes: [Linking.makeUrl("/")],
+    config: {
         screens: {
-          Elections: {
-            screens: {
-              Elections: 'Elections',
+            App: {
+                screens: {
+                    Elections: {
+                        screens: {
+                            Elections: "elections",
+                            Details: "details"
+                        },
+                    },
+                },
             },
-          },
+            Auth: {
+                screens: {
+                    SignIn: "sign-in",
+                    SignUp: "Sign-up"
+                }
+            }
         },
-      },
-      NotFound: '*',
     },
-  },
 };

@@ -32,7 +32,7 @@ export default function Elections(props: Props) {
         ...electionProps,
         onPress: () =>
             props.navigation &&
-            props.navigation.push('details', {
+            props.navigation.push('Details', {
                 ...electionProps,
             }),
     }));
