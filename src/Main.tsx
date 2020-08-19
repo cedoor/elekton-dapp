@@ -43,7 +43,7 @@ export default function Main() {
         [themeType]
     );
 
-    const [userToken, setUserToken] = React.useState<string | null>("ciao");
+    const [userToken, setUserToken] = React.useState<string | null>(null);
 
     const authContext = React.useMemo(() => ({
         signIn: () => {

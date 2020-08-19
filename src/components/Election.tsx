@@ -1,11 +1,10 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Text, TouchableRipple,} from 'react-native-paper';
+import {List, Surface, Text, TouchableRipple} from 'react-native-paper';
 
 type Props = {
     id: number;
     title: string;
-    message: string;
+    description: string;
     admin: string;
     timestamp: number;
     options: string[];
@@ -15,11 +14,10 @@ type Props = {
 export default function Election(props: Props) {
     return (
         <TouchableRipple onPress={() => props.onPress(props.id)}>
-            <View>
-                <Text>
-                    {props.title}
-                </Text>
-            </View>
+            <Surface>
+                <List.Item title={props.title} description={props.description}
+                           right={props => <Text {...props}>10/03/2020</Text>}/>
+            </Surface>
         </TouchableRipple>
     );
 };

@@ -51,7 +51,7 @@ export default function DrawerContent(props: DrawerContentComponentProps<any>) {
                         )}
                         label="Elections"
                         onPress={() => {
-                            props.navigation.navigate("elections")
+                            props.navigation.navigate("Elections")
                         }}
                     />
                     <DrawerItem
