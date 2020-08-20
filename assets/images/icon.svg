@@ -25,8 +25,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="511.42109"
+     inkscape:zoom="0.7"
+     inkscape:cx="291.01572"
      inkscape:cy="526.0303"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -68,50 +68,55 @@
        transform="matrix(0.38628728,0,0,0.38628728,64.439836,91.136339)"
        inkscape:export-xdpi="149.48584"
        inkscape:export-ydpi="149.48584">
-      <circle
-         r="76.647324"
-         cy="148.5"
-         cx="105"
-         id="path815"
-         style="fill:#38563f;fill-opacity:1;stroke-width:0.26983181" />
-      <circle
-         r="61.906254"
-         cy="148.5"
-         cx="105"
-         id="path815-1"
-         style="fill:#d1d9bb;fill-opacity:1;stroke-width:0.21793684" />
-      <circle
-         r="44.04044"
-         cy="153.209"
-         cx="105"
-         id="path815-3"
-         style="fill:#38563f;fill-opacity:1;stroke-width:0.15504144" />
-      <rect
-         rx="0"
-         ry="17.712503"
-         y="96.402023"
-         x="78.807594"
-         height="49.788105"
-         width="52.384815"
-         id="rect926"
-         style="fill:#d1d9bb;fill-opacity:1;stroke-width:0.2372534" />
-      <rect
-         rx="0"
-         ry="0"
-         y="113.43326"
-         x="59.029648"
-         height="17.282156"
-         width="91.940704"
-         id="rect926-9"
-         style="fill:#d1d9bb;fill-opacity:1;stroke-width:0.18518241" />
-      <rect
-         ry="15.134785"
-         y="98.535576"
-         x="85"
-         height="40"
-         width="40"
-         id="rect973"
-         style="fill:#38563f;fill-opacity:1;stroke-width:0.16876046" />
+      <g
+         id="g826"
+         inkscape:export-xdpi="20.589111"
+         inkscape:export-ydpi="20.589111">
+        <circle
+           style="fill:#38563f;fill-opacity:1;stroke-width:0.26983181"
+           id="path815"
+           cx="105"
+           cy="148.5"
+           r="76.647324" />
+        <circle
+           style="fill:#e3e8dd;fill-opacity:1;stroke-width:0.21793684"
+           id="path815-1"
+           cx="105"
+           cy="148.5"
+           r="61.906254" />
+        <circle
+           style="fill:#38563f;fill-opacity:1;stroke-width:0.15504144"
+           id="path815-3"
+           cx="105"
+           cy="153.209"
+           r="44.04044" />
+        <rect
+           style="fill:#e3e8dd;fill-opacity:1;stroke-width:0.2372534"
+           id="rect926"
+           width="52.384815"
+           height="49.788105"
+           x="78.807594"
+           y="96.402023"
+           ry="17.712503"
+           rx="0" />
+        <rect
+           style="fill:#e3e8dd;fill-opacity:1;stroke-width:0.18518241"
+           id="rect926-9"
+           width="91.940704"
+           height="17.282156"
+           x="59.029648"
+           y="113.43326"
+           ry="0"
+           rx="0" />
+        <rect
+           style="fill:#38563f;fill-opacity:1;stroke-width:0.16876046"
+           id="rect973"
+           width="40"
+           height="40"
+           x="85"
+           y="98.535576"
+           ry="15.134785" />
+      </g>
     </g>
   </g>
 </svg>
