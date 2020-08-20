@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     logo: {
-        width: 100,
-        height: 100
+        width: 160,
+        height: 160
     }
 });
