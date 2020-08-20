@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {View} from '../components/Themed';
 import Election from "../components/Election";
 import {StackNavigatorParamlist} from "../Types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {elections} from "../data/elections";
+import {Surface} from "react-native-paper";
 
 type ElectionsProps = React.ComponentProps<typeof Election>;
 
-function renderItem({ item }: { item: ElectionsProps }) {
+function renderItem({item}: { item: ElectionsProps }) {
     return <Election {...item} />;
 }
 
@@ -34,15 +34,23 @@ export default function Elections(props: Props) {
     }));
 
     return (
+        <Surface style={styles.container}>
             <FlatList
-                contentContainerStyle={{ backgroundColor: theme.colors.background }}
-                style={{ backgroundColor: theme.colors.background }}
+                contentContainerStyle={{backgroundColor: theme.colors.background}}
+                style={{backgroundColor: theme.colors.background}}
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
                 ItemSeparatorComponent={() => (
-                    <View style={{ height: StyleSheet.hairlineWidth }} />
+                    <View style={{height: StyleSheet.hairlineWidth}}/>
                 )}
             />
+        </Surface>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+});

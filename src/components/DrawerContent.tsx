@@ -19,12 +19,11 @@ export default function DrawerContent(props: DrawerContentComponentProps<any>) {
     const {signOut} = React.useContext(AuthContext)
 
     return (
-        <DrawerContentScrollView {...props}>
+        <DrawerContentScrollView style={{backgroundColor: theme.colors.surface}} {...props}>
             <Animated.View
                 style={[
                     styles.drawerContent,
                     {
-                        backgroundColor: theme.colors.surface,
                         transform: [{translateX}],
                     },
                 ]}>
@@ -43,22 +42,9 @@ export default function DrawerContent(props: DrawerContentComponentProps<any>) {
                 <Drawer.Section style={styles.drawerSection}>
                     <DrawerItem
                         icon={({color, size}) => (
-                            <MaterialCommunityIcons
-                                name="pencil"
-                                color={color}
-                                size={size}
-                            />
-                        )}
-                        label="Elections"
-                        onPress={() => {
-                            props.navigation.navigate("Elections")
-                        }}
-                    />
-                    <DrawerItem
-                        icon={({color, size}) => (
                             <MaterialCommunityIcons name="logout" color={color} size={size}/>
                         )}
-                        label="Logout"
+                        label="Sign out"
                         onPress={signOut}
                     />
                 </Drawer.Section>

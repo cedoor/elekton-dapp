@@ -1,11 +1,13 @@
 import React from "react";
-import {Image, StyleSheet, View} from "react-native";
+import {Image, StyleSheet, Text, View} from "react-native";
 import {AuthContext} from "../context/AuthContext";
 import {Button, IconButton, Surface} from "react-native-paper";
 import {MaterialIcons} from "@expo/vector-icons";
+import {useTheme} from "@react-navigation/native";
 
-export default function SignIn({navigation}: any) {
-    const {signIn} = React.useContext(AuthContext)
+export default function Login() {
+    const {signIn, signUp} = React.useContext(AuthContext)
+    const theme = useTheme();
 
     return (
         <Surface style={styles.container}>
@@ -18,14 +20,18 @@ export default function SignIn({navigation}: any) {
                             size={size}
                         />
                     )}
+                    color={theme.colors.primary}
                     size={24}
                     onPress={() => console.log('Pressed')}
                 />
             </View>
             <View style={styles.content}>
-                <Image style={styles.logo} source={require("../../assets/images/icon.png")}/>
+                <View style={{alignItems: "center"}}>
+                    <Image style={styles.logo} source={require("../../assets/images/icon.png")}/>
+                    <Text style={[{color: theme.colors.primary}, styles.logoText]}>Elekton</Text>
+                </View>
                 <View>
-                    <Button style={styles.button} mode="outlined" onPress={() => navigation.push("SignUp")}>
+                    <Button style={styles.button} mode="outlined" onPress={() => signUp()}>
                         Sign Up
                     </Button>
                     <Button style={styles.button} mode="outlined" onPress={() => signIn()}>
@@ -40,7 +46,8 @@ export default function SignIn({navigation}: any) {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 30,
         flex: 1
     },
     header: {
@@ -53,12 +60,16 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        marginTop: 10,
+        marginBottom: 10,
         width: 250,
         borderRadius: 20
     },
     logo: {
         width: 160,
         height: 160
+    },
+    logoText: {
+        marginTop: 10,
+        fontSize: 26
     }
 });

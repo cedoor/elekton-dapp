@@ -14,14 +14,17 @@ import LinkingConfiguration from "./navigation/LinkingConfiguration";
 import {AuthContext} from "./context/AuthContext";
 import RootNavigator from "./navigation/RootNavigator";
 import useColorScheme from "./hooks/useColorScheme";
+import Colors from "./constants/Colors";
+import {StatusBar} from "expo-status-bar";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 const CombinedDefaultTheme = {
     ...PaperDefaultTheme, ...NavigationDefaultTheme,
-    colors: {...PaperDefaultTheme.colors, ...NavigationDefaultTheme.colors}
+    colors: {...PaperDefaultTheme.colors, ...NavigationDefaultTheme.colors, ...Colors.light}
 };
 const CombinedDarkTheme = {
     ...PaperDarkTheme, ...NavigationDarkTheme,
-    colors: {...PaperDarkTheme.colors, ...NavigationDarkTheme.colors}
+    colors: {...PaperDarkTheme.colors, ...NavigationDarkTheme.colors, ...Colors.dark}
 };
 
 export default function Main() {
@@ -43,14 +46,14 @@ export default function Main() {
         [themeType]
     );
 
-    const [userToken, setUserToken] = React.useState<string | null>(null);
+    const [userToken, setUserToken] = React.useState<string | null>("hello");
 
     const authContext = React.useMemo(() => ({
         signIn: () => {
-            setUserToken("ciao")
+            setUserToken("hello")
         },
         signUp: () => {
-            setUserToken("ciao")
+            setUserToken("hello")
         },
         signOut: () => {
             setUserToken(null)
@@ -60,6 +63,7 @@ export default function Main() {
     return (
         <AuthContext.Provider value={authContext}>
             <PaperProvider theme={combinedTheme}>
+                <StatusBar style={themeType === "light" ? "dark" : "light"}/>
                 <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
                     <PreferencesContext.Provider value={preferences}>
                         <RootNavigator userToken={userToken}/>

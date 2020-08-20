@@ -16,8 +16,7 @@ export default {
             },
             Auth: {
                 screens: {
-                    SignIn: "sign-in",
-                    SignUp: "sign-up"
+                    Login: "login"
                 }
             }
         },

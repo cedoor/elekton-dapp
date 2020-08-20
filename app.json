@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "dapp",
-    "slug": "dapp",
-    "version": "1.0.0",
+    "name": "Elekton",
+    "slug": "Elekton",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#1ba1f2"
+      "backgroundColor": "#f6f8f4"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
