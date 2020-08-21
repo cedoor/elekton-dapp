@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigatorParamlist} from "../Types";
-import {Caption, Surface, Title} from "react-native-paper";
+import {Caption, Title} from "react-native-paper";
 
 type Props = {
     route: RouteProp<StackNavigatorParamlist, 'Details'>;
@@ -10,16 +10,15 @@ type Props = {
 
 export const Details = (props: Props) => {
     return (
-        <Surface style={styles.container}>
+        <View style={styles.container}>
             <Title>{props.route.params.title}</Title>
             <Caption style={styles.handle}>{props.route.params.description}</Caption>
-        </Surface>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         padding: 20,
     },
     handle: {

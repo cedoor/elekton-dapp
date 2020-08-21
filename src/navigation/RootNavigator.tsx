@@ -5,7 +5,7 @@ import AuthNavigator from "./AuthNavigator";
 
 const RootStack = createStackNavigator();
 
-export default function RootNavigator({ userToken }: any) {
+export default function RootNavigator({userToken}: any) {
     return (
         <RootStack.Navigator headerMode="none">
             {userToken ? (

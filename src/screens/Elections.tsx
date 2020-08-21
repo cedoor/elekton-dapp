@@ -34,23 +34,22 @@ export default function Elections(props: Props) {
     }));
 
     return (
-        <Surface style={styles.container}>
-            <FlatList
-                contentContainerStyle={{backgroundColor: theme.colors.background}}
-                style={{backgroundColor: theme.colors.background}}
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                ItemSeparatorComponent={() => (
-                    <View style={{height: StyleSheet.hairlineWidth}}/>
-                )}
-            />
-        </Surface>
+        <FlatList
+            contentContainerStyle={{backgroundColor: theme.colors.background}}
+            style={{backgroundColor: theme.colors.background}}
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            ItemSeparatorComponent={() => (
+                <View style={[{backgroundColor: theme.colors.border}, styles.separator]}/>
+            )}
+        />
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
+    separator: {
+        height: 1,
+        marginHorizontal: 16
     }
 });

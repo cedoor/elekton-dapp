@@ -5,7 +5,8 @@ export type StackNavigatorParamlist = {
         title: string;
         description: string;
         admin: string;
-        timestamp: number;
+        startTime: number;
+        timeInterval: number;
         options: string[];
     };
 };
