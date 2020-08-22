@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {useTheme} from '@react-navigation/native';
 import Election from "../components/Election";
 import {StackNavigatorParamlist} from "../Types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {elections} from "../data/elections";
-import {Surface} from "react-native-paper";
+import useTheme from "../hooks/useTheme";
 
 type ElectionsProps = React.ComponentProps<typeof Election>;
 

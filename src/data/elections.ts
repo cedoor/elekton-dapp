@@ -9,7 +9,7 @@ export const elections: Omit<ElectionsProps, 'onPress'>[] = [
         title: 'Parliamentary cut',
         description: 'Do you want to reduce the number of parliamentarians?',
         admin: '0x03Ed9bE36c5FC315B0559Cf344801653e2CE292f',
-        startTime: 1598018870924,
+        date: 1598018870924,
         timeInterval: 86400000,
         options: [
             'Yes',
@@ -21,7 +21,7 @@ export const elections: Omit<ElectionsProps, 'onPress'>[] = [
         title: 'Regional elections',
         description: 'Which party do you want to vote for?',
         admin: '0x03Ed9bE36c5FC315B0559Cf344801653e2CE292i',
-        startTime: 1598060406071,
+        date: 1598060406071,
         timeInterval: 86400000,
         options: [
             'PSI',
@@ -34,7 +34,7 @@ export const elections: Omit<ElectionsProps, 'onPress'>[] = [
         title: 'National elections',
         description: 'Which party do you want to vote for?',
         admin: '0x03Ed9bE36c5FC315B0559Cf344801653e2CE292i',
-        startTime: 1598026070924,
+        date: 1598026070924,
         timeInterval: 86400000,
         options: [
             'PSI',

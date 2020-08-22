@@ -7,7 +7,10 @@ type AuthContextType = {
 };
 
 export const AuthContext = React.createContext<AuthContextType>({
-    signIn: () => {},
-    signUp: () => {},
-    signOut: () => {}
+    signIn: () => {
+    },
+    signUp: () => {
+    },
+    signOut: () => {
+    }
 });

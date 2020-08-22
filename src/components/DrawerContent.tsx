@@ -1,14 +1,13 @@
 import React from "react";
 import {StyleSheet, View} from 'react-native';
 import {DrawerContentComponentProps, DrawerContentScrollView, DrawerItem,} from "@react-navigation/drawer";
-import {Caption, Drawer, Paragraph, Switch, Text, Title, TouchableRipple, useTheme,} from 'react-native-paper';
+import {Caption, Drawer, Paragraph, Switch, Text, Title, TouchableRipple,} from 'react-native-paper';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {PreferencesContext} from "../context/PreferencesContext";
 import Animated from "react-native-reanimated";
 import {AuthContext} from "../context/AuthContext";
 
 export default function DrawerContent(props: DrawerContentComponentProps<any>) {
-    const theme = useTheme();
     const {themeType, toggleTheme} = React.useContext(PreferencesContext);
 
     const translateX = Animated.interpolate(props.progress, {
@@ -19,7 +18,7 @@ export default function DrawerContent(props: DrawerContentComponentProps<any>) {
     const {signOut} = React.useContext(AuthContext)
 
     return (
-        <DrawerContentScrollView style={{backgroundColor: theme.colors.surface}} {...props}>
+        <DrawerContentScrollView {...props}>
             <Animated.View
                 style={[
                     styles.drawerContent,

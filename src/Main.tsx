@@ -14,17 +14,18 @@ import LinkingConfiguration from "./navigation/LinkingConfiguration";
 import {AuthContext} from "./context/AuthContext";
 import RootNavigator from "./navigation/RootNavigator";
 import useColorScheme from "./hooks/useColorScheme";
-import Colors from "./constants/Colors";
+import Theme from "./constants/Theme";
 import {StatusBar} from "expo-status-bar";
-import {SafeAreaProvider} from "react-native-safe-area-context";
 
 const CombinedDefaultTheme = {
     ...PaperDefaultTheme, ...NavigationDefaultTheme,
-    colors: {...PaperDefaultTheme.colors, ...NavigationDefaultTheme.colors, ...Colors.light}
+    colors: {...PaperDefaultTheme.colors, ...NavigationDefaultTheme.colors, ...Theme.colors.light},
+    roundness: Theme.roundness
 };
 const CombinedDarkTheme = {
     ...PaperDarkTheme, ...NavigationDarkTheme,
-    colors: {...PaperDarkTheme.colors, ...NavigationDarkTheme.colors, ...Colors.dark}
+    colors: {...PaperDarkTheme.colors, ...NavigationDarkTheme.colors, ...Theme.colors.dark},
+    roundness: Theme.roundness
 };
 
 export default function Main() {

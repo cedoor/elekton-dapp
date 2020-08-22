@@ -1,5 +1,6 @@
 import React from 'react';
-import {Appbar, useTheme} from 'react-native-paper';
+import {Appbar} from 'react-native-paper';
+import useTheme from "../hooks/useTheme";
 
 export default function Header({scene, previous, navigation}: any) {
     const theme = useTheme();
@@ -16,7 +17,7 @@ export default function Header({scene, previous, navigation}: any) {
                 <Appbar.Action icon="menu" onPress={navigation.openDrawer}/>
             )}
             <Appbar.Content title={title}/>
-            <Appbar.Action icon="magnify" onPress={_handleSearch}/>
+            <Appbar.Action icon="dots-vertical" onPress={_handleSearch}/>
         </Appbar.Header>
     );
 };
