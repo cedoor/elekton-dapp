@@ -6,6 +6,7 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import {createStackNavigator} from "@react-navigation/stack";
 import Header from "../components/Header";
 import DrawerContent from "../components/DrawerContent";
+import {CreateElection} from "../screens/CreateElection";
 
 const Drawer = createDrawerNavigator<StackNavigatorParamlist>();
 const ElectionStack = createStackNavigator<StackNavigatorParamlist>();
@@ -29,6 +30,11 @@ function ElectionNavigator() {
                 name="Details"
                 component={Details}
                 options={{title: 'Details'}}
+            />
+            <ElectionStack.Screen
+                name="CreateElection"
+                component={CreateElection}
+                options={{title: 'Create election'}}
             />
         </ElectionStack.Navigator>
     );

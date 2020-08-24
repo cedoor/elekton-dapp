@@ -31,7 +31,7 @@ export default function Login() {
                     <Text style={[{color: theme.colors.primary}, styles.logoText]}>Elekton</Text>
                 </View>
                 <View>
-                    <Button style={[{borderRadius: theme.roundness}, styles.button]} mode="outlined"
+                    <Button style={styles.button} mode="outlined"
                             onPress={() => signUp()}>
                         Sign Up
                     </Button>

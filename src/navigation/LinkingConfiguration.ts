@@ -9,7 +9,8 @@ export default {
                     Elections: {
                         screens: {
                             Elections: "elections",
-                            Details: "details"
+                            Details: "details",
+                            CreateElection: "create-election"
                         },
                     },
                 },

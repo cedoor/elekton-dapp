@@ -7,10 +7,11 @@ export type StackNavigatorParamlist = {
         title: string;
         description: string;
         admin: string;
-        date: number;
-        timeInterval: number;
+        startDate: number;
+        endDate: number;
         options: string[];
     };
+    CreateElection: undefined;
 };
 
 type Mode = 'adaptive' | 'exact';

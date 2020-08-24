@@ -10,7 +10,7 @@ type Props = {
     route: RouteProp<StackNavigatorParamlist, 'Details'>;
 };
 
-export const Details = (props: Props) => {
+export function Details(props: Props) {
     const theme = useTheme()
     const [option, setOption] = React.useState('0');
 
@@ -18,7 +18,7 @@ export const Details = (props: Props) => {
         <View style={styles.container}>
             <View style={{alignItems: "center"}}>
                 <Title style={styles.title}>{props.route.params.title}</Title>
-                <Caption style={styles.date}>{format(props.route.params.date, "H:mm a, MMM dd yyyy")}</Caption>
+                <Caption style={styles.date}>{format(props.route.params.startDate, "H:mm a, MMM dd yyyy")}</Caption>
                 <View style={[{borderColor: theme.colors.border, borderRadius: theme.roundness}, styles.paper]}>
                     <Subheading style={styles.description}>{props.route.params.description}</Subheading>
                     <RadioButton.Group onValueChange={option => setOption(option)} value={option}>
@@ -31,7 +31,7 @@ export const Details = (props: Props) => {
             </View>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {

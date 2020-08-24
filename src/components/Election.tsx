@@ -9,8 +9,8 @@ type Props = {
     title: string;
     description: string;
     admin: string;
-    date: number;
-    timeInterval: number;
+    startDate: number;
+    endDate: number;
     options: string[];
     onPress: (id: number) => void;
 };
@@ -19,7 +19,7 @@ export default function Election(props: Props) {
     const theme = useTheme()
 
     const calculateTimeLeft = () => {
-        return (Date.now() - props.date) / props.timeInterval
+        return (Date.now() - props.startDate) / (props.endDate - props.startDate)
     }
 
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -40,10 +40,10 @@ export default function Election(props: Props) {
                            right={() =>
                                <View style={styles.date}>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
-                                       {format(props.date, "MMM dd")}
+                                       {format(props.startDate, "mm/dd/yyyy")}
                                    </Text>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
-                                       {format(props.date, "H:mm a")}
+                                       {format(props.startDate, "HH:mm a")}
                                    </Text>
                                </View>
                            }/>
