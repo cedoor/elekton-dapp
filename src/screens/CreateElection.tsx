@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {Platform, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {Button, IconButton, List, Subheading, TextInput} from "react-native-paper";
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {format} from "date-fns";
 import {MaterialIcons} from "@expo/vector-icons";
 import useTheme from "../hooks/useTheme";
+import DatePicker from "../components/DatePicker";
 
 export function CreateElection() {
     const theme = useTheme()
@@ -12,40 +11,12 @@ export function CreateElection() {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
 
-    const [startDate, setStartDate] = useState(Date.now());
-    const [endDate, setEndDate] = useState(Date.now());
-
-    const [startDatePickerMode, setStartDatePickerMode] = useState('date');
-    const [endDatePickerMode, setEndDatePickerMode] = useState('date');
-
-    const [startDatePickerVisibility, setStartDatePickerVisibility] = useState(false);
-    const [endDatePickerVisibility, setEndDatePickerVisibility] = useState(false);
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
 
     const [options, setOptions] = useState([] as string[])
 
     const optionTextInputRef = React.createRef()
-
-    const updateStartDate = (event, selectedDate) => {
-        const currentDate = selectedDate || startDate;
-        setStartDatePickerVisibility(Platform.OS === 'ios');
-        setStartDate(currentDate);
-    };
-
-    const updateEndDate = (event, selectedDate) => {
-        const currentDate = selectedDate || endDate;
-        setEndDatePickerVisibility(Platform.OS === 'ios');
-        setEndDate(currentDate);
-    };
-
-    const showStartDatePicker = (mode) => {
-        setStartDatePickerVisibility(true);
-        setStartDatePickerMode(mode);
-    };
-
-    const showEndDatePicker = (mode) => {
-        setEndDatePickerVisibility(true);
-        setEndDatePickerMode(mode);
-    };
 
     const addOption = () => {
         optionTextInputRef.current.clear()
@@ -77,73 +48,11 @@ export function CreateElection() {
                 </View>
                 <View>
                     <Subheading>Start date</Subheading>
-                    <View style={{display: "flex", flexDirection: "row"}}>
-                        <List.Item style={{flex: 1}}
-                                   title="Day"
-                                   description={format(startDate, "MMM dd, yyyy")}
-                                   left={() => <IconButton
-                                       icon={({color, size}) => (
-                                           <MaterialIcons name="date-range" size={size} color={color}/>
-                                       )}
-                                       onPress={() => showStartDatePicker("date")}
-                                   />}
-                        />
-                        <List.Item style={{flex: 1}}
-                                   title="Time"
-                                   description={format(startDate, "HH:mm a")}
-                                   left={() => <IconButton
-                                       icon={({color, size}) => (
-                                           <MaterialIcons name="access-time" size={size} color={color}/>
-                                       )}
-                                       onPress={() => showStartDatePicker("time")}
-                                   />}
-                        />
-                    </View>
-                    {startDatePickerVisibility && (
-                        <DateTimePicker
-                            testID="dateTimePicker"
-                            value={startDate}
-                            mode={startDatePickerMode}
-                            is24Hour={true}
-                            display="default"
-                            onChange={updateStartDate}
-                        />
-                    )}
+                    <DatePicker value={startDate} onChange={setStartDate}/>
                 </View>
                 <View>
                     <Subheading>End date</Subheading>
-                    <View style={{display: "flex", flexDirection: "row"}}>
-                        <List.Item style={{flex: 1}}
-                                   title="Day"
-                                   description={format(endDate, "MMM dd, yyyy")}
-                                   left={() => <IconButton
-                                       icon={({color, size}) => (
-                                           <MaterialIcons name="date-range" size={size} color={color}/>
-                                       )}
-                                       onPress={() => showEndDatePicker("date")}
-                                   />}
-                        />
-                        <List.Item style={{flex: 1}}
-                                   title="Time"
-                                   description={format(endDate, "HH:mm a")}
-                                   left={() => <IconButton
-                                       icon={({color, size}) => (
-                                           <MaterialIcons name="access-time" size={size} color={color}/>
-                                       )}
-                                       onPress={() => showEndDatePicker("time")}
-                                   />}
-                        />
-                    </View>
-                    {endDatePickerVisibility && (
-                        <DateTimePicker
-                            testID="dateTimePicker"
-                            value={endDate}
-                            mode={endDatePickerMode}
-                            is24Hour={true}
-                            display="default"
-                            onChange={updateEndDate}
-                        />
-                    )}
+                    <DatePicker value={endDate} onChange={setEndDate}/>
                 </View>
                 <View>
                     <Subheading>Options</Subheading>
