@@ -14,6 +14,16 @@ export function CreateElection() {
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [options, setOptions] = useState<string []>([])
 
+    function createElection() {
+        console.log({
+            title,
+            description,
+            startDate,
+            endDate,
+            options
+        })
+    }
+
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -22,14 +32,12 @@ export function CreateElection() {
                         style={{backgroundColor: theme.colors.background}}
                         label="Title"
                         value={title}
-                        onChangeText={setTitle}
-                    />
+                        onChangeText={setTitle}/>
                     <TextInput
                         style={{backgroundColor: theme.colors.background}}
                         label="Description"
                         value={description}
-                        onChangeText={setDescription}
-                    />
+                        onChangeText={setDescription}/>
                 </View>
                 <View>
                     <Subheading>Start date</Subheading>
@@ -43,7 +51,10 @@ export function CreateElection() {
                     <Subheading>Options</Subheading>
                     <DynamicList value={options} onChange={setOptions}/>
                 </View>
-                <Button style={styles.createButton} mode="outlined">Create</Button>
+                <Button style={styles.createButton}
+                        mode="outlined" onPress={createElection}>
+                    Create
+                </Button>
             </View>
         </ScrollView>
     );

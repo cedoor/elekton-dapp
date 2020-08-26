@@ -17,18 +17,19 @@ export default function DynamicList({value, onChange}: Props) {
 
     function addOption() {
         if (inputValue) {
-            setOptions([...options, inputValue])
-            setInputValue("")
+            const newOptions = [...options, inputValue]
 
-            onChange(options)
+            setOptions(newOptions)
+            setInputValue("")
+            onChange(newOptions)
         }
     }
 
     function removeOption(index: number) {
         options.splice(index, 1)
-        setOptions([...options])
 
-        onChange(options)
+        setOptions(options.slice())
+        onChange(options.slice())
     }
 
     return (
@@ -50,7 +51,7 @@ export default function DynamicList({value, onChange}: Props) {
             </View>}
             <TextInput
                 style={[{backgroundColor: theme.colors.background}, styles.input]}
-                label="New option"
+                label="Add new option"
                 value={inputValue}
                 onChangeText={setInputValue}
                 onBlur={addOption}
