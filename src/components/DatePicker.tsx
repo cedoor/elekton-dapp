@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {IconButton, List, TouchableRipple} from 'react-native-paper';
+import {List, TouchableRipple} from 'react-native-paper';
 import {format} from "date-fns";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Platform, StyleSheet, View} from "react-native";
@@ -12,9 +12,7 @@ type Props = {
 
 export default function DatePicker({value, onChange}: Props) {
     const [date, setDate] = useState<Date>(value);
-
     const [datePickerMode, setDatePickerMode] = useState<"date" | "time">("date");
-
     const [datePickerVisibility, setDatePickerVisibility] = useState<boolean>(false);
 
     function updateDate(event: Event, selectedDate?: Date) {

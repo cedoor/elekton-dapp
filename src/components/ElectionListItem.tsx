@@ -15,7 +15,7 @@ type Props = {
     onPress: (id: number) => void;
 };
 
-export default function Election(props: Props) {
+export default function ElectionListItem(props: Props) {
     const theme = useTheme()
 
     const calculateTimeLeft = () => {

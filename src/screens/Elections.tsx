@@ -1,16 +1,16 @@
 import * as React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import Election from "../components/Election";
+import ElectionListItem from "../components/ElectionListItem";
 import {StackNavigatorParamlist} from "../Types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {elections} from "../data/elections";
 import useTheme from "../hooks/useTheme";
 import {FAB} from "react-native-paper";
 
-type ElectionsProps = React.ComponentProps<typeof Election>;
+type ElectionsProps = React.ComponentProps<typeof ElectionListItem>;
 
 function renderItem({item}: { item: ElectionsProps }) {
-    return <Election {...item} />;
+    return <ElectionListItem {...item} />;
 }
 
 function keyExtractor(item: ElectionsProps) {
