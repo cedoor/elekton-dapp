@@ -1,6 +1,6 @@
 import React from 'react';
-import {Details} from '../screens/Details';
-import {StackNavigatorParamlist} from '../Types';
+import {ElectionDetails} from '../screens/ElectionDetails';
+import {ElectionNavigatorParamList} from '../Types';
 import Elections from "../screens/Elections";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {createStackNavigator} from "@react-navigation/stack";
@@ -8,8 +8,8 @@ import Header from "../components/Header";
 import DrawerContent from "../components/DrawerContent";
 import {CreateElection} from "../screens/CreateElection";
 
-const Drawer = createDrawerNavigator<StackNavigatorParamlist>();
-const ElectionStack = createStackNavigator<StackNavigatorParamlist>();
+const Drawer = createDrawerNavigator();
+const ElectionStack = createStackNavigator<ElectionNavigatorParamList>();
 
 function ElectionNavigator() {
     return (
@@ -27,8 +27,8 @@ function ElectionNavigator() {
                 options={{title: 'Elections'}}
             />
             <ElectionStack.Screen
-                name="Details"
-                component={Details}
+                name="ElectionDetails"
+                component={ElectionDetails}
                 options={{title: 'Details'}}
             />
             <ElectionStack.Screen
@@ -38,7 +38,7 @@ function ElectionNavigator() {
             />
         </ElectionStack.Navigator>
     );
-};
+}
 
 export default function DrawerNavigator() {
     return (
@@ -46,4 +46,4 @@ export default function DrawerNavigator() {
             <Drawer.Screen name="Elections" component={ElectionNavigator}/>
         </Drawer.Navigator>
     );
-};
+}

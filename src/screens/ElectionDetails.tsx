@@ -1,17 +1,17 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
-import {StackNavigatorParamlist} from "../Types";
+import {ElectionNavigatorParamList} from "../Types";
 import {Button, Divider, List, RadioButton, Subheading, Title} from "react-native-paper";
 import {format} from "date-fns";
 import useTheme from "../hooks/useTheme";
 import {FontAwesome, MaterialIcons} from "@expo/vector-icons";
 
 type Props = {
-    route: RouteProp<StackNavigatorParamlist, 'Details'>;
+    route: RouteProp<ElectionNavigatorParamList, 'ElectionDetails'>;
 };
 
-export function Details(props: Props) {
+export function ElectionDetails(props: Props) {
     const theme = useTheme()
 
     const [option, setOption] = React.useState<string>("");

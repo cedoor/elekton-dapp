@@ -9,7 +9,7 @@ export default {
                     Elections: {
                         screens: {
                             Elections: "elections",
-                            Details: "details",
+                            ElectionDetails: "details",
                             CreateElection: "create-election"
                         },
                     },

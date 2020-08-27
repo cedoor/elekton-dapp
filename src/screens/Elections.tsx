@@ -1,35 +1,26 @@
 import * as React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import ElectionListItem from "../components/ElectionListItem";
-import {StackNavigatorParamlist} from "../Types";
+import {ElectionNavigatorParamList} from "../Types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {elections} from "../data/elections";
 import useTheme from "../hooks/useTheme";
-import {FAB} from "react-native-paper";
+import {Divider, FAB} from "react-native-paper";
 
-type ElectionsProps = React.ComponentProps<typeof ElectionListItem>;
-
-function renderItem({item}: { item: ElectionsProps }) {
-    return <ElectionListItem {...item} />;
-}
-
-function keyExtractor(item: ElectionsProps) {
-    return item.id.toString();
-}
+type ElectionListItemProps = React.ComponentProps<typeof ElectionListItem>;
 
 type Props = {
-    navigation?: StackNavigationProp<StackNavigatorParamlist>;
+    navigation?: StackNavigationProp<ElectionNavigatorParamList>;
 };
 
 export default function Elections(props: Props) {
     const theme = useTheme();
 
-    const data = elections.map(electionProps => ({
-        ...electionProps,
-        onPress: () =>
-            props.navigation &&
-            props.navigation.push('Details', {
-                ...electionProps,
+    const data = elections.map(election => ({
+        value: election,
+        onClick: () =>
+            props.navigation?.push('ElectionDetails', {
+                ...election,
             }),
     }));
 
@@ -39,11 +30,9 @@ export default function Elections(props: Props) {
                 contentContainerStyle={{backgroundColor: theme.colors.background}}
                 style={{backgroundColor: theme.colors.background}}
                 data={data}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                ItemSeparatorComponent={() => (
-                    <View style={[{backgroundColor: theme.colors.border}, styles.separator]}/>
-                )}
+                renderItem={({item}: { item: ElectionListItemProps }) => <ElectionListItem {...item} />}
+                keyExtractor={(item: ElectionListItemProps) => item.value.id.toString()}
+                ItemSeparatorComponent={() => <Divider style={styles.divider}/>}
             />
             <FAB
                 style={styles.fab}
@@ -58,8 +47,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    separator: {
-        height: 1,
+    divider: {
         marginHorizontal: 16
     },
     fab: {

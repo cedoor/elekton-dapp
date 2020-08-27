@@ -1,9 +1,6 @@
-import React from "react";
-import ElectionListItem from '../components/ElectionListItem';
+import {Election} from "../Types"
 
-type ElectionsProps = React.ComponentProps<typeof ElectionListItem>;
-
-export const elections: Omit<ElectionsProps, 'onPress'>[] = [
+export const elections: Election[] = [
     {
         id: 1,
         title: 'Parliamentary cut',

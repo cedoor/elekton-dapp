@@ -3,23 +3,18 @@ import {Colors, List, ProgressBar, TouchableRipple} from 'react-native-paper';
 import {StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
 import useTheme from "../hooks/useTheme";
+import {Election} from "../Types";
 
 type Props = {
-    id: number;
-    title: string;
-    description: string;
-    admin: string;
-    startDate: number;
-    endDate: number;
-    options: string[];
-    onPress: (id: number) => void;
-};
+    value: Election
+    onClick: (id: number) => void
+}
 
-export default function ElectionListItem(props: Props) {
+export default function ElectionListItem({value, onClick}: Props) {
     const theme = useTheme()
 
     const calculateTimeLeft = () => {
-        return (Date.now() - props.startDate) / (props.endDate - props.startDate)
+        return (Date.now() - value.startDate) / (value.endDate - value.startDate)
     }
 
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -34,16 +29,16 @@ export default function ElectionListItem(props: Props) {
     });
 
     return (
-        <TouchableRipple onPress={() => props.onPress(props.id)}>
+        <TouchableRipple onPress={() => onClick(value.id)}>
             <View>
-                <List.Item title={props.title} description={props.description}
+                <List.Item title={value.title} description={value.description}
                            right={() =>
                                <View style={styles.date}>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
-                                       {format(props.startDate, "mm/dd/yyyy")}
+                                       {format(value.startDate, "mm/dd/yyyy")}
                                    </Text>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
-                                       {format(props.startDate, "HH:mm a")}
+                                       {format(value.startDate, "HH:mm a")}
                                    </Text>
                                </View>
                            }/>

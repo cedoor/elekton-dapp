@@ -1,13 +1,10 @@
 import React from 'react';
 import {Appbar} from 'react-native-paper';
 import useTheme from "../hooks/useTheme";
+import {StackHeaderProps} from "@react-navigation/stack/lib/typescript/src/types";
 
-export default function Header({scene, previous, navigation}: any) {
+export default function Header({scene, previous, navigation}: StackHeaderProps | any) {
     const theme = useTheme();
-    const {options} = scene.descriptor;
-    const title = options.title || scene.route.name;
-
-    const _handleSearch = () => console.log('Searching');
 
     return (
         <Appbar.Header theme={{colors: {primary: theme.colors.surface}}}>
@@ -16,8 +13,10 @@ export default function Header({scene, previous, navigation}: any) {
             ) : (
                 <Appbar.Action icon="menu" onPress={navigation.openDrawer}/>
             )}
-            <Appbar.Content title={title}/>
-            <Appbar.Action icon="dots-vertical" onPress={_handleSearch}/>
+
+            <Appbar.Content title={scene.descriptor.title || scene.route.name}/>
+
+            <Appbar.Action icon="dots-vertical"/>
         </Appbar.Header>
     );
 };

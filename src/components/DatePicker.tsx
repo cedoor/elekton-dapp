@@ -33,7 +33,7 @@ export default function DatePicker({value, onChange}: Props) {
                            description={format(date, "MMM dd, yyyy")}
                            left={() => <List.Icon
                                icon={({color, size}) => (
-                                   <MaterialIcons name="date-range" size={size} color={color}/>
+                                   <MaterialIcons name="today" size={size} color={color}/>
                                )}
                            />}
                 />

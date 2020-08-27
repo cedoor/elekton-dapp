@@ -14,14 +14,24 @@ export function CreateElection() {
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [options, setOptions] = useState<string []>([])
 
-    function createElection() {
-        console.log({
-            title,
-            description,
-            startDate,
-            endDate,
-            options
-        })
+    async function createElection() {
+        // try {
+        //     const elections: Election[] = JSON.parse(await AsyncStorage.getItem("@elections") as string)
+        //
+        //     const election: Election = {
+        //         id: Date.now(),
+        //         admin: "Pinco Pallino",
+        //         title,
+        //         description,
+        //         startDate: startDate.getMilliseconds(),
+        //         endDate: endDate.getMilliseconds(),
+        //         options
+        //     }
+        //
+        //     await AsyncStorage.setItem('@elections', JSON.stringify([election, ...elections]))
+        // } catch (e) {
+        //     // saving error
+        // }
     }
 
     return (
@@ -39,18 +49,22 @@ export function CreateElection() {
                         value={description}
                         onChangeText={setDescription}/>
                 </View>
+
                 <View>
                     <Subheading>Start date</Subheading>
                     <DatePicker value={startDate} onChange={setStartDate}/>
                 </View>
+
                 <View>
                     <Subheading>End date</Subheading>
                     <DatePicker value={endDate} onChange={setEndDate}/>
                 </View>
+
                 <View>
                     <Subheading>Options</Subheading>
                     <DynamicList value={options} onChange={setOptions}/>
                 </View>
+
                 <Button style={styles.createButton}
                         mode="outlined" onPress={createElection}>
                     Create

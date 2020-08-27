@@ -1,18 +1,20 @@
 import {Fonts} from "react-native-paper/src/types";
 
-export type StackNavigatorParamlist = {
+export type ElectionNavigatorParamList = {
     Elections: undefined;
-    Details: {
-        id: number;
-        title: string;
-        description: string;
-        admin: string;
-        startDate: number;
-        endDate: number;
-        options: string[];
-    };
+    ElectionDetails: Election;
     CreateElection: undefined;
 };
+
+export type Election = {
+    id: number;
+    title: string;
+    description: string;
+    admin: string;
+    startDate: number;
+    endDate: number;
+    options: string[];
+}
 
 type Mode = 'adaptive' | 'exact';
 
