@@ -15,7 +15,7 @@ export default function DynamicList({value, onChange}: Props) {
     const [inputValue, setInputValue] = useState<string>("")
     const [options, setOptions] = useState<string[]>(value)
 
-    function addOption() {
+    const addOption = () => {
         if (inputValue) {
             const newOptions = [...options, inputValue]
 
@@ -25,7 +25,7 @@ export default function DynamicList({value, onChange}: Props) {
         }
     }
 
-    function removeOption(index: number) {
+    const removeOption = (index: number) => {
         options.splice(index, 1)
 
         setOptions(options.slice())
@@ -55,6 +55,7 @@ export default function DynamicList({value, onChange}: Props) {
                 value={inputValue}
                 onChangeText={setInputValue}
                 onBlur={addOption}
+                maxLength={20}
             />
         </View>
     );

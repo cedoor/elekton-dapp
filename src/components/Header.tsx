@@ -14,7 +14,7 @@ export default function Header({scene, previous, navigation}: StackHeaderProps |
                 <Appbar.Action icon="menu" onPress={navigation.openDrawer}/>
             )}
 
-            <Appbar.Content title={scene.descriptor.title || scene.route.name}/>
+            <Appbar.Content title={scene.descriptor.options.title || scene.route.name}/>
 
             <Appbar.Action icon="dots-vertical"/>
         </Appbar.Header>

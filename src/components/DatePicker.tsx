@@ -15,13 +15,13 @@ export default function DatePicker({value, onChange}: Props) {
     const [datePickerMode, setDatePickerMode] = useState<"date" | "time">("date");
     const [datePickerVisibility, setDatePickerVisibility] = useState<boolean>(false);
 
-    function updateDate(event: Event, selectedDate?: Date) {
+    const updateDate = (event: Event, selectedDate?: Date) => {
         setDatePickerVisibility(Platform.OS === 'ios');
         setDate(selectedDate || date);
         onChange(selectedDate || date)
     }
 
-    function showDatePicker(mode: "date" | "time") {
+    const showDatePicker = (mode: "date" | "time") => {
         setDatePickerVisibility(true);
         setDatePickerMode(mode);
     }
@@ -40,7 +40,7 @@ export default function DatePicker({value, onChange}: Props) {
             </TouchableRipple>
             <TouchableRipple style={styles.button} onPress={() => showDatePicker("time")}>
                 <List.Item style={styles.item} title="Time"
-                           description={format(date, "HH:mm a")}
+                           description={format(date, "hh:mm a")}
                            left={() => <List.Icon
                                icon={({color, size}) => (
                                    <MaterialIcons name="access-time" size={size} color={color}/>
@@ -52,7 +52,7 @@ export default function DatePicker({value, onChange}: Props) {
                 <DateTimePicker
                     value={date}
                     mode={datePickerMode}
-                    is24Hour={true}
+                    is24Hour={false}
                     display="default"
                     onChange={updateDate}
                 />

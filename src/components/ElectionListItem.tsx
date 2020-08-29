@@ -38,7 +38,7 @@ export default function ElectionListItem({value, onClick}: Props) {
                                        {format(value.startDate, "mm/dd/yyyy")}
                                    </Text>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
-                                       {format(value.startDate, "HH:mm a")}
+                                       {format(value.startDate, "hh:mm a")}
                                    </Text>
                                </View>
                            }/>

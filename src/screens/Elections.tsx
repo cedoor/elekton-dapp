@@ -1,39 +1,28 @@
 import * as React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import ElectionListItem from "../components/ElectionListItem";
-import {ElectionNavigatorParamList} from "../Types";
+import {StyleSheet, View} from 'react-native';
+import {Election, ElectionNavigatorParamList} from "../Types";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {FAB} from "react-native-paper";
+import ElectionListItem from "../components/ElectionListItem";
 import {elections} from "../data/elections";
-import useTheme from "../hooks/useTheme";
-import {Divider, FAB} from "react-native-paper";
-
-type ElectionListItemProps = React.ComponentProps<typeof ElectionListItem>;
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>;
 };
 
 export default function Elections(props: Props) {
-    const theme = useTheme();
-
-    const data = elections.map(election => ({
-        value: election,
-        onClick: () =>
-            props.navigation?.push('ElectionDetails', {
-                ...election,
-            }),
-    }));
+    const openElectionDetails = (election: Election) => {
+        props.navigation?.push('ElectionDetails', {...election})
+    }
 
     return (
         <View style={styles.container}>
-            <FlatList
-                contentContainerStyle={{backgroundColor: theme.colors.background}}
-                style={{backgroundColor: theme.colors.background}}
-                data={data}
-                renderItem={({item}: { item: ElectionListItemProps }) => <ElectionListItem {...item} />}
-                keyExtractor={(item: ElectionListItemProps) => item.value.id.toString()}
-                ItemSeparatorComponent={() => <Divider style={styles.divider}/>}
-            />
+            {
+                elections && elections.map((election: Election, index: number) =>
+                    <ElectionListItem key={index.toString()} value={election}
+                                      onClick={() => openElectionDetails(election)}/>
+                )
+            }
             <FAB
                 style={styles.fab}
                 icon="plus"
@@ -46,9 +35,6 @@ export default function Elections(props: Props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    divider: {
-        marginHorizontal: 16
     },
     fab: {
         position: 'absolute',

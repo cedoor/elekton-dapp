@@ -23,6 +23,10 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "android": {
+      "package": "dev.cedoor.elekton",
+      "versionCode": 1
     }
   }
 }

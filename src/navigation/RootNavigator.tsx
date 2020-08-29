@@ -8,15 +8,14 @@ const RootStack = createStackNavigator();
 export default function RootNavigator({userToken}: any) {
     return (
         <RootStack.Navigator headerMode="none">
-            {userToken ? (
+            {userToken ?
                 <RootStack.Screen
                     name="App"
                     component={DrawerNavigator}
                     options={{
                         animationEnabled: false
                     }}
-                />
-            ) : (
+                /> :
                 <RootStack.Screen
                     name="Auth"
                     component={AuthNavigator}
@@ -24,7 +23,7 @@ export default function RootNavigator({userToken}: any) {
                         animationEnabled: false
                     }}
                 />
-            )}
+            }
         </RootStack.Navigator>
     );
 };

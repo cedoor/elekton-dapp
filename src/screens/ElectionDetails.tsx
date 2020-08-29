@@ -16,7 +16,7 @@ export function ElectionDetails(props: Props) {
 
     const [option, setOption] = React.useState<string>("");
 
-    function vote() {
+    const vote = () => {
         console.log(Number(option))
     }
 
@@ -36,14 +36,14 @@ export function ElectionDetails(props: Props) {
                                    )}
                                />}/>
                     <List.Item style={styles.listItem} title="Start date"
-                               description={format(props.route.params.startDate, "H:mm a, MMM dd yyyy")}
+                               description={format(props.route.params.startDate, "hh:mm a, MMM dd yyyy")}
                                left={() => <List.Icon
                                    icon={({color, size}) => (
                                        <MaterialIcons name="date-range" size={size} color={color}/>
                                    )}
                                />}/>
                     <List.Item style={styles.listItem} title="End date"
-                               description={format(props.route.params.endDate, "H:mm a, MMM dd yyyy")}
+                               description={format(props.route.params.endDate, "hh:mm a, MMM dd yyyy")}
                                left={() => <List.Icon
                                    icon={({color, size}) => (
                                        <MaterialIcons name="date-range" size={size} color={color}/>

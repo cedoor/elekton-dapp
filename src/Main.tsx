@@ -10,11 +10,11 @@ import {
     Provider as PaperProvider
 } from "react-native-paper";
 import {PreferencesContext} from './context/PreferencesContext';
-import LinkingConfiguration from "./navigation/LinkingConfiguration";
+import LinkingConfiguration from "./constants/routes";
 import {AuthContext} from "./context/AuthContext";
 import RootNavigator from "./navigation/RootNavigator";
 import useColorScheme from "./hooks/useColorScheme";
-import Theme from "./constants/Theme";
+import Theme from "./constants/theme";
 import {StatusBar} from "expo-status-bar";
 
 const CombinedDefaultTheme = {
@@ -35,7 +35,7 @@ export default function Main() {
     );
     const combinedTheme: any = themeType === 'light' ? CombinedDefaultTheme : CombinedDarkTheme;
 
-    function toggleTheme() {
+    const toggleTheme = () => {
         setTheme(themeType => (themeType === 'light' ? 'dark' : 'light'));
     }
 
@@ -50,13 +50,13 @@ export default function Main() {
     const [userToken, setUserToken] = React.useState<string | null>("hello");
 
     const authContext = React.useMemo(() => ({
-        signIn: () => {
+        signIn() {
             setUserToken("hello")
         },
-        signUp: () => {
+        signUp() {
             setUserToken("hello")
         },
-        signOut: () => {
+        signOut() {
             setUserToken(null)
         },
     }), [])
