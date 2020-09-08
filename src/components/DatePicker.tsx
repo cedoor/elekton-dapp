@@ -6,19 +6,19 @@ import {Platform, StyleSheet, View} from "react-native";
 import DateTimePicker, {Event} from "@react-native-community/datetimepicker";
 
 type Props = {
-    value: Date,
+    date: Date,
     onChange: (date: Date) => void
 }
 
-export default function DatePicker({value, onChange}: Props) {
-    const [date, setDate] = useState<Date>(value);
-    const [datePickerMode, setDatePickerMode] = useState<"date" | "time">("date");
-    const [datePickerVisibility, setDatePickerVisibility] = useState<boolean>(false);
+export default function DatePicker({date, onChange}: Props) {
+    const [_date, setDate] = useState<Date>(date);
+    const [_datePickerMode, setDatePickerMode] = useState<"date" | "time">("date");
+    const [_datePickerVisibility, setDatePickerVisibility] = useState<boolean>(false);
 
     const updateDate = (event: Event, selectedDate?: Date) => {
         setDatePickerVisibility(Platform.OS === 'ios');
-        setDate(selectedDate || date);
-        onChange(selectedDate || date)
+        setDate(selectedDate || _date);
+        onChange(selectedDate || _date)
     }
 
     const showDatePicker = (mode: "date" | "time") => {
@@ -30,7 +30,7 @@ export default function DatePicker({value, onChange}: Props) {
         <View style={styles.container}>
             <TouchableRipple style={styles.button} onPress={() => showDatePicker("date")}>
                 <List.Item style={styles.item} title="Day"
-                           description={format(date, "MMM dd, yyyy")}
+                           description={format(_date, "MMM dd, yyyy")}
                            left={() => <List.Icon
                                icon={({color, size}) => (
                                    <MaterialIcons name="today" size={size} color={color}/>
@@ -40,7 +40,7 @@ export default function DatePicker({value, onChange}: Props) {
             </TouchableRipple>
             <TouchableRipple style={styles.button} onPress={() => showDatePicker("time")}>
                 <List.Item style={styles.item} title="Time"
-                           description={format(date, "hh:mm a")}
+                           description={format(_date, "hh:mm a")}
                            left={() => <List.Icon
                                icon={({color, size}) => (
                                    <MaterialIcons name="access-time" size={size} color={color}/>
@@ -48,10 +48,10 @@ export default function DatePicker({value, onChange}: Props) {
                            />}
                 />
             </TouchableRipple>
-            {datePickerVisibility && (
+            {_datePickerVisibility && (
                 <DateTimePicker
-                    value={date}
-                    mode={datePickerMode}
+                    value={_date}
+                    mode={_datePickerMode}
                     is24Hour={false}
                     display="default"
                     onChange={updateDate}

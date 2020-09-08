@@ -5,19 +5,19 @@ import {StyleSheet, View} from "react-native";
 import useTheme from "../hooks/useTheme";
 
 type Props = {
-    value: string[],
+    options: string[],
     onChange: (options: string[]) => void
 }
 
-export default function DynamicList({value, onChange}: Props) {
+export default function DynamicList({options, onChange}: Props) {
+    const [_inputValue, setInputValue] = useState<string>("")
+    const [_options, setOptions] = useState<string[]>(options)
+
     const theme = useTheme()
 
-    const [inputValue, setInputValue] = useState<string>("")
-    const [options, setOptions] = useState<string[]>(value)
-
     const addOption = () => {
-        if (inputValue) {
-            const newOptions = [...options, inputValue]
+        if (_inputValue) {
+            const newOptions = [..._options, _inputValue]
 
             setOptions(newOptions)
             setInputValue("")
@@ -26,17 +26,17 @@ export default function DynamicList({value, onChange}: Props) {
     }
 
     const removeOption = (index: number) => {
-        options.splice(index, 1)
+        _options.splice(index, 1)
 
-        setOptions(options.slice())
-        onChange(options.slice())
+        setOptions(_options.slice())
+        onChange(_options.slice())
     }
 
     return (
         <View style={styles.container}>
-            {options.length > 0 &&
+            {_options.length > 0 &&
             <View style={[{borderColor: theme.colors.border, borderRadius: theme.roundness}, styles.options]}>
-                {options.map((option, index) =>
+                {_options.map((option, index) =>
                     <List.Item style={styles.option}
                                title={option}
                                key={index}
@@ -52,7 +52,7 @@ export default function DynamicList({value, onChange}: Props) {
             <TextInput
                 style={[{backgroundColor: theme.colors.background}, styles.input]}
                 label="Add new option"
-                value={inputValue}
+                value={_inputValue}
                 onChangeText={setInputValue}
                 onBlur={addOption}
                 maxLength={20}

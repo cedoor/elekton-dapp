@@ -15,24 +15,24 @@ type Props = {
 export function CreateElection(props: Props) {
     const theme = useTheme()
 
-    const [title, setTitle] = React.useState('');
-    const [description, setDescription] = React.useState('');
-    const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
-    const [options, setOptions] = useState<string []>([])
-    const [snackBarVisibility, setSnackBarVisibility] = React.useState(false);
-    const [dialogVisibility, setDialogVisibility] = React.useState(false);
+    const [_title, setTitle] = React.useState('');
+    const [_description, setDescription] = React.useState('');
+    const [_startDate, setStartDate] = useState<Date>(new Date());
+    const [_endDate, setEndDate] = useState<Date>(new Date());
+    const [_options, setOptions] = useState<string []>([])
+    const [_snackBarVisibility, setSnackBarVisibility] = React.useState(false);
+    const [_dialogVisibility, setDialogVisibility] = React.useState(false);
 
     const createElection = async () => {
         const elections = ((await storage.getItem("@elections")) || []) as []
         const election: Election = {
             id: Date.now(),
             admin: "Pinco Pallino",
-            title,
-            description,
-            startDate: startDate.getTime(),
-            endDate: endDate.getTime(),
-            options
+            title: _title,
+            description: _description,
+            startDate: _startDate.getTime(),
+            endDate: _endDate.getTime(),
+            options: _options
         }
 
         await storage.setItem("@elections", [election, ...elections])
@@ -52,10 +52,10 @@ export function CreateElection(props: Props) {
 
     const hideDialog = () => setDialogVisibility(false)
     const showDialog = () => {
-        if (title.length < 1 || title.length > 30 ||
-            description.length < 1 || description.length > 60 ||
-            startDate < new Date() || endDate < startDate ||
-            options.length < 2) {
+        if (_title.length < 1 || _title.length > 30 ||
+            _description.length < 1 || _description.length > 60 ||
+            _startDate < new Date() || _endDate < _startDate ||
+            _options.length < 2) {
 
             showSnackBar()
 
@@ -71,12 +71,12 @@ export function CreateElection(props: Props) {
                 <View style={{marginBottom: 20}}>
                     <TextInput style={{backgroundColor: theme.colors.background}}
                                label="Title"
-                               value={title}
+                               value={_title}
                                onChangeText={setTitle}
                                maxLength={30}/>
                     <TextInput style={{backgroundColor: theme.colors.background}}
                                label="Description"
-                               value={description}
+                               value={_description}
                                onChangeText={setDescription}
                                maxLength={60}
                                multiline/>
@@ -84,17 +84,17 @@ export function CreateElection(props: Props) {
 
                 <View>
                     <Subheading>Start date</Subheading>
-                    <DatePicker value={startDate} onChange={setStartDate}/>
+                    <DatePicker date={_startDate} onChange={setStartDate}/>
                 </View>
 
                 <View>
                     <Subheading>End date</Subheading>
-                    <DatePicker value={endDate} onChange={setEndDate}/>
+                    <DatePicker date={_endDate} onChange={setEndDate}/>
                 </View>
 
                 <View>
                     <Subheading>Options</Subheading>
-                    <DynamicList value={options} onChange={setOptions}/>
+                    <DynamicList options={_options} onChange={setOptions}/>
                 </View>
 
                 <Button style={styles.createButton}
@@ -103,7 +103,7 @@ export function CreateElection(props: Props) {
                 </Button>
 
                 <Portal>
-                    <Dialog visible={dialogVisibility} onDismiss={hideDialog}>
+                    <Dialog visible={_dialogVisibility} onDismiss={hideDialog}>
                         <Dialog.Title>Election creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this election?</Subheading>
@@ -114,7 +114,7 @@ export function CreateElection(props: Props) {
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={snackBarVisibility}
+                    <Snackbar visible={_snackBarVisibility}
                               onDismiss={hideSnackBar}
                               action={{
                                   label: 'Ok',

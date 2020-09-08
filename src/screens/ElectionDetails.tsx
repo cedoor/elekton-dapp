@@ -14,10 +14,10 @@ type Props = {
 export function ElectionDetails(props: Props) {
     const theme = useTheme()
 
-    const [option, setOption] = React.useState<string>("");
+    const [_option, setOption] = React.useState<string>("");
 
     const vote = () => {
-        console.log(Number(option))
+        console.log(Number(_option))
     }
 
     return (
@@ -53,7 +53,7 @@ export function ElectionDetails(props: Props) {
 
                 <View style={[{borderColor: theme.colors.border, borderRadius: theme.roundness}, styles.paper]}>
                     <Subheading style={styles.description}>{props.route.params.description}</Subheading>
-                    <RadioButton.Group onValueChange={setOption} value={option}>
+                    <RadioButton.Group onValueChange={setOption} value={_option}>
                         {props.route.params.options.map((option, index) =>
                             <RadioButton.Item style={styles.option} key={index} label={option}
                                               value={index.toString()}/>

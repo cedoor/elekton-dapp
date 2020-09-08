@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function Elections(props: Props) {
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [_refreshing, setRefreshing] = React.useState(false);
 
     const openElectionDetails = (election: Election) => {
         props.navigation?.push('ElectionDetails', {...election})
@@ -25,7 +25,7 @@ export default function Elections(props: Props) {
 
     return (
         <View style={styles.container}>
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={updateElections}/>}>
+            <ScrollView refreshControl={<RefreshControl refreshing={_refreshing} onRefresh={updateElections}/>}>
                 {
                     elections && elections.map((election: Election, index: number) =>
                         <ElectionListItem key={index.toString()} election={election}
