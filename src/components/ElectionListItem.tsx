@@ -13,7 +13,6 @@ type Props = {
 
 export default function ElectionListItem({election, onClick}: Props) {
     const theme = useTheme()
-    const now = Date.now()
 
     return (
         <TouchableRipple onPress={() => onClick(election.id)}>
@@ -22,17 +21,14 @@ export default function ElectionListItem({election, onClick}: Props) {
                            right={() =>
                                <View style={styles.date}>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
-                                       {format(election.startDate, "mm/dd/yyyy")}
+                                       {format(election.startDate, "MM/dd/yyyy")}
                                    </Text>
                                    <Text style={[{color: theme.colors.placeholder}, styles.dateText]}>
                                        {format(election.startDate, "hh:mm a")}
                                    </Text>
                                </View>
                            }/>
-                {
-                    now >= election.startDate && now <= election.endDate &&
-                    <ElectionStopwatch startDate={election.startDate} endDate={election.endDate}/>
-                }
+                <ElectionStopwatch startDate={election.startDate} endDate={election.endDate}/>
             </View>
         </TouchableRipple>
     );

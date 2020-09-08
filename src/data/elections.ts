@@ -19,7 +19,7 @@ export const elections: Election[] = [
         description: 'Which party do you want to vote for?',
         admin: '0x03Ed9bE36c5FC315B0559Cf344801653e2CE292i',
         startDate: 1599562562693,
-        endDate: 1599584522693,
+        endDate: 1599684522693,
         options: [
             'PSI',
             'PA',
