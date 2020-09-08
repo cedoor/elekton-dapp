@@ -1,0 +1,39 @@
+import {Colors, ProgressBar} from "react-native-paper";
+import React, {useEffect, useState} from "react";
+import {StyleSheet} from "react-native";
+
+type Props = {
+    startDate: number,
+    endDate: number
+}
+
+export default function ElectionStopwatch({startDate, endDate}: Props) {
+    const [stopwatch, setStopwatch] = useState<number>(Date.now() - startDate);
+
+    useEffect(() => {
+        const now = Date.now()
+
+        if (now < startDate || now > endDate) {
+            return
+        }
+
+        const timerID = setTimeout(() => {
+            setStopwatch(now - startDate);
+        }, 1000);
+
+        // Clear timeout if the component is unmounted.
+        return () => clearTimeout(timerID);
+    });
+
+    return (
+        <ProgressBar style={styles.timer} progress={stopwatch / (endDate - startDate)}
+                     color={stopwatch / (endDate - startDate) < 0.8 ? Colors.green800 : Colors.red800}/>
+    );
+};
+
+const styles = StyleSheet.create({
+    timer: {
+        marginHorizontal: 16,
+        marginBottom: 16
+    }
+});

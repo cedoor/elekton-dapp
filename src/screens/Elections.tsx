@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import {Election, ElectionNavigatorParamList} from "../Types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {FAB} from "react-native-paper";
@@ -11,22 +11,31 @@ type Props = {
 };
 
 export default function Elections(props: Props) {
+    const [refreshing, setRefreshing] = React.useState(false);
+
     const openElectionDetails = (election: Election) => {
         props.navigation?.push('ElectionDetails', {...election})
-    }
+    };
+
+    const updateElections = React.useCallback(() => {
+        setRefreshing(true);
+
+        setTimeout(() => setRefreshing(false), 2000)
+    }, []);
 
     return (
         <View style={styles.container}>
-            {
-                elections && elections.map((election: Election, index: number) =>
-                    <ElectionListItem key={index.toString()} value={election}
-                                      onClick={() => openElectionDetails(election)}/>
-                )
-            }
-            <FAB
-                style={styles.fab}
-                icon="plus"
-                onPress={() => props.navigation?.navigate("CreateElection")}
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={updateElections}/>}>
+                {
+                    elections && elections.map((election: Election, index: number) =>
+                        <ElectionListItem key={index.toString()} election={election}
+                                          onClick={() => openElectionDetails(election)}/>
+                    )
+                }
+            </ScrollView>
+            <FAB style={styles.fab}
+                 icon="plus"
+                 onPress={() => props.navigation?.navigate("CreateElection")}
             />
         </View>
     );
