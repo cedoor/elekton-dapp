@@ -12,7 +12,7 @@ type Props = {
 export default function RootNavigator({ userToken }: Props) {
     return (
         <RootStack.Navigator headerMode="none">
-            {userToken ? (
+            { userToken ? (
                 <RootStack.Screen
                     name="App"
                     component={DrawerNavigator}
