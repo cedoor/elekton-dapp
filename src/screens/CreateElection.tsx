@@ -1,35 +1,34 @@
 import React, { useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
-import { Button, Dialog, Portal, Snackbar, Subheading, TextInput } from "react-native-paper"
-import useTheme from "../hooks/useTheme"
+import { Button, Dialog, Portal, Snackbar, Subheading } from "react-native-paper"
 import DatePicker from "../components/DatePicker"
 import DynamicList from "../components/DynamicList"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import * as storage from "../utils/storage"
 import { StackNavigationProp } from "@react-navigation/stack"
+import CTextInput from "../components/CTextInput"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
 }
 
 export function CreateElection(props: Props) {
-    const theme = useTheme()
-
-    const [_title, setTitle] = React.useState("")
-    const [_description, setDescription] = React.useState("")
     const [_startDate, setStartDate] = useState<Date>(new Date())
     const [_endDate, setEndDate] = useState<Date>(new Date())
     const [_options, setOptions] = useState<string[]>([])
     const [_snackBarVisibility, setSnackBarVisibility] = React.useState(false)
     const [_dialogVisibility, setDialogVisibility] = React.useState(false)
 
+    let title: string | null = ""
+    let description: string | null = ""
+
     const createElection = async () => {
         const elections = ((await storage.getItem("@elections")) || []) as []
         const election: Election = {
             id: Date.now(),
             admin: "Pinco Pallino",
-            title: _title,
-            description: _description,
+            title: title as string,
+            description: description as string,
             startDate: _startDate.getTime(),
             endDate: _endDate.getTime(),
             options: _options
@@ -45,22 +44,12 @@ export function CreateElection(props: Props) {
     const showSnackBar = (duration: number = Snackbar.DURATION_MEDIUM) => {
         setSnackBarVisibility(true)
 
-        setTimeout(() => {
-            hideSnackBar()
-        }, duration)
+        setTimeout(() => hideSnackBar(), duration)
     }
 
     const hideDialog = () => setDialogVisibility(false)
     const showDialog = () => {
-        if (
-            _title.length < 1 ||
-            _title.length > 30 ||
-            _description.length < 1 ||
-            _description.length > 60 ||
-            _startDate < new Date() ||
-            _endDate < _startDate ||
-            _options.length < 2
-        ) {
+        if (hasErrors()) {
             showSnackBar()
 
             return
@@ -69,25 +58,29 @@ export function CreateElection(props: Props) {
         setDialogVisibility(true)
     }
 
+    console.log("aaa")
+
+    const hasErrors = () => title === null || description === null
+
     return (
         <ScrollView>
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
-                    <TextInput
-                        style={{ backgroundColor: theme.colors.background }}
-                        label="Title"
-                        value={_title}
-                        onChangeText={setTitle}
-                        maxLength={30}
-                    />
-                    <TextInput
-                        style={{ backgroundColor: theme.colors.background }}
-                        label="Description"
-                        value={_description}
-                        onChangeText={setDescription}
+                    <CTextInput label="Title" 
+                        onBlurText={(value) => {title = value}}
+                        errors={(value) =>  
+                            value.length === 0 ? "Title is required" :
+                                value.length > 30 ? "Title is too long" : ""
+                        }
+                        maxLength={30}/>
+                    <CTextInput label="Description"
+                        onBlurText={(value) => {description = value}}
+                        errors={(value) =>
+                            value.length === 0 ? "Description is required" :
+                                value.length > 30 ? "Description is too long" : ""
+                        }
                         maxLength={60}
-                        multiline
-                    />
+                        multiline/>
                 </View>
 
                 <View>
