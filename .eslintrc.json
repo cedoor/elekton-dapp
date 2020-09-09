@@ -33,6 +33,7 @@
         "code": 100
       }
     ],
+    "quotes": ["warn", "double"],
     "indent": ["error", 4],
     "comma-dangle": "warn"
   }
