@@ -27,8 +27,8 @@ export default function Elections(props: Props) {
         <View style={styles.container}>
             <ScrollView refreshControl={<RefreshControl refreshing={_refreshing} onRefresh={updateElections}/>}>
                 {
-                    elections && elections.map((election: Election, index: number) =>
-                        <ElectionListItem key={index.toString()} election={election}
+                    elections && elections.map((election: Election) =>
+                        <ElectionListItem key={election.id} election={election}
                                           onClick={() => openElectionDetails(election)}/>
                     )
                 }
