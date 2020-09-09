@@ -1,16 +1,9 @@
 import React from "react"
 import { Appbar } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
-import { Scene, StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types"
-import { Route, ParamListBase } from "@react-navigation/native"
+import { StackHeaderProps } from "@react-navigation/stack"
 
-type Props = {
-    scene: Scene<Route<string>>
-    previous?: Scene<Route<string>>
-    navigation: StackNavigationProp<ParamListBase> & {openDrawer: () => void}
-}
-
-export default function Header({ scene, previous, navigation }: Props) {
+export default function Header({ scene, previous, navigation }: StackHeaderProps | any) {
     const theme = useTheme()
 
     return (
