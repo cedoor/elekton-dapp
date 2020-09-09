@@ -16,4 +16,4 @@ export default {
             text: "#fff"
         }
     }
-};
+}

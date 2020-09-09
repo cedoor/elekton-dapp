@@ -1,6 +1,9 @@
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-community/async-storage"
 
-export async function setItem(key: string, value: any): Promise<void> {
+export async function setItem(
+    key: string,
+    value: string | number | boolean | Record<string, unknown>
+): Promise<void> {
     if (typeof value !== "string") {
         value = JSON.stringify(value)
     }
@@ -8,7 +11,7 @@ export async function setItem(key: string, value: any): Promise<void> {
     return AsyncStorage.setItem(key, value)
 }
 
-export async function getItem(key: string): Promise<string | [] | object | null> {
+export async function getItem(key: string): Promise<string | [] | Record<string, unknown> | null> {
     const value = await AsyncStorage.getItem(key)
 
     if (value !== null) {

@@ -1,44 +1,50 @@
-import * as React from 'react';
-import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
-import {Election, ElectionNavigatorParamList} from "../Types";
-import {StackNavigationProp} from "@react-navigation/stack";
-import {FAB} from "react-native-paper";
-import ElectionListItem from "../components/ElectionListItem";
-import {elections} from "../data/elections";
+import * as React from "react"
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
+import { Election, ElectionNavigatorParamList } from "../Types"
+import { StackNavigationProp } from "@react-navigation/stack"
+import { FAB } from "react-native-paper"
+import ElectionListItem from "../components/ElectionListItem"
+import { elections } from "../data/elections"
 
 type Props = {
-    navigation?: StackNavigationProp<ElectionNavigatorParamList>;
-};
+    navigation?: StackNavigationProp<ElectionNavigatorParamList>
+}
 
 export default function Elections(props: Props) {
-    const [_refreshing, setRefreshing] = React.useState(false);
+    const [_refreshing, setRefreshing] = React.useState(false)
 
     const openElectionDetails = (election: Election) => {
-        props.navigation?.push('ElectionDetails', {...election})
-    };
+        props.navigation?.push("ElectionDetails", { ...election })
+    }
 
     const updateElections = React.useCallback(() => {
-        setRefreshing(true);
+        setRefreshing(true)
 
         setTimeout(() => setRefreshing(false), 2000)
-    }, []);
+    }, [])
 
     return (
         <View style={styles.container}>
-            <ScrollView refreshControl={<RefreshControl refreshing={_refreshing} onRefresh={updateElections}/>}>
-                {
-                    elections && elections.map((election: Election) =>
-                        <ElectionListItem key={election.id} election={election}
-                                          onClick={() => openElectionDetails(election)}/>
-                    )
-                }
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={_refreshing} onRefresh={updateElections} />
+                }>
+                {elections &&
+                    elections.map((election: Election) => (
+                        <ElectionListItem
+                            key={election.id}
+                            election={election}
+                            onClick={() => openElectionDetails(election)}
+                        />
+                    ))}
             </ScrollView>
-            <FAB style={styles.fab}
-                 icon="plus"
-                 onPress={() => props.navigation?.navigate("CreateElection")}
+            <FAB
+                style={styles.fab}
+                icon="plus"
+                onPress={() => props.navigation?.navigate("CreateElection")}
             />
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -46,9 +52,9 @@ const styles = StyleSheet.create({
         flex: 1
     },
     fab: {
-        position: 'absolute',
+        position: "absolute",
         margin: 16,
         right: 0,
-        bottom: 0,
+        bottom: 0
     }
-});
+})

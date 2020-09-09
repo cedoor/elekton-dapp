@@ -1,4 +1,4 @@
-import * as Linking from "expo-linking";
+import * as Linking from "expo-linking"
 
 export default {
     prefixes: [Linking.makeUrl("/")],
@@ -11,15 +11,15 @@ export default {
                             Elections: "elections",
                             ElectionDetails: "details",
                             CreateElection: "create-election"
-                        },
-                    },
-                },
+                        }
+                    }
+                }
             },
             Auth: {
                 screens: {
                     Login: "login"
                 }
             }
-        },
-    },
-};
+        }
+    }
+}

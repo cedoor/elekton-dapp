@@ -1,38 +1,33 @@
-import React from "react";
-import {Image, StyleSheet, Text, View} from "react-native";
-import {AuthContext} from "../context/AuthContext";
-import {Button, IconButton, Surface} from "react-native-paper";
-import {MaterialIcons} from "@expo/vector-icons";
-import useTheme from "../hooks/useTheme";
+import React from "react"
+import { Image, StyleSheet, Text, View } from "react-native"
+import { AuthContext } from "../context/AuthContext"
+import { Button, IconButton, Surface } from "react-native-paper"
+import { MaterialIcons } from "@expo/vector-icons"
+import useTheme from "../hooks/useTheme"
 
 export default function Login() {
-    const {signIn, signUp} = React.useContext(AuthContext)
-    const theme = useTheme();
+    const { signIn, signUp } = React.useContext(AuthContext)
+    const theme = useTheme()
 
     return (
         <Surface style={styles.container}>
             <View style={styles.header}>
                 <IconButton
-                    icon={({color, size}) => (
-                        <MaterialIcons
-                            name="verified-user"
-                            color={color}
-                            size={size}
-                        />
+                    icon={({ color, size }) => (
+                        <MaterialIcons name="verified-user" color={color} size={size} />
                     )}
                     color={theme.colors.primary}
                     size={24}
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => console.log("Pressed")}
                 />
             </View>
             <View style={styles.content}>
-                <View style={{alignItems: "center"}}>
-                    <Image style={styles.logo} source={require("../../assets/images/icon.png")}/>
-                    <Text style={[{color: theme.colors.primary}, styles.logoText]}>Elekton</Text>
+                <View style={{ alignItems: "center" }}>
+                    <Image style={styles.logo} source={require("../../assets/images/icon.png")} />
+                    <Text style={[{ color: theme.colors.primary }, styles.logoText]}>Elekton</Text>
                 </View>
                 <View>
-                    <Button style={styles.button} mode="outlined"
-                            onPress={() => signUp()}>
+                    <Button style={styles.button} mode="outlined" onPress={() => signUp()}>
                         Sign Up
                     </Button>
                     <Button style={styles.button} mode="outlined" onPress={() => signIn()}>
@@ -72,4 +67,4 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 26
     }
-});
+})
