@@ -10,7 +10,7 @@ type Props = {
     onChange: (date: Date) => void
 }
 
-export default function DatePicker({ date, onChange }: Props) {
+export default function DatePicker ({ date, onChange }: Props) {
     const [_date, setDate] = useState<Date>(date)
     const [_datePickerMode, setDatePickerMode] = useState<"date" | "time">("date")
     const [_datePickerVisibility, setDatePickerVisibility] = useState<boolean>(false)

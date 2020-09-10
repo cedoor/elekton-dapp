@@ -9,7 +9,7 @@ type Props = {
     onChange: (options: string[]) => void
 }
 
-export default function DynamicList({ options, onChange }: Props) {
+export default function DynamicList ({ options, onChange }: Props) {
     const [_inputValue, setInputValue] = useState<string>("")
     const [_options, setOptions] = useState<string[]>(options)
 

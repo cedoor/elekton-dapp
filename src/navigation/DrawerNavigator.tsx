@@ -11,7 +11,7 @@ import { CreateElection } from "../screens/CreateElection"
 const Drawer = createDrawerNavigator()
 const ElectionStack = createStackNavigator<ElectionNavigatorParamList>()
 
-function ElectionNavigator() {
+function ElectionNavigator () {
     return (
         <ElectionStack.Navigator
             initialRouteName="Elections"
@@ -41,7 +41,7 @@ function ElectionNavigator() {
     )
 }
 
-export default function DrawerNavigator() {
+export default function DrawerNavigator () {
     return (
         <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
             <Drawer.Screen name="Elections" component={ElectionNavigator} />

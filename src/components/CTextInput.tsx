@@ -3,7 +3,7 @@ import { HelperText, TextInput } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import { View } from "react-native"
 
-type Props =  {
+type Props = {
     label: string
     maxLength?: number
     onBlurText: (value: string | null) => void
@@ -11,7 +11,7 @@ type Props =  {
     errors?: (value: string) => string
 }
 
-export default function CTextInput({ label, maxLength, onBlurText, multiline, errors }: Props) {
+export default function CTextInput ({ label, maxLength, onBlurText, multiline, errors }: Props) {
     const [_title, setTitle] = React.useState({value: "", error: ""})
 
     const theme = useTheme()

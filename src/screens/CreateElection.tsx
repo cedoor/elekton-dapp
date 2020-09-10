@@ -12,7 +12,7 @@ type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
 }
 
-export function CreateElection(props: Props) {
+export function CreateElection (props: Props) {
     const [_startDate, setStartDate] = useState<Date>(new Date())
     const [_endDate, setEndDate] = useState<Date>(new Date())
     const [_options, setOptions] = useState<string[]>([])
@@ -58,8 +58,6 @@ export function CreateElection(props: Props) {
         setDialogVisibility(true)
     }
 
-    console.log("aaa")
-
     const hasErrors = () => title === null || description === null
 
     return (
@@ -67,14 +65,18 @@ export function CreateElection(props: Props) {
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
                     <CTextInput label="Title" 
-                        onBlurText={(value) => {title = value}}
+                        onBlurText={(value) => {
+                            title = value 
+                        }}
                         errors={(value) =>  
                             value.length === 0 ? "Title is required" :
                                 value.length > 30 ? "Title is too long" : ""
                         }
                         maxLength={30}/>
                     <CTextInput label="Description"
-                        onBlurText={(value) => {description = value}}
+                        onBlurText={(value) => {
+                            description = value 
+                        }}
                         errors={(value) =>
                             value.length === 0 ? "Description is required" :
                                 value.length > 30 ? "Description is too long" : ""

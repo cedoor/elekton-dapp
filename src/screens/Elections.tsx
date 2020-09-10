@@ -11,7 +11,7 @@ type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
 }
 
-export default function Elections(props: Props) {
+export default function Elections (props: Props) {
     const [_refreshing, setRefreshing] = React.useState(false)
 
     const theme = useTheme()

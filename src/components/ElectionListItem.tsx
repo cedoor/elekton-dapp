@@ -11,7 +11,7 @@ type Props = {
     onClick: (id: number) => void
 }
 
-export default function ElectionListItem({ election, onClick }: Props) {
+export default function ElectionListItem ({ election, onClick }: Props) {
     const theme = useTheme()
 
     return (

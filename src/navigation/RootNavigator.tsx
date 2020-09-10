@@ -9,7 +9,7 @@ type Props = {
     userToken: string | null
 }
 
-export default function RootNavigator({ userToken }: Props) {
+export default function RootNavigator ({ userToken }: Props) {
     return (
         <RootStack.Navigator headerMode="none">
             { userToken ? (

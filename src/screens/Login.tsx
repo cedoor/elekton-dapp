@@ -5,7 +5,7 @@ import { Button, IconButton, Surface } from "react-native-paper"
 import { MaterialIcons } from "@expo/vector-icons"
 import useTheme from "../hooks/useTheme"
 
-export default function Login() {
+export default function Login () {
     const { signIn, signUp } = React.useContext(AuthContext)
     const theme = useTheme()
 

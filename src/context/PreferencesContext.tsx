@@ -7,5 +7,7 @@ type PreferencesContextType = {
 
 export const PreferencesContext = React.createContext<PreferencesContextType>({
     themeType: "light",
-    toggleTheme() {return}
+    toggleTheme () {
+        return 
+    }
 })

@@ -3,7 +3,7 @@ import { Appbar } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import { StackHeaderProps } from "@react-navigation/stack"
 
-export default function Header({ scene, previous, navigation }: StackHeaderProps | any) {
+export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
     const theme = useTheme()
 
     return (

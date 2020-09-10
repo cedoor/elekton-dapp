@@ -34,7 +34,7 @@ const CombinedDarkTheme = {
     roundness: Theme.roundness
 }
 
-export default function Main() {
+export default function Main () {
     const colorScheme = useColorScheme()
     const [themeType, setTheme] = React.useState<"light" | "dark">(
         colorScheme === "dark" ? "dark" : "light"
@@ -57,13 +57,13 @@ export default function Main() {
 
     const authContext = React.useMemo(
         () => ({
-            signIn() {
+            signIn () {
                 setUserToken("hello")
             },
-            signUp() {
+            signUp () {
                 setUserToken("hello")
             },
-            signOut() {
+            signOut () {
                 setUserToken(null)
             }
         }),

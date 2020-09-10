@@ -13,7 +13,7 @@ import { PreferencesContext } from "../context/PreferencesContext"
 import Animated from "react-native-reanimated"
 import { AuthContext } from "../context/AuthContext"
 
-export default function DrawerContent(props: DrawerContentComponentProps) {
+export default function DrawerContent (props: DrawerContentComponentProps) {
     const { themeType, toggleTheme } = React.useContext(PreferencesContext)
 
     const translateX = Animated.interpolate(props.progress, {

@@ -18,7 +18,7 @@ type Props = {
   route: RouteProp<ElectionNavigatorParamList, "ElectionDetails">;
 };
 
-export function ElectionDetails(props: Props) {
+export function ElectionDetails (props: Props) {
     const theme = useTheme()
 
     const [_option, setOption] = React.useState<string>("")
