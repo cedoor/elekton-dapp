@@ -6,13 +6,13 @@ import { View } from "react-native"
 type Props = {
     label: string
     maxLength?: number
-    onBlurText: (value: string | null) => void
+    onBlurText: (text: string | null) => void
     multiline?: boolean
-    errors?: (value: string) => string
+    errors?: (text: string) => string
 }
 
 export default function CTextInput ({ label, maxLength, onBlurText, multiline, errors }: Props) {
-    const [_title, setTitle] = React.useState({value: "", error: ""})
+    const [_text, setText] = React.useState({value: "", error: ""})
 
     const theme = useTheme()
 
@@ -21,19 +21,14 @@ export default function CTextInput ({ label, maxLength, onBlurText, multiline, e
             <TextInput
                 style={{ backgroundColor: theme.colors.background }}
                 label={label}
-                value={_title.value}
+                value={_text.value}
                 maxLength={maxLength}
-                onChangeText={(value) => {
-                    setTitle({
-                        value,
-                        error: errors ? errors(value) : ""
-                    })
-                }}
-                onBlur={() => onBlurText(!_title.error ? _title.value : null)}
-                error={!!_title.error}
+                onChangeText={(value) => setText({ value, error: errors ? errors(value) : "" })}
+                onBlur={() => onBlurText(!_text.error ? _text.value : null)}
+                error={!!_text.error}
                 multiline={multiline}
             />
-            {!!_title.error && <HelperText type="error">{_title.error}</HelperText>}
+            {!!_text.error && <HelperText type="error">{_text.error}</HelperText>}
         </View>
     )
 }

@@ -9,22 +9,22 @@ type Props = {
 
 export default function ElectionStopwatch ({ startDate, endDate }: Props) {
     const [_stopwatch, setStopwatch] = useState<number>(Date.now() - startDate)
-    const now = Date.now()
+    const currentDate = Date.now()
 
     useEffect(() => {
-        if (now < startDate || now > endDate) {
+        if (currentDate < startDate || currentDate > endDate) {
             return
         }
 
         const timerID = setTimeout(() => {
-            setStopwatch(now - startDate)
+            setStopwatch(currentDate - startDate)
         }, 1000)
 
         // Clear timeout if the component is unmounted.
         return () => clearTimeout(timerID)
     })
 
-    return now < startDate || now > endDate ? null : (
+    return currentDate < startDate || currentDate > endDate ? null : (
         <ProgressBar
             style={styles.timer}
             progress={_stopwatch / (endDate - startDate)}

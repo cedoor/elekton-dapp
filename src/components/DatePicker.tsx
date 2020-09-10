@@ -1,24 +1,27 @@
 import React, { useState } from "react"
-import { List, TouchableRipple } from "react-native-paper"
+import { HelperText, List, TouchableRipple } from "react-native-paper"
 import { format } from "date-fns"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Platform, StyleSheet, View } from "react-native"
 import DateTimePicker, { Event } from "@react-native-community/datetimepicker"
 
 type Props = {
-    date: Date
-    onChange: (date: Date) => void
+    date?: Date
+    onChange: (date: Date | null) => void
+    errors?: (data: Date) => string
+    maximumDate?: Date
+    minimumDate?: Date
 }
 
-export default function DatePicker ({ date, onChange }: Props) {
-    const [_date, setDate] = useState<Date>(date)
+export default function DatePicker ({ date = new Date(), onChange, errors }: Props) {
+    const [_date, setDate] = useState({value: date, error: ""})
     const [_datePickerMode, setDatePickerMode] = useState<"date" | "time">("date")
-    const [_datePickerVisibility, setDatePickerVisibility] = useState<boolean>(false)
+    const [_datePickerVisibility, setDatePickerVisibility] = useState(false)
 
-    const updateDate = (event: Event, selectedDate?: Date) => {
+    const updateDate = (event: Event, date: Date = _date.value) => {
         setDatePickerVisibility(Platform.OS === "ios")
-        setDate(selectedDate || _date)
-        onChange(selectedDate || _date)
+        setDate({value: date, error: errors ? errors(date) : ""})
+        onChange(!_date.error ? date : null)
     }
 
     const showDatePicker = (mode: "date" | "time") => {
@@ -28,37 +31,40 @@ export default function DatePicker ({ date, onChange }: Props) {
 
     return (
         <View style={styles.container}>
-            <TouchableRipple style={styles.button} onPress={() => showDatePicker("date")}>
-                <List.Item
-                    style={styles.item}
-                    title="Day"
-                    description={format(_date, "MMM dd, yyyy")}
-                    left={() => (
-                        <List.Icon
-                            icon={({ color, size }) => (
-                                <MaterialIcons name="today" size={size} color={color} />
-                            )}
-                        />
-                    )}
-                />
-            </TouchableRipple>
-            <TouchableRipple style={styles.button} onPress={() => showDatePicker("time")}>
-                <List.Item
-                    style={styles.item}
-                    title="Time"
-                    description={format(_date, "hh:mm a")}
-                    left={() => (
-                        <List.Icon
-                            icon={({ color, size }) => (
-                                <MaterialIcons name="access-time" size={size} color={color} />
-                            )}
-                        />
-                    )}
-                />
-            </TouchableRipple>
+            <View style={styles.items}>
+                <TouchableRipple style={styles.button} onPress={() => showDatePicker("date")}>
+                    <List.Item
+                        style={styles.item}
+                        title="Day"
+                        description={format(_date.value, "MMM dd, yyyy")}
+                        left={() => (
+                            <List.Icon
+                                icon={({ color, size }) => (
+                                    <MaterialIcons name="today" size={size} color={color} />
+                                )}
+                            />
+                        )}
+                    />
+                </TouchableRipple>
+                <TouchableRipple style={styles.button} onPress={() => showDatePicker("time")}>
+                    <List.Item
+                        style={styles.item}
+                        title="Time"
+                        description={format(_date.value, "hh:mm a")}
+                        left={() => (
+                            <List.Icon
+                                icon={({ color, size }) => (
+                                    <MaterialIcons name="access-time" size={size} color={color} />
+                                )}
+                            />
+                        )}
+                    />
+                </TouchableRipple>
+            </View>
+            {!!_date.error && <HelperText type="error">{_date.error}</HelperText>}
             {_datePickerVisibility && (
                 <DateTimePicker
-                    value={_date}
+                    value={_date.value}
                     mode={_datePickerMode}
                     is24Hour={false}
                     display="default"
@@ -71,9 +77,11 @@ export default function DatePicker ({ date, onChange }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
-        flexDirection: "row",
         paddingVertical: 6
+    },
+    items: {
+        display: "flex",
+        flexDirection: "row"
     },
     button: {
         flex: 1

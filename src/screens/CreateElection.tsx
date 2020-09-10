@@ -13,14 +13,14 @@ type Props = {
 }
 
 export function CreateElection (props: Props) {
-    const [_startDate, setStartDate] = useState<Date>(new Date())
-    const [_endDate, setEndDate] = useState<Date>(new Date())
+    const [_startDate, setStartDate] = useState<Date | null>(null)
+    const [_endDate, setEndDate] = useState<Date | null>(null)
     const [_options, setOptions] = useState<string[]>([])
     const [_snackBarVisibility, setSnackBarVisibility] = React.useState(false)
     const [_dialogVisibility, setDialogVisibility] = React.useState(false)
 
-    let title: string | null = ""
-    let description: string | null = ""
+    let title: string | null = null
+    let description: string | null = null
 
     const createElection = async () => {
         const elections = ((await storage.getItem("@elections")) || []) as []
@@ -29,8 +29,8 @@ export function CreateElection (props: Props) {
             admin: "Pinco Pallino",
             title: title as string,
             description: description as string,
-            startDate: _startDate.getTime(),
-            endDate: _endDate.getTime(),
+            startDate: _startDate?.getTime() as number,
+            endDate: _endDate?.getTime() as number,
             options: _options
         }
 
@@ -65,8 +65,8 @@ export function CreateElection (props: Props) {
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
                     <CTextInput label="Title" 
-                        onBlurText={(value) => {
-                            title = value 
+                        onBlurText={(text) => {
+                            title = text
                         }}
                         errors={(value) =>  
                             value.length === 0 ? "Title is required" :
@@ -74,12 +74,12 @@ export function CreateElection (props: Props) {
                         }
                         maxLength={30}/>
                     <CTextInput label="Description"
-                        onBlurText={(value) => {
-                            description = value 
+                        onBlurText={(text) => {
+                            description = text
                         }}
-                        errors={(value) =>
-                            value.length === 0 ? "Description is required" :
-                                value.length > 30 ? "Description is too long" : ""
+                        errors={(text) =>
+                            text.length === 0 ? "Description is required" :
+                                text.length > 30 ? "Description is too long" : ""
                         }
                         maxLength={60}
                         multiline/>
@@ -87,12 +87,18 @@ export function CreateElection (props: Props) {
 
                 <View>
                     <Subheading>Start date</Subheading>
-                    <DatePicker date={_startDate} onChange={setStartDate} />
+                    <DatePicker onChange={setStartDate} errors={(date) =>
+                        date.getTime() < Date.now() + 3600000 ?
+                            "You can create an election up to one hour in advance" : ""
+                    }/>
                 </View>
 
                 <View>
                     <Subheading>End date</Subheading>
-                    <DatePicker date={_endDate} onChange={setEndDate} />
+                    <DatePicker onChange={setEndDate} errors={(date) =>
+                        _startDate && _startDate.getTime() + 3600000 > date.getTime() ?
+                            "The end date must be at least one hour after the start date" : ""
+                    }/>
                 </View>
 
                 <View>
