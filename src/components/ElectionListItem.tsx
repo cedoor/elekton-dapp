@@ -20,13 +20,14 @@ export default function ElectionListItem ({ election, onClick }: Props) {
                 <List.Item
                     title={election.title}
                     description={election.description}
+                    descriptionStyle={{color: theme.colors.placeholder}}
                     right={() => (
                         <View style={styles.date}>
                             <Text style={[{ color: theme.colors.placeholder }, styles.dateText]}>
-                                {format(election.startDate, "MM/dd/yyyy")}
+                                {format(election.startDate, "MMM dd")}
                             </Text>
                             <Text style={[{ color: theme.colors.placeholder }, styles.dateText]}>
-                                {format(election.startDate, "hh:mm a")}
+                                {format(election.startDate, "HH:mm")}
                             </Text>
                         </View>
                     )}

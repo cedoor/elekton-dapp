@@ -3,17 +3,21 @@ export default {
     colors: {
         light: {
             primary: "#38563f",
-            accent: "#333",
-            background: "#fff",
-            surface: "#f6f8f4",
-            text: "#000"
+            accent: "#38563f",
+            background: "#ffffff",
+            surface: "#ffffff",
+            text: "#212121",
+            placeholder: "#535353",
+            border: "#bdbdbd"
         },
         dark: {
-            primary: "#fff",
-            accent: "#232323",
-            background: "#000",
-            surface: "#4a4b49",
-            text: "#fff"
+            primary: "#92af9c",
+            accent: "#92af9c",
+            background: "#202124",
+            surface: "#424242",
+            text: "#d5d5d5",
+            placeholder: "#9e9e9e",
+            border: "#616161"
         }
     }
 }

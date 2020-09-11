@@ -12,7 +12,7 @@ import {
 } from "react-native-paper"
 import { format } from "date-fns"
 import useTheme from "../hooks/useTheme"
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons"
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
 type Props = {
   route: RouteProp<ElectionNavigatorParamList, "ElectionDetails">;
@@ -32,27 +32,29 @@ export function ElectionDetails (props: Props) {
             <View style={styles.container}>
                 <Title style={styles.title}>{props.route.params.title}</Title>
 
-                <Divider />
+                <View style={[{borderBottomColor: theme.colors.border}, styles.divider]} />
 
                 <View style={styles.list}>
                     <List.Item
                         style={styles.listItem}
+                        descriptionStyle={{color: theme.colors.placeholder}}
                         title="Administrator"
                         description={props.route.params.admin}
                         left={() => (
                             <List.Icon
                                 icon={({ color, size }) => (
-                                    <FontAwesome name="user" size={size} color={color} />
+                                    <MaterialCommunityIcons name="human-male" size={size} color={color} />
                                 )}
                             />
                         )}
                     />
                     <List.Item
                         style={styles.listItem}
+                        descriptionStyle={{color: theme.colors.placeholder}}
                         title="Start date"
                         description={format(
                             props.route.params.startDate,
-                            "hh:mm a, MMM dd yyyy"
+                            "MMM dd yyyy - HH:mm"
                         )}
                         left={() => (
                             <List.Icon
@@ -64,10 +66,11 @@ export function ElectionDetails (props: Props) {
                     />
                     <List.Item
                         style={styles.listItem}
+                        descriptionStyle={{color: theme.colors.placeholder}}
                         title="End date"
                         description={format(
                             props.route.params.endDate,
-                            "hh:mm a, MMM dd yyyy"
+                            "MMM dd yyyy - HH:mm"
                         )}
                         left={() => (
                             <List.Icon
@@ -110,12 +113,16 @@ export function ElectionDetails (props: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16
+        paddingHorizontal: 16,
+        paddingBottom: 16
     },
     title: {
         fontSize: 24,
         marginBottom: 16,
         textAlign: "center"
+    },
+    divider: {
+        borderBottomWidth: .4
     },
     list: {
         paddingTop: 6
@@ -126,7 +133,7 @@ const styles = StyleSheet.create({
     paper: {
         marginTop: 18,
         padding: 16,
-        borderWidth: 0.8
+        borderWidth: .4
     },
     description: {
         paddingBottom: 8

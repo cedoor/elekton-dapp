@@ -30,7 +30,7 @@
     "max-len": [
       "warn",
       {
-        "code": 100
+        "code": 120
       }
     ],
     "quotes": ["warn", "double"],

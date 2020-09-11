@@ -2,10 +2,11 @@ import * as React from "react"
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { FAB } from "react-native-paper"
+import { FAB, Text } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
 import { elections } from "../data/elections"
 import useTheme from "../hooks/useTheme"
+import { MaterialIcons } from "@expo/vector-icons"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
@@ -49,10 +50,13 @@ export default function Elections (props: Props) {
                     ))
                 }
             </ScrollView>
-            <FAB
-                style={styles.fab}
-                icon="plus"
+            <FAB style={[{backgroundColor: theme.colors.surface}, styles.fab]}
+                color={theme.colors.primary}
                 onPress={() => props.navigation?.navigate("CreateElection")}
+                label="Create"
+                icon={({ color, size }) => (
+                    <MaterialIcons name="create" color={color} size={size} />
+                )}
             />
         </View>
     )
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     itemSeparator: {
-        borderBottomWidth: 1,
+        borderBottomWidth: .4,
         marginHorizontal: 16
     }
 })

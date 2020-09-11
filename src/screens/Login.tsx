@@ -1,29 +1,50 @@
 import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
 import { AuthContext } from "../context/AuthContext"
-import { Button, IconButton, Surface } from "react-native-paper"
+import { Appbar, Button, Menu } from "react-native-paper"
 import { MaterialIcons } from "@expo/vector-icons"
 import useTheme from "../hooks/useTheme"
+import { PreferencesContext } from "../context/PreferencesContext"
 
 export default function Login () {
+    const [visible, setVisible] = React.useState(false)
+
     const { signIn, signUp } = React.useContext(AuthContext)
+    const { themeType, toggleTheme } = React.useContext(PreferencesContext)
+
     const theme = useTheme()
 
+    const openMenu = () => setVisible(true)
+    const closeMenu = () => setVisible(false)
+
     return (
-        <Surface style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.header}>
-                <IconButton
-                    icon={({ color, size }) => (
-                        <MaterialIcons name="verified-user" color={color} size={size} />
-                    )}
-                    color={theme.colors.primary}
-                    size={24}
-                    onPress={() => console.log("Pressed")}
-                />
+                <Menu contentStyle={{backgroundColor: theme.colors.surface}}
+                    visible={visible}
+                    onDismiss={closeMenu}
+                    anchor={
+                        <Appbar.Action color={theme.colors.text}
+                            onPress={openMenu} icon="dots-vertical"/>
+                    }>
+                    <Menu.Item onPress={toggleTheme}
+                        title={themeType === "light" ? "Dark theme" : "Light theme"}
+                        titleStyle={styles.menuItemTitle}
+                        icon="theme-light-dark"/>
+                    <Menu.Item onPress={() => console.log("Pressed")}
+                        title="Verify elections"
+                        titleStyle={styles.menuItemTitle}
+                        icon={({ color, size }) => (
+                            <MaterialIcons name="verified-user" color={color} size={size} />
+                        )}/>
+                </Menu>
             </View>
             <View style={styles.content}>
                 <View style={{ alignItems: "center" }}>
-                    <Image style={styles.logo} source={require("../../assets/images/icon.png")} />
+                    <Image style={styles.logo} 
+                        source={theme.dark
+                            ? require("../../assets/images/dark-icon.png")
+                            : require("../../assets/images/icon.png")} />
                     <Text style={[{ color: theme.colors.primary }, styles.logoText]}>Elekton</Text>
                 </View>
                 <View>
@@ -35,7 +56,7 @@ export default function Login () {
                     </Button>
                 </View>
             </View>
-        </Surface>
+        </View>
     )
 }
 
@@ -47,7 +68,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     header: {
-        alignItems: "flex-end"
+        flexDirection: "row-reverse"
+    },
+    menuItemTitle: {
+        marginLeft: -10
     },
     content: {
         display: "flex",

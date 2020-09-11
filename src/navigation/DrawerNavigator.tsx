@@ -30,7 +30,7 @@ function ElectionNavigator () {
             <ElectionStack.Screen
                 name="ElectionDetails"
                 component={ElectionDetails}
-                options={{ title: "Details" }}
+                options={{ title: "" }}
             />
             <ElectionStack.Screen
                 name="CreateElection"
