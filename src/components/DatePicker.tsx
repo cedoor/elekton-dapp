@@ -4,19 +4,20 @@ import { format } from "date-fns"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Platform, StyleSheet, View } from "react-native"
 import DateTimePicker, { Event } from "@react-native-community/datetimepicker"
+import useTheme from "../hooks/useTheme"
 
 type Props = {
     date?: Date
     onChange: (date: Date | null) => void
     errors?: (data: Date) => string
-    maximumDate?: Date
-    minimumDate?: Date
 }
 
 export default function DatePicker ({ date = new Date(), onChange, errors }: Props) {
     const [_date, setDate] = useState({value: date, error: ""})
     const [_datePickerMode, setDatePickerMode] = useState<"date" | "time">("date")
     const [_datePickerVisibility, setDatePickerVisibility] = useState(false)
+
+    const theme = useTheme()
 
     const updateDate = (event: Event, date: Date = _date.value) => {
         setDatePickerVisibility(Platform.OS === "ios")
@@ -61,7 +62,12 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
                     />
                 </TouchableRipple>
             </View>
-            {!!_date.error && <HelperText type="error">{_date.error}</HelperText>}
+            {!!_date.error &&
+                <HelperText style={[
+                    {borderTopColor: theme.colors.error},
+                    styles.helperText
+                ]} type="error">{_date.error}</HelperText>
+            }
             {_datePickerVisibility && (
                 <DateTimePicker
                     value={_date.value}
@@ -88,5 +94,10 @@ const styles = StyleSheet.create({
     },
     item: {
         padding: 0
+    },
+    helperText: {
+        marginTop: 5,
+        paddingTop: 6,
+        borderTopWidth: 1
     }
 })

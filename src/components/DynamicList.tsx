@@ -1,40 +1,45 @@
 import React, { useState } from "react"
-import { IconButton, List, TextInput } from "react-native-paper"
+import { HelperText, IconButton, List, TextInput } from "react-native-paper"
 import { MaterialIcons } from "@expo/vector-icons"
 import { StyleSheet, View } from "react-native"
 import useTheme from "../hooks/useTheme"
 
 type Props = {
-    options: string[]
-    onChange: (options: string[]) => void
+    options?: string[]
+    onChange: (options: string[] | null) => void
+    errors?: (options: string[]) => string
 }
 
-export default function DynamicList ({ options, onChange }: Props) {
-    const [_inputValue, setInputValue] = useState<string>("")
-    const [_options, setOptions] = useState<string[]>(options)
+export default function DynamicList ({ options = [], onChange, errors }: Props) {
+    const [_inputValue, setInputValue] = useState("")
+    const [_options, setOptions] = useState({value: options, error: ""})
 
     const theme = useTheme()
 
     const addOption = () => {
         if (_inputValue) {
-            const newOptions = [..._options, _inputValue]
+            const options = [..._options.value, _inputValue]
+            const error = errors ? errors(options) : ""
 
-            setOptions(newOptions)
+            setOptions({value: options, error})
             setInputValue("")
-            onChange(newOptions)
+            onChange(!error ? options : null)
         }
     }
 
     const removeOption = (index: number) => {
-        _options.splice(index, 1)
+        _options.value.splice(index, 1)
 
-        setOptions(_options.slice())
-        onChange(_options.slice())
+        const options = _options.value.slice()
+        const error = errors ? errors(options) : ""
+
+        setOptions({value: options, error})
+        onChange(!error ? options : null)
     }
 
     return (
         <View style={styles.container}>
-            {_options.length > 0 && (
+            {_options.value.length > 0 && (
                 <View
                     style={[
                         {
@@ -44,7 +49,7 @@ export default function DynamicList ({ options, onChange }: Props) {
                         styles.options
                     ]}
                 >
-                    {_options.map((option, index) => (
+                    {_options.value.map((option, index) => (
                         <List.Item
                             style={styles.option}
                             title={option}
@@ -62,13 +67,15 @@ export default function DynamicList ({ options, onChange }: Props) {
                 </View>
             )}
             <TextInput
-                style={[{ backgroundColor: theme.colors.background }, styles.input]}
+                style={{ backgroundColor: theme.colors.background }}
                 label="Add new option"
                 value={_inputValue}
                 onChangeText={setInputValue}
                 onBlur={addOption}
                 maxLength={20}
+                error={!!_options.error}
             />
+            {!!_options.error && <HelperText type="error">{_options.error}</HelperText>}
         </View>
     )
 }
@@ -90,8 +97,5 @@ const styles = StyleSheet.create({
     newOption: {
         display: "flex",
         flexDirection: "row"
-    },
-    input: {
-        flex: 1
     }
 })

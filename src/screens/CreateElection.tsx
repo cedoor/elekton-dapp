@@ -13,44 +13,25 @@ type Props = {
 }
 
 export function CreateElection (props: Props) {
+    const [_title, setTitle] = useState<string | null>(null)
+    const [_description, setDescription] = useState<string | null>(null)
     const [_startDate, setStartDate] = useState<Date | null>(null)
     const [_endDate, setEndDate] = useState<Date | null>(null)
-    const [_options, setOptions] = useState<string[]>([])
+    const [_options, setOptions] = useState<string[] | null>(null)
     const [_snackBarVisibility, setSnackBarVisibility] = React.useState(false)
     const [_dialogVisibility, setDialogVisibility] = React.useState(false)
 
-    let title: string | null = null
-    let description: string | null = null
-
-    const createElection = async () => {
-        const elections = ((await storage.getItem("@elections")) || []) as []
-        const election: Election = {
-            id: Date.now(),
-            admin: "Pinco Pallino",
-            title: title as string,
-            description: description as string,
-            startDate: _startDate?.getTime() as number,
-            endDate: _endDate?.getTime() as number,
-            options: _options
-        }
-
-        await storage.setItem("@elections", [election, ...elections])
-
-        hideDialog()
-        props.navigation?.navigate("Elections")
-    }
-
     const hideSnackBar = () => setSnackBarVisibility(false)
-    const showSnackBar = (duration: number = Snackbar.DURATION_MEDIUM) => {
-        setSnackBarVisibility(true)
-
-        setTimeout(() => hideSnackBar(), duration)
-    }
 
     const hideDialog = () => setDialogVisibility(false)
+
     const showDialog = () => {
-        if (hasErrors()) {
-            showSnackBar()
+        if (formHasErrors()) {
+            setSnackBarVisibility(true)
+
+            console.log(_title, _description, _startDate, _endDate, _options)
+
+            setTimeout(() => hideSnackBar(), Snackbar.DURATION_MEDIUM)
 
             return
         }
@@ -58,28 +39,47 @@ export function CreateElection (props: Props) {
         setDialogVisibility(true)
     }
 
-    const hasErrors = () => title === null || description === null
+    const createElection = async () => {
+        const elections = ((await storage.getItem("@elections")) || []) as []
+        const election: Election = {
+            id: Date.now(),
+            admin: "Pinco Pallino",
+            title: _title as string,
+            description: _description as string,
+            startDate: _startDate?.getTime() as number,
+            endDate: _endDate?.getTime() as number,
+            options: _options as string[]
+        }
+
+        await storage.setItem("@elections", [election, ...elections])
+
+        console.log(election)
+
+        hideDialog()
+        props.navigation?.navigate("Elections")
+    }
+
+    const formHasErrors = () =>
+        _title === null || _description === null ||
+        _startDate === null || _endDate === null ||
+        _options === null
 
     return (
         <ScrollView>
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
                     <CTextInput label="Title" 
-                        onBlurText={(text) => {
-                            title = text
-                        }}
-                        errors={(value) =>  
-                            value.length === 0 ? "Title is required" :
-                                value.length > 30 ? "Title is too long" : ""
+                        onBlurText={setTitle}
+                        errors={(title) =>
+                            title.length === 0 ? "Title is required" :
+                                title.length > 30 ? "Title is too long" : ""
                         }
                         maxLength={30}/>
                     <CTextInput label="Description"
-                        onBlurText={(text) => {
-                            description = text
-                        }}
-                        errors={(text) =>
-                            text.length === 0 ? "Description is required" :
-                                text.length > 30 ? "Description is too long" : ""
+                        onBlurText={setDescription}
+                        errors={(description) =>
+                            description.length === 0 ? "Description is required" :
+                                description.length > 30 ? "Description is too long" : ""
                         }
                         maxLength={60}
                         multiline/>
@@ -87,23 +87,25 @@ export function CreateElection (props: Props) {
 
                 <View>
                     <Subheading>Start date</Subheading>
-                    <DatePicker onChange={setStartDate} errors={(date) =>
-                        date.getTime() < Date.now() + 3600000 ?
-                            "You can create an election up to one hour in advance" : ""
+                    <DatePicker onChange={setStartDate} errors={(startDate) =>
+                        startDate.getTime() < Date.now() + 3600000 ?
+                            "The start date must be at least one hour after creation" : ""
                     }/>
                 </View>
 
                 <View>
                     <Subheading>End date</Subheading>
-                    <DatePicker onChange={setEndDate} errors={(date) =>
-                        _startDate && _startDate.getTime() + 3600000 > date.getTime() ?
+                    <DatePicker onChange={setEndDate} errors={(endDate) =>
+                        _startDate && _startDate.getTime() + 3600000 > endDate.getTime() ?
                             "The end date must be at least one hour after the start date" : ""
                     }/>
                 </View>
 
                 <View>
                     <Subheading>Options</Subheading>
-                    <DynamicList options={_options} onChange={setOptions} />
+                    <DynamicList onChange={setOptions} errors={(options) =>
+                        options.length < 2 ? "There must be at least 2 options" : ""
+                    }/>
                 </View>
 
                 <Button style={styles.createButton} mode="outlined" onPress={showDialog}>
@@ -129,7 +131,7 @@ export function CreateElection (props: Props) {
                             label: "Ok",
                             onPress: hideSnackBar
                         }}>
-                        There are errors!
+                        Fill out all the fields or fix the errors!
                     </Snackbar>
                 </Portal>
             </View>
