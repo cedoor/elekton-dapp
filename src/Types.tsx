@@ -6,6 +6,18 @@ export type ElectionNavigatorParamList = {
     CreateElection: undefined
 }
 
+export type AuthNavigatorParamList = {
+    Login: undefined
+    SignUp: undefined
+}
+
+export type User = {
+    name: string
+    surname: string
+    username: string
+    role: number
+}
+
 export type Election = {
     id: number
     title: string

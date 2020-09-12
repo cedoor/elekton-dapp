@@ -22,21 +22,12 @@ function ElectionNavigator () {
                     <Header scene={scene} previous={previous} navigation={navigation} />
                 )
             }}>
-            <ElectionStack.Screen
-                name="Elections"
-                component={Elections}
-                options={{ title: "Elections" }}
-            />
-            <ElectionStack.Screen
-                name="ElectionDetails"
-                component={ElectionDetails}
-                options={{ title: "" }}
-            />
-            <ElectionStack.Screen
-                name="CreateElection"
-                component={CreateElection}
-                options={{ title: "Create election" }}
-            />
+            <ElectionStack.Screen name="Elections" component={Elections} 
+                options={{ title: "Elections" }} />
+            <ElectionStack.Screen name="ElectionDetails" component={ElectionDetails} 
+                options={{ title: "" }}/>
+            <ElectionStack.Screen name="CreateElection" component={CreateElection} 
+                options={{ title: "Create election" }}/>
         </ElectionStack.Navigator>
     )
 }

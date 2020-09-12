@@ -51,10 +51,8 @@ export function CreateElection (props: Props) {
 
         await storage.setItem("@elections", [election, ...elections])
 
-        console.log(election)
-
         closeDialog()
-        props.navigation?.navigate("Elections")
+        props.navigation?.goBack()
     }
 
     const formHasErrors = () =>
@@ -117,8 +115,8 @@ export function CreateElection (props: Props) {
                             <Subheading>Are you sure you want to create this election?</Subheading>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button onPress={createElection}>Yes</Button>
                             <Button onPress={closeDialog}>No</Button>
+                            <Button onPress={createElection}>Yes</Button>
                         </Dialog.Actions>
                     </Dialog>
 

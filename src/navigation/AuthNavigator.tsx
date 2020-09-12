@@ -1,9 +1,11 @@
 import React from "react"
 import { createStackNavigator, StackHeaderProps } from "@react-navigation/stack"
 import Login from "../screens/Login"
+import SignUp from "../screens/SignUp"
 import Header from "../components/Header"
+import { AuthNavigatorParamList } from "../Types"
 
-const AuthStack = createStackNavigator()
+const AuthStack = createStackNavigator<AuthNavigatorParamList>()
 
 export default function AuthNavigator () {
     return (
@@ -16,6 +18,8 @@ export default function AuthNavigator () {
                 )
             }}>
             <AuthStack.Screen name="Login" component={Login} />
+            <AuthStack.Screen name="SignUp" component={SignUp}
+                options={{ title: "Create user" }}/>
         </AuthStack.Navigator>
     )
 }

@@ -1,15 +1,8 @@
 import React, { useContext } from "react"
 import { StyleSheet, View } from "react-native"
-import {
-    DrawerContentComponentProps,
-    DrawerContentScrollView, DrawerItem
-} from "@react-navigation/drawer"
-import {
-    Caption, Drawer, Paragraph, Switch, Text,
-    Title, TouchableRipple
-} from "react-native-paper"
+import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer"
+import { Caption, Paragraph, Title } from "react-native-paper"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { PreferencesContext } from "../context/PreferencesContext"
 import Animated from "react-native-reanimated"
 import { AuthContext } from "../context/AuthContext"
 import useTheme from "../hooks/useTheme"

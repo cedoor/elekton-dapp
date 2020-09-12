@@ -4,13 +4,19 @@ import { AuthContext } from "../context/AuthContext"
 import { Button, Portal, Snackbar } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import Scanner from "../components/Scanner"
+import { StackNavigationProp } from "@react-navigation/stack"
+import { AuthNavigatorParamList } from "../Types"
 
-export default function Login () {
+type Props = {
+    navigation?: StackNavigationProp<AuthNavigatorParamList>
+}
+
+export default function Login (props: Props) {
     const [_scannerVisibility, setScannerVisibility] = useState(false)
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_snackBarMessage, setSnackBarMessage] = useState("")
 
-    const { signIn, signUp } = useContext(AuthContext)
+    const { signIn } = useContext(AuthContext)
 
     const theme = useTheme()
 
@@ -42,7 +48,7 @@ export default function Login () {
                 <Button style={styles.button} mode="outlined" onPress={openScanner}>
                         Sign In
                 </Button>
-                <Button style={styles.button} mode="outlined" onPress={() => signUp()}>
+                <Button style={styles.button} mode="outlined" onPress={() => props.navigation?.navigate("SignUp")}>
                         Sign Up
                 </Button>
             </View>
