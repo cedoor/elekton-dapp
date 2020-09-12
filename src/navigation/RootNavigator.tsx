@@ -1,15 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import DrawerNavigator from "./DrawerNavigator"
 import AuthNavigator from "./AuthNavigator"
+import { AuthContext } from "../context/AuthContext"
 
 const RootStack = createStackNavigator()
 
-type Props = {
-    userToken: string | null
-}
+export default function RootNavigator () {
+    const { userToken } = useContext(AuthContext)
 
-export default function RootNavigator ({ userToken }: Props) {
     return (
         <RootStack.Navigator headerMode="none">
             { userToken ? (

@@ -35,10 +35,9 @@ const CombinedDarkTheme = {
 }
 
 export default function Main () {
-    const colorScheme = useColorScheme()
-    const [themeType, setTheme] = useState<"light" | "dark">(
-        colorScheme === "dark" ? "dark" : "light"
-    )
+    const [userToken, setUserToken] = useState<string | null>(null)
+    const [themeType, setTheme] = useState<"light" | "dark">("light")
+
     const combinedTheme = themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme
 
     const toggleTheme = () => {
@@ -47,16 +46,15 @@ export default function Main () {
 
     const preferences = useMemo(
         () => ({
-            toggleTheme,
-            themeType
+            themeType,
+            toggleTheme
         }),
         [themeType]
     )
 
-    const [userToken, setUserToken] = useState<string | null>("")
-
     const authContext = useMemo(
         () => ({
+            userToken,
             signIn () {
                 setUserToken("hello")
             },
@@ -67,7 +65,7 @@ export default function Main () {
                 setUserToken(null)
             }
         }),
-        []
+        [userToken]
     )
 
     return (
@@ -76,7 +74,7 @@ export default function Main () {
                 <StatusBar style={themeType === "light" ? "dark" : "light"} />
                 <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
                     <PreferencesContext.Provider value={preferences}>
-                        <RootNavigator userToken={userToken} />
+                        <RootNavigator/>
                     </PreferencesContext.Provider>
                 </NavigationContainer>
             </PaperProvider>
