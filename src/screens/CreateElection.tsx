@@ -6,7 +6,7 @@ import DynamicList from "../components/DynamicList"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import * as storage from "../utils/storage"
 import { StackNavigationProp } from "@react-navigation/stack"
-import CTextInput from "../components/CTextInput"
+import TextInput from "../components/TextInput"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
@@ -18,20 +18,18 @@ export function CreateElection (props: Props) {
     const [_startDate, setStartDate] = useState<Date | null>(null)
     const [_endDate, setEndDate] = useState<Date | null>(null)
     const [_options, setOptions] = useState<string[] | null>(null)
-    const [_snackBarVisibility, setSnackBarVisibility] = React.useState(false)
-    const [_dialogVisibility, setDialogVisibility] = React.useState(false)
+    const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
+    const [_dialogVisibility, setDialogVisibility] = useState(false)
 
-    const hideSnackBar = () => setSnackBarVisibility(false)
+    const closeSnackBar = () => setSnackBarVisibility(false)
+    const openSnackBar = () => setSnackBarVisibility(true)
 
-    const hideDialog = () => setDialogVisibility(false)
-
+    const closeDialog = () => setDialogVisibility(false)
     const showDialog = () => {
         if (formHasErrors()) {
-            setSnackBarVisibility(true)
+            openSnackBar()
 
-            console.log(_title, _description, _startDate, _endDate, _options)
-
-            setTimeout(() => hideSnackBar(), Snackbar.DURATION_MEDIUM)
+            setTimeout(() => closeSnackBar(), Snackbar.DURATION_MEDIUM)
 
             return
         }
@@ -55,7 +53,7 @@ export function CreateElection (props: Props) {
 
         console.log(election)
 
-        hideDialog()
+        closeDialog()
         props.navigation?.navigate("Elections")
     }
 
@@ -68,14 +66,14 @@ export function CreateElection (props: Props) {
         <ScrollView>
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
-                    <CTextInput label="Title" 
+                    <TextInput label="Title"
                         onBlurText={setTitle}
                         errors={(title) =>
                             title.length === 0 ? "Title is required" :
                                 title.length > 30 ? "Title is too long" : ""
                         }
                         maxLength={30}/>
-                    <CTextInput label="Description"
+                    <TextInput label="Description"
                         onBlurText={setDescription}
                         errors={(description) =>
                             description.length === 0 ? "Description is required" :
@@ -113,23 +111,23 @@ export function CreateElection (props: Props) {
                 </Button>
 
                 <Portal>
-                    <Dialog visible={_dialogVisibility} onDismiss={hideDialog}>
+                    <Dialog visible={_dialogVisibility} onDismiss={closeDialog}>
                         <Dialog.Title>Election creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this election?</Subheading>
                         </Dialog.Content>
                         <Dialog.Actions>
                             <Button onPress={createElection}>Yes</Button>
-                            <Button onPress={hideDialog}>No</Button>
+                            <Button onPress={closeDialog}>No</Button>
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar
-                        visible={_snackBarVisibility}
-                        onDismiss={hideSnackBar}
+                    <Snackbar visible={_snackBarVisibility}
+                        duration={Snackbar.DURATION_MEDIUM}
+                        onDismiss={closeSnackBar}
                         action={{
                             label: "Ok",
-                            onPress: hideSnackBar
+                            onPress: closeSnackBar
                         }}>
                         Fill out all the fields or fix the errors!
                     </Snackbar>

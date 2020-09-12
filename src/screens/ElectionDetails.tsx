@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import { RouteProp } from "@react-navigation/native"
 import { ElectionNavigatorParamList } from "../Types"
@@ -21,7 +21,7 @@ type Props = {
 export function ElectionDetails (props: Props) {
     const theme = useTheme()
 
-    const [_option, setOption] = React.useState<string>("")
+    const [_option, setOption] = useState<string>("")
 
     const vote = () => {
         console.log(Number(_option))

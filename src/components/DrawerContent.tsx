@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { StyleSheet, View } from "react-native"
 import {
     DrawerContentComponentProps,
@@ -22,7 +22,7 @@ export default function DrawerContent (props: DrawerContentComponentProps) {
         outputRange: [-100, -85, -70, -45, 0]
     })
 
-    const { signOut } = React.useContext(AuthContext)
+    const { signOut } = useContext(AuthContext)
 
     return (
         <DrawerContentScrollView {...props} style={{backgroundColor: theme.colors.background}}>

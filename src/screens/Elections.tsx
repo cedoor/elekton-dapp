@@ -1,8 +1,8 @@
-import * as React from "react"
+import React, { useCallback, useState } from "react"
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { FAB, Text } from "react-native-paper"
+import { FAB } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
 import { elections } from "../data/elections"
 import useTheme from "../hooks/useTheme"
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function Elections (props: Props) {
-    const [_refreshing, setRefreshing] = React.useState(false)
+    const [_refreshing, setRefreshing] = useState(false)
 
     const theme = useTheme()
 
@@ -21,7 +21,7 @@ export default function Elections (props: Props) {
         props.navigation?.push("ElectionDetails", { ...election })
     }
 
-    const updateElections = React.useCallback(() => {
+    const updateElections = useCallback(() => {
         setRefreshing(true)
 
         setTimeout(() => setRefreshing(false), 2000)

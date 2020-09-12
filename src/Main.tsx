@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo, useState } from "react"
 import {
     DarkTheme as NavigationDarkTheme,
     DefaultTheme as NavigationDefaultTheme,
@@ -36,7 +36,7 @@ const CombinedDarkTheme = {
 
 export default function Main () {
     const colorScheme = useColorScheme()
-    const [themeType, setTheme] = React.useState<"light" | "dark">(
+    const [themeType, setTheme] = useState<"light" | "dark">(
         colorScheme === "dark" ? "dark" : "light"
     )
     const combinedTheme = themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme
@@ -45,7 +45,7 @@ export default function Main () {
         setTheme((themeType) => (themeType === "light" ? "dark" : "light"))
     }
 
-    const preferences = React.useMemo(
+    const preferences = useMemo(
         () => ({
             toggleTheme,
             themeType
@@ -53,9 +53,9 @@ export default function Main () {
         [themeType]
     )
 
-    const [userToken, setUserToken] = React.useState<string | null>("hello")
+    const [userToken, setUserToken] = useState<string | null>("")
 
-    const authContext = React.useMemo(
+    const authContext = useMemo(
         () => ({
             signIn () {
                 setUserToken("hello")

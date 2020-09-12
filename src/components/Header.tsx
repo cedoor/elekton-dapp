@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useState } from "react"
 import { Appbar, Menu } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import { StackHeaderProps } from "@react-navigation/stack"
@@ -6,9 +6,9 @@ import { StyleSheet } from "react-native"
 import { PreferencesContext } from "../context/PreferencesContext"
 
 export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
-    const [visible, setVisible] = React.useState(false)
+    const [visible, setVisible] = useState(false)
 
-    const { themeType, toggleTheme } = React.useContext(PreferencesContext)
+    const { themeType, toggleTheme } = useContext(PreferencesContext)
     const theme = useTheme()
 
     const openMenu = () => setVisible(true)

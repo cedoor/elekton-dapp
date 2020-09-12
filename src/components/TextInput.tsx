@@ -1,5 +1,5 @@
-import React from "react"
-import { HelperText, TextInput } from "react-native-paper"
+import React, { useState } from "react"
+import { HelperText, TextInput as OriginalTextInput } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import { View } from "react-native"
 
@@ -11,14 +11,14 @@ type Props = {
     errors?: (text: string) => string
 }
 
-export default function CTextInput ({ label, maxLength, onBlurText, multiline, errors }: Props) {
-    const [_text, setText] = React.useState({value: "", error: ""})
+export default function TextInput ({ label, maxLength, onBlurText, multiline, errors }: Props) {
+    const [_text, setText] = useState({value: "", error: ""})
 
     const theme = useTheme()
 
     return (
         <View>
-            <TextInput
+            <OriginalTextInput
                 style={{ backgroundColor: theme.colors.background }}
                 label={label}
                 value={_text.value}
