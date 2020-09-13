@@ -8,15 +8,15 @@ import { MaterialIcons } from "@expo/vector-icons"
 import { AuthContext } from "../context/AuthContext"
 
 export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
-    const [visible, setVisible] = useState(false)
+    const [_menuVisibility, setMenuVisibility] = useState(false)
 
     const { userToken } = useContext(AuthContext)
     const { themeType, toggleTheme } = useContext(PreferencesContext)
 
     const theme = useTheme()
 
-    const openMenu = () => setVisible(true)
-    const closeMenu = () => setVisible(false)
+    const openMenu = () => setMenuVisibility(true)
+    const closeMenu = () => setMenuVisibility(false)
 
     return (
         <Appbar.Header
@@ -27,7 +27,7 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
             <Appbar.Content title={scene.descriptor.options.title} />
 
             <Menu contentStyle={{backgroundColor: theme.colors.surface}}
-                visible={visible}
+                visible={_menuVisibility}
                 onDismiss={closeMenu}
                 anchor={
                     <Appbar.Action color={theme.colors.text}
@@ -35,12 +35,12 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
                 }>
                 <Menu.Item onPress={toggleTheme} 
                     title={themeType === "light" ? "Dark theme" : "Light theme"}
-                    titleStyle={styles.menuItemTitle}
+                    titleStyle={styles.item}
                     icon="theme-light-dark"/>
                 {!userToken &&
                     <Menu.Item onPress={() => console.log("Pressed")}
                         title="Verify elections"
-                        titleStyle={styles.menuItemTitle}
+                        titleStyle={styles.item}
                         icon={({ color, size }) => (
                             <MaterialIcons name="verified-user" color={color} size={size} />
                         )}/>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     header: {
         elevation: 0
     },
-    menuItemTitle: {
+    item: {
         marginLeft: -10
     }
 })
