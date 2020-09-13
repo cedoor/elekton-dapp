@@ -5,8 +5,8 @@ import { Button, Dialog, Portal, Snackbar, Subheading } from "react-native-paper
 import * as storage from "../utils/storage"
 import { User } from "../Types"
 import { AuthContext } from "../context/AuthContext"
-import useTheme from "../hooks/useTheme"
 import Picker from "../components/Picker"
+import QRCodeViewer from "../components/QRCodeViewer"
 
 export default function SignUp () {
     const [_name, setName] = useState<string | null>(null)
@@ -15,10 +15,9 @@ export default function SignUp () {
     const [_role, setRole] = useState(0)
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_dialogVisibility, setDialogVisibility] = useState(false)
+    const [_QRCodeViewerVisibility, setQRCodeViewerVisibility] = useState(false)
 
     const { signUp } = useContext(AuthContext)
-
-    const theme = useTheme()
 
     const closeSnackBar = () => setSnackBarVisibility(false)
     const openSnackBar = () => setSnackBarVisibility(true)
@@ -28,15 +27,18 @@ export default function SignUp () {
         if (formHasErrors()) {
             openSnackBar()
 
-            setTimeout(() => closeSnackBar(), Snackbar.DURATION_MEDIUM)
-
             return
         }
 
         setDialogVisibility(true)
     }
 
+    const closeQRCodeViewer = () => setQRCodeViewerVisibility(false)
+    const openQRCodeViewer = () => setQRCodeViewerVisibility(true)
+
     const createUser = async () => {
+        closeDialog()
+
         const users = ((await storage.getItem("@users")) || []) as []
         const user: User = {
             name: _name as string,
@@ -47,8 +49,7 @@ export default function SignUp () {
 
         await storage.setItem("@users", [user, ...users])
 
-        closeDialog()
-        signUp()
+        openQRCodeViewer()
     }
 
     const formHasErrors = () =>
@@ -87,6 +88,9 @@ export default function SignUp () {
                 </Button>
 
                 <Portal>
+                    <QRCodeViewer value={"cuaoe"} visible={_QRCodeViewerVisibility} onDismiss={closeQRCodeViewer}
+                        buttons={[{ title: "Sign Up", onPress: () => signUp() }]}/>
+
                     <Dialog visible={_dialogVisibility} onDismiss={closeDialog}>
                         <Dialog.Title>User creation</Dialog.Title>
                         <Dialog.Content>
