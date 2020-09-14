@@ -1,12 +1,13 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { FAB } from "react-native-paper"
+import { FAB, Portal } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
 import { elections } from "../data/elections"
 import useTheme from "../hooks/useTheme"
 import { MaterialIcons } from "@expo/vector-icons"
+import PinKeyboard from "../components/PinKeyboard"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
@@ -14,6 +15,7 @@ type Props = {
 
 export default function Elections (props: Props) {
     const [_refreshing, setRefreshing] = useState(false)
+    const [_PinCodeVisibility, setPinCodeVisibility] = useState(false)
 
     const theme = useTheme()
 
@@ -26,6 +28,9 @@ export default function Elections (props: Props) {
 
         setTimeout(() => setRefreshing(false), 2000)
     }, [])
+
+    const closePinCode = () => setPinCodeVisibility(false)
+    const openPinCode = () => setPinCodeVisibility(true)
 
     return (
         <View style={styles.container}>
@@ -58,6 +63,10 @@ export default function Elections (props: Props) {
                     <MaterialIcons name="create" color={color} size={size} />
                 )}
             />
+
+            <Portal>
+                <PinKeyboard visible={_PinCodeVisibility} onDismiss={closePinCode} />
+            </Portal>
         </View>
     )
 }

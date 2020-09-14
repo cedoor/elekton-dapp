@@ -33,7 +33,7 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
     return (
         <View style={styles.container}>
             <View style={styles.items}>
-                <TouchableRipple style={styles.button} onPress={() => showDatePicker("date")}>
+                <TouchableRipple style={styles.signOutButton} onPress={() => showDatePicker("date")}>
                     <List.Item
                         style={styles.item}
                         title="Day"
@@ -47,7 +47,7 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
                         )}
                     />
                 </TouchableRipple>
-                <TouchableRipple style={styles.button} onPress={() => showDatePicker("time")}>
+                <TouchableRipple style={styles.signOutButton} onPress={() => showDatePicker("time")}>
                     <List.Item
                         style={styles.item}
                         title="Time"
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row"
     },
-    button: {
+    signOutButton: {
         flex: 1
     },
     item: {

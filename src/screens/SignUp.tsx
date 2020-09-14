@@ -21,8 +21,6 @@ export default function SignUp () {
 
     const { signUp } = useContext(AuthContext)
 
-    const theme = useTheme()
-
     const closeSnackBar = () => setSnackBarVisibility(false)
     const openSnackBar = () => setSnackBarVisibility(true)
 

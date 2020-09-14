@@ -35,7 +35,7 @@ const CombinedDarkTheme = {
 }
 
 export default function Main () {
-    const [userToken, setUserToken] = useState<string | null>(null)
+    const [userToken, setUserToken] = useState<string | null>("euao")
     const [themeType, setTheme] = useState<"light" | "dark">("light")
 
     const combinedTheme = themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme

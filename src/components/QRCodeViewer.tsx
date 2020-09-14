@@ -36,9 +36,9 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
                 Your private key has been generated, in the future you will need to
                 scan the related qr code to login, backup it and keep it safe!
             </Text>
-            <Button style={styles.button} mode="outlined" onPress={backupQRCode}>Backup</Button>
+            <Button style={styles.signOutButton} mode="outlined" onPress={backupQRCode}>Backup</Button>
             {buttons && buttons.map((button, index) =>
-                <Button key={index} style={styles.button} mode="outlined" onPress={button.onPress}>
+                <Button key={index} style={styles.signOutButton} mode="outlined" onPress={button.onPress}>
                     {button.title}
                 </Button>
             )}
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 25
     },
-    button: {
+    signOutButton: {
         marginBottom: 10,
         width: 200
     }
