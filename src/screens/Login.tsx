@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
 import { AuthContext } from "../context/AuthContext"
-import { Button, Portal, Snackbar } from "react-native-paper"
+import { Button, Portal } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import Scanner from "../components/Scanner"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { AuthNavigatorParamList } from "../Types"
+import Snackbar from "../components/Snackbar"
 
 type Props = {
     navigation?: StackNavigationProp<AuthNavigatorParamList>
@@ -55,12 +56,7 @@ export default function Login (props: Props) {
 
             <Portal>
                 <Scanner visible={_scannerVisibility} onDismiss={closeScanner} onError={openSnackBar}/>
-
-                <Snackbar visible={_snackBarVisibility}
-                    duration={Snackbar.DURATION_MEDIUM} onDismiss={closeSnackBar}
-                    action={{ label: "Ok", onPress: closeSnackBar }}>
-                    {_snackBarMessage}
-                </Snackbar>
+                <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar} message={_snackBarMessage}/>
             </Portal>
         </View>
     )

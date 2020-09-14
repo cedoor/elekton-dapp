@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import TextInput from "../components/TextInput"
-import { Button, Dialog, Portal, Snackbar, Subheading } from "react-native-paper"
+import { Button, Dialog, Portal, Subheading, Text } from "react-native-paper"
 import * as storage from "../utils/storage"
 import { User } from "../Types"
 import { AuthContext } from "../context/AuthContext"
 import Picker from "../components/Picker"
 import QRCodeViewer from "../components/QRCodeViewer"
+import useTheme from "../hooks/useTheme"
+import Snackbar from "../components/Snackbar"
 
 export default function SignUp () {
     const [_name, setName] = useState<string | null>(null)
@@ -18,6 +20,8 @@ export default function SignUp () {
     const [_QRCodeViewerVisibility, setQRCodeViewerVisibility] = useState(false)
 
     const { signUp } = useContext(AuthContext)
+
+    const theme = useTheme()
 
     const closeSnackBar = () => setSnackBarVisibility(false)
     const openSnackBar = () => setSnackBarVisibility(true)
@@ -102,15 +106,8 @@ export default function SignUp () {
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={_snackBarVisibility}
-                        duration={Snackbar.DURATION_MEDIUM}
-                        onDismiss={closeSnackBar}
-                        action={{
-                            label: "Ok",
-                            onPress: closeSnackBar
-                        }}>
-                        Fill out all the fields or fix the errors!
-                    </Snackbar>
+                    <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar}
+                        message="Fill out all the fields or fix the errors!"/>
                 </Portal>
             </View>
         </ScrollView>

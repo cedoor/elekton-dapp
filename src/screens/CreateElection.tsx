@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
-import { Button, Dialog, Portal, Snackbar, Subheading } from "react-native-paper"
+import { Button, Dialog, Portal, Subheading } from "react-native-paper"
 import DatePicker from "../components/DatePicker"
 import DynamicList from "../components/DynamicList"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import * as storage from "../utils/storage"
 import { StackNavigationProp } from "@react-navigation/stack"
 import TextInput from "../components/TextInput"
+import Snackbar from "../components/Snackbar"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
@@ -28,8 +29,6 @@ export function CreateElection (props: Props) {
     const showDialog = () => {
         if (formHasErrors()) {
             openSnackBar()
-
-            setTimeout(() => closeSnackBar(), Snackbar.DURATION_MEDIUM)
 
             return
         }
@@ -120,15 +119,8 @@ export function CreateElection (props: Props) {
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={_snackBarVisibility}
-                        duration={Snackbar.DURATION_MEDIUM}
-                        onDismiss={closeSnackBar}
-                        action={{
-                            label: "Ok",
-                            onPress: closeSnackBar
-                        }}>
-                        Fill out all the fields or fix the errors!
-                    </Snackbar>
+                    <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar} 
+                        message="Fill out all the fields or fix the errors!"/>
                 </Portal>
             </View>
         </ScrollView>
