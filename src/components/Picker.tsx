@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
-import { IconButton, Menu, Text } from "react-native-paper"
+import { IconButton, Menu, Text, TouchableRipple } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 
 type Props = {
@@ -23,20 +23,22 @@ export default function Picker ({ selectedValue, onValueChange, items }: Props) 
     }
 
     return (
-        <View style={[{borderBottomColor: theme.colors.border}, styles.container]}>
-            <View style={styles.labelContainer}>
-                <Text style={styles.label}>{items[selectedValue]}</Text>
+        <TouchableRipple onPress={openMenu}>
+            <View style={[{borderBottomColor: theme.colors.border}, styles.container]}>
+                <View style={styles.labelContainer}>
+                    <Text style={styles.label}>{items[selectedValue]}</Text>
+                </View>
+                <Menu contentStyle={{backgroundColor: theme.colors.surface}}
+                    visible={_menuVisibility}
+                    onDismiss={closeMenu}
+                    anchor={<IconButton icon="menu-down"/>}>
+                    {items.map((item, index) =>
+                        <Menu.Item key={item} title={item} titleStyle={styles.item}
+                            onPress={() => selectValue(index)}/>
+                    )}
+                </Menu>
             </View>
-            <Menu contentStyle={{backgroundColor: theme.colors.surface}}
-                visible={_menuVisibility}
-                onDismiss={closeMenu}
-                anchor={<IconButton icon="menu-down" onPress={openMenu}/>}>
-                {items.map((item, index) =>
-                    <Menu.Item key={item} title={item} titleStyle={styles.item}
-                        onPress={() => selectValue(index)}/>
-                )}
-            </Menu>
-        </View>
+        </TouchableRipple>
     )
 }
 
