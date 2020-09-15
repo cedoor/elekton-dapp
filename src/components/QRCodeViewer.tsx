@@ -28,17 +28,17 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
             backgroundColor: theme.colors.background,
             borderRadius: theme.roundness
         }, styles.container]}>
-            <View style={{borderWidth: 0, borderColor: theme.colors.border}}>
-                <QRCode backgroundColor="transparent" color={theme.colors.text} size={200} 
-                    value={value} getRef={(ref) => (qrCodeRef = ref)}/>
-            </View>
             <Text style={styles.message}>
                 Your private key has been generated, in the future you will need to
                 scan the related qr code to login, backup it and keep it safe!
             </Text>
-            <Button style={styles.signOutButton} mode="outlined" onPress={backupQRCode}>Backup</Button>
+            <View style={styles.qrCode}>
+                <QRCode backgroundColor="transparent" color={theme.colors.text} size={210}
+                    value={value} getRef={(ref) => (qrCodeRef = ref)}/>
+            </View>
+            <Button style={styles.button} mode="outlined" onPress={backupQRCode}>Backup</Button>
             {buttons && buttons.map((button, index) =>
-                <Button key={index} style={styles.signOutButton} mode="outlined" onPress={button.onPress}>
+                <Button key={index} style={styles.button} mode="outlined" onPress={button.onPress}>
                     {button.title}
                 </Button>
             )}
@@ -49,16 +49,20 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
-        paddingTop: 35,
+        paddingTop: 25,
         paddingBottom: 20,
         marginHorizontal: 20
     },
     message: {
-        paddingVertical: 20,
+        textAlign: "center",
+        paddingBottom: 20,
         paddingHorizontal: 25
     },
-    signOutButton: {
+    qrCode: {
+        paddingBottom: 20
+    },
+    button: {
         marginBottom: 10,
-        width: 200
+        width: 210
     }
 })

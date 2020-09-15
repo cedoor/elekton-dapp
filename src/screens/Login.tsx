@@ -27,11 +27,11 @@ export default function Login (props: Props) {
         setSnackBarVisibility(true)
     }
 
-    const closeScanner = (data?: string) => {
+    const closeScanner = (username?: string) => {
         setScannerVisibility(false)
 
-        if (data) {
-            signIn()
+        if (username) {
+            signIn(username)
         }
     }
     const openScanner = () => setScannerVisibility(true)
@@ -46,10 +46,11 @@ export default function Login (props: Props) {
                 <Text style={[{ color: theme.colors.primary }, styles.logoText]}>Elekton</Text>
             </View>
             <View>
-                <Button style={styles.signOutButton} mode="outlined" onPress={openScanner}>
+                <Button style={styles.button} mode="outlined" onPress={openScanner}>
                         Sign In
                 </Button>
-                <Button style={styles.signOutButton} mode="outlined" onPress={() => props.navigation?.navigate("SignUp")}>
+                <Button style={styles.button} mode="outlined"
+                    onPress={() => props.navigation?.navigate("SignUp")}>
                         Sign Up
                 </Button>
             </View>
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         paddingVertical: 40,
         flex: 1
     },
-    signOutButton: {
+    button: {
         marginBottom: 10,
         width: 250
     },

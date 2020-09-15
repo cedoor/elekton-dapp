@@ -20,9 +20,11 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
     const theme = useTheme()
 
     const updateDate = (event: Event, date: Date = _date.value) => {
+        const error = errors ? errors(date) : ""
+
         setDatePickerVisibility(Platform.OS === "ios")
-        setDate({value: date, error: errors ? errors(date) : ""})
-        onChange(!_date.error ? date : null)
+        setDate({value: date, error})
+        onChange(!error ? date : null)
     }
 
     const showDatePicker = (mode: "date" | "time") => {
@@ -33,7 +35,7 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
     return (
         <View style={styles.container}>
             <View style={styles.items}>
-                <TouchableRipple style={styles.signOutButton} onPress={() => showDatePicker("date")}>
+                <TouchableRipple style={styles.button} onPress={() => showDatePicker("date")}>
                     <List.Item
                         style={styles.item}
                         title="Day"
@@ -47,11 +49,11 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
                         )}
                     />
                 </TouchableRipple>
-                <TouchableRipple style={styles.signOutButton} onPress={() => showDatePicker("time")}>
+                <TouchableRipple style={styles.button} onPress={() => showDatePicker("time")}>
                     <List.Item
                         style={styles.item}
                         title="Time"
-                        description={format(_date.value, "hh:mm a")}
+                        description={format(_date.value, "HH:mm")}
                         left={() => (
                             <List.Icon
                                 icon={({ color, size }) => (
@@ -72,7 +74,6 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
                 <DateTimePicker
                     value={_date.value}
                     mode={_datePickerMode}
-                    is24Hour={false}
                     display="default"
                     onChange={updateDate}
                 />
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row"
     },
-    signOutButton: {
+    button: {
         flex: 1
     },
     item: {

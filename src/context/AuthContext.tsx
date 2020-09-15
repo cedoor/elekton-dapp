@@ -1,21 +1,18 @@
 import React from "react"
+import { User } from "../Types"
 
 type AuthContextType = {
-    userToken: string | null
-    signIn: () => void
-    signUp: () => void
-    signOut: () => void
+    user: User | null
+    signIn: (username: string) => Promise<void>
+    signUp: (user: User) => Promise<void>
+    signOut: () => Promise<void>
+    unlockUser: (pinCode: string) => void
 }
 
 export const AuthContext = React.createContext<AuthContextType>({
-    userToken: null,
-    signIn () {
-        return 
-    },
-    signUp () {
-        return 
-    },
-    signOut () {
-        return 
-    }
+    user: null,
+    signIn: () => Promise.resolve(),
+    signUp: () => Promise.resolve(),
+    signOut: () => Promise.resolve(),
+    unlockUser: () => undefined
 })

@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import TextInput from "../components/TextInput"
-import { Button, Dialog, Portal, Subheading, Text } from "react-native-paper"
-import * as storage from "../utils/storage"
-import { User } from "../Types"
+import { Button, Dialog, Portal, Subheading } from "react-native-paper"
 import { AuthContext } from "../context/AuthContext"
 import Picker from "../components/Picker"
 import QRCodeViewer from "../components/QRCodeViewer"
-import useTheme from "../hooks/useTheme"
 import Snackbar from "../components/Snackbar"
+import PinKeyboard from "../components/PinKeyboard"
 
 export default function SignUp () {
     const [_name, setName] = useState<string | null>(null)
     const [_surname, setSurname] = useState<string | null>(null)
     const [_username, setUsername] = useState<string | null>(null)
     const [_role, setRole] = useState(0)
+    const [_pinCode, setPinCode] = useState<string | null>(null)
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_dialogVisibility, setDialogVisibility] = useState(false)
     const [_QRCodeViewerVisibility, setQRCodeViewerVisibility] = useState(false)
+    const [_PinCodeVisibility, setPinCodeVisibility] = useState(false)
 
     const { signUp } = useContext(AuthContext)
 
@@ -38,20 +38,16 @@ export default function SignUp () {
     const closeQRCodeViewer = () => setQRCodeViewerVisibility(false)
     const openQRCodeViewer = () => setQRCodeViewerVisibility(true)
 
-    const createUser = async () => {
-        closeDialog()
-
-        const users = ((await storage.getItem("@users")) || []) as []
-        const user: User = {
-            name: _name as string,
-            surname: _surname as string,
-            username: _username as string,
-            role: _role as number
-        }
-
-        await storage.setItem("@users", [user, ...users])
-
+    const openPinCode = () => setPinCodeVisibility(true)
+    const closePinCode = async (code: string) => {
+        setPinCodeVisibility(false)
+        setPinCode(code)
         openQRCodeViewer()
+    }
+
+    const createPinCode = async () => {
+        closeDialog()
+        openPinCode()
     }
 
     const formHasErrors = () =>
@@ -90,8 +86,17 @@ export default function SignUp () {
                 </Button>
 
                 <Portal>
-                    <QRCodeViewer value={"cuaoe"} visible={_QRCodeViewerVisibility} onDismiss={closeQRCodeViewer}
-                        buttons={[{ title: "Sign Up", onPress: () => signUp() }]}/>
+                    <QRCodeViewer value={_username as string} visible={_QRCodeViewerVisibility} 
+                        onDismiss={closeQRCodeViewer}
+                        buttons={[{ title: "Sign Up", onPress: () => signUp({
+                            name: _name as string,
+                            surname: _surname as string,
+                            username: _username as string,
+                            role: _role as number,
+                            pinCode: _pinCode as string
+                        }) }]}/>
+
+                    <PinKeyboard visible={_PinCodeVisibility} onDismiss={closePinCode} />
 
                     <Dialog visible={_dialogVisibility} onDismiss={closeDialog}>
                         <Dialog.Title>User creation</Dialog.Title>
@@ -100,7 +105,7 @@ export default function SignUp () {
                         </Dialog.Content>
                         <Dialog.Actions>
                             <Button onPress={closeDialog}>No</Button>
-                            <Button onPress={createUser}>Yes</Button>
+                            <Button onPress={createPinCode}>Yes</Button>
                         </Dialog.Actions>
                     </Dialog>
 

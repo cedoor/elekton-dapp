@@ -7,11 +7,11 @@ import { AuthContext } from "../context/AuthContext"
 const RootStack = createStackNavigator()
 
 export default function RootNavigator () {
-    const { userToken } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
 
     return (
         <RootStack.Navigator headerMode="none">
-            { userToken ? (
+            { user ? (
                 <RootStack.Screen
                     name="App"
                     component={DrawerNavigator}

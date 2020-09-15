@@ -11,11 +11,16 @@ export type AuthNavigatorParamList = {
     SignUp: undefined
 }
 
+export type Preferences = {
+    themeType: "light" | "dark"
+}
+
 export type User = {
     name: string
     surname: string
     username: string
     role: number
+    pinCode?: string
 }
 
 export type Election = {

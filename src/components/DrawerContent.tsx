@@ -8,14 +8,14 @@ import { AuthContext } from "../context/AuthContext"
 import useTheme from "../hooks/useTheme"
 
 export default function DrawerContent (props: DrawerContentComponentProps) {
+    const {user, signOut} = useContext(AuthContext)
+
     const theme = useTheme()
 
     const translateX = Animated.interpolate(props.progress, {
         inputRange: [0, 0.5, 0.7, 0.8, 1],
         outputRange: [-100, -85, -70, -45, 0]
     })
-
-    const { signOut } = useContext(AuthContext)
 
     return (
         <DrawerContentScrollView {...props} style={{backgroundColor: theme.colors.background}}>
@@ -26,14 +26,8 @@ export default function DrawerContent (props: DrawerContentComponentProps) {
                 }
             ]}>
                 <View style={styles.userInfoSection}>
-                    <Title style={styles.title}>Pinco Pallino</Title>
-                    <Caption style={styles.caption}>@pinco</Caption>
-                    <View style={styles.row}>
-                        <View style={styles.section}>
-                            <Paragraph style={[styles.paragraph, styles.caption]}>25</Paragraph>
-                            <Caption style={styles.caption}>Available elections</Caption>
-                        </View>
-                    </View>
+                    <Title style={styles.title}>{user?.name} {user?.surname}</Title>
+                    <Caption style={styles.caption}>@{user?.username}</Caption>
                 </View>
                 <DrawerItem style={[{borderTopColor: theme.colors.border}, styles.drawerItem]}
                     labelStyle={{color: theme.colors.text}}
@@ -62,16 +56,6 @@ const styles = StyleSheet.create({
     caption: {
         fontSize: 14,
         lineHeight: 14
-    },
-    row: {
-        marginTop: 20,
-        flexDirection: "row",
-        alignItems: "center"
-    },
-    section: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginRight: 15
     },
     paragraph: {
         fontWeight: "bold",

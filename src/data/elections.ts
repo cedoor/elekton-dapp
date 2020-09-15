@@ -1,6 +1,6 @@
 import { Election } from "../Types"
 
-export const elections: Election[] = [
+export const _elections: Election[] = [
     {
         id: 1,
         title: "Parliamentary cut",

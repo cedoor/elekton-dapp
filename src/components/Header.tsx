@@ -10,7 +10,7 @@ import { AuthContext } from "../context/AuthContext"
 export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
     const [_menuVisibility, setMenuVisibility] = useState(false)
 
-    const { userToken } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const { themeType, toggleTheme } = useContext(PreferencesContext)
 
     const theme = useTheme()
@@ -21,7 +21,7 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
     return (
         <Appbar.Header
             style={[{backgroundColor: theme.colors.background}, styles.header]}>
-            {!previous && userToken && <Appbar.Action onPress={navigation.openDrawer} icon="menu"/>}
+            {!previous && user && <Appbar.Action onPress={navigation.openDrawer} icon="menu"/>}
             {previous && <Appbar.BackAction onPress={navigation.goBack} />}
 
             <Appbar.Content title={scene.descriptor.options.title} />
@@ -37,7 +37,7 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
                     title={themeType === "light" ? "Dark theme" : "Light theme"}
                     titleStyle={styles.item}
                     icon="theme-light-dark"/>
-                {!userToken &&
+                {!user &&
                     <Menu.Item onPress={() => console.log("Pressed")}
                         title="Verify elections"
                         titleStyle={styles.item}

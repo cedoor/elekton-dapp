@@ -4,33 +4,46 @@ import useTheme from "../hooks/useTheme"
 import { Button, Modal, Text, TouchableRipple } from "react-native-paper"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { AuthContext } from "../context/AuthContext"
+import { User } from "../Types"
+import * as storage from "../utils/storage"
 
 type Props = {
     visible: boolean
-    onDismiss: (code: string) => void
-    message?: string
+    onDismiss: (pinCode: string) => void
 }
 
-export default function PinKeyboard ({ visible, onDismiss, message = "Unlock your account!" }: Props) {
-    const [_code, setCode] = useState("")
+export default function PinKeyboard ({ visible, onDismiss }: Props) {
+    const [_pinCode, setPinCode] = useState("")
+    const [_wrongCode, setWrongCode] = useState(false)
 
-    const {signOut} = useContext(AuthContext)
+    const {signOut, user} = useContext(AuthContext)
 
     const theme = useTheme()
 
     const addDigit = (digit: number) => {
-        if (_code.length < 6) {
-            setCode(_code + digit)
+        if (_pinCode.length < 6) {
+            setPinCode(_pinCode + digit)
+            setWrongCode(false)
         }
     }
 
     const removeDigit = () => {
-        setCode(_code.slice(0, -1))
+        setPinCode(_pinCode.slice(0, -1))
+        setWrongCode(false)
     }
 
-    const closePinKeyboard = () => {
-        onDismiss(_code)
-        setCode("")
+    const checkCode = async () => {
+        if (user) {
+            const cachedUser: User = await storage.getItem("@user")
+            
+            if (_pinCode !== cachedUser.pinCode) {
+                setWrongCode(true)
+                return
+            }
+        }
+
+        onDismiss(_pinCode)
+        setPinCode("")
     }
 
     return (
@@ -39,9 +52,11 @@ export default function PinKeyboard ({ visible, onDismiss, message = "Unlock you
                 backgroundColor: theme.colors.background,
                 borderRadius: theme.roundness
             }, styles.container]}>
-                <Text style={styles.message}>{message}</Text>
-                <Text style={[{borderColor: theme.colors.border}, styles.code]}>
-                    {"•".repeat(_code.length)}
+                <Text style={styles.message}>
+                    {!user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}
+                </Text>
+                <Text style={[{borderColor: _wrongCode ? theme.colors.error : theme.colors.border}, styles.code]}>
+                    {"•".repeat(_pinCode.length)}
                 </Text>
                 <View style={[{borderColor: theme.colors.border}, styles.keyboard]}>
                     <View style={[{borderColor: theme.colors.border}, styles.keyboardRow]}>
@@ -92,16 +107,16 @@ export default function PinKeyboard ({ visible, onDismiss, message = "Unlock you
                             <MaterialCommunityIcons name="backspace" size={20} color={theme.colors.text} />
                         </TouchableRipple>
                         <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(8)}>
+                            onPress={() => addDigit(0)}>
                             <Text>0</Text>
                         </TouchableRipple>
                         <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={closePinKeyboard}>
+                            onPress={checkCode}>
                             <MaterialCommunityIcons name="check" size={20} color={theme.colors.text} />
                         </TouchableRipple>
                     </View>
                 </View>
-                <Button style={styles.signOutButton} onPress={signOut}>Sign Out</Button>
+                {!!user && <Button style={styles.button} onPress={signOut}>Sign Out</Button>}
             </View>
         </Modal>
     )
@@ -143,7 +158,7 @@ const styles = StyleSheet.create({
         borderRightWidth: .4,
         borderBottomWidth: .4
     },
-    signOutButton: {
+    button: {
         marginTop: 10
     }
 })

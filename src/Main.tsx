@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import {
     DarkTheme as NavigationDarkTheme,
     DefaultTheme as NavigationDefaultTheme,
@@ -13,9 +13,10 @@ import { PreferencesContext } from "./context/PreferencesContext"
 import LinkingConfiguration from "./constants/routes"
 import { AuthContext } from "./context/AuthContext"
 import RootNavigator from "./navigation/RootNavigator"
-import useColorScheme from "./hooks/useColorScheme"
 import Theme from "./constants/theme"
 import { StatusBar } from "expo-status-bar"
+import { Preferences, User } from "./Types"
+import * as storage from "./utils/storage"
 
 const CombinedDefaultTheme = {
     ...PaperDefaultTheme,
@@ -35,46 +36,94 @@ const CombinedDarkTheme = {
 }
 
 export default function Main () {
-    const [userToken, setUserToken] = useState<string | null>("euao")
-    const [themeType, setTheme] = useState<"light" | "dark">("light")
+    const [_user, setUser] = useState<User | null>(null)
+    const [_themeType, setTheme] = useState<"light" | "dark">("dark")
+    const [_loading, setLoading] = useState(true)
 
-    const combinedTheme = themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme
+    const combinedTheme = _themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme
 
-    const toggleTheme = () => {
-        setTheme((themeType) => (themeType === "light" ? "dark" : "light"))
+    const toggleTheme = async () => {
+        const themeType = _themeType === "light" ? "dark" : "light"
+
+        await storage.setItem("@preferences", { themeType })
+        setTheme(themeType)
     }
 
     const preferences = useMemo(
         () => ({
-            themeType,
+            themeType: _themeType,
             toggleTheme
         }),
-        [themeType]
+        [_themeType]
     )
 
     const authContext = useMemo(
         () => ({
-            userToken,
-            signIn () {
-                setUserToken("hello")
+            user: _user,
+            async signIn (username: string) {
+                const users: User[] | null = await storage.getItem("@users")
+
+                if (users) {
+                    const user = users.find((u) => u.username === username)
+
+                    if (user) {
+                        await storage.setItem("@user", user)
+
+                        delete user.pinCode
+
+                        setUser(user)
+                    }
+                }
             },
-            signUp () {
-                setUserToken("hello")
+            async signUp (user: User) {
+                const users: User[] = (await storage.getItem("@users")) || []
+
+                await storage.setItem("@users", [user, ...users])
+                await storage.setItem("@user", user)
+
+                setUser(user)
             },
-            signOut () {
-                setUserToken(null)
+            async signOut () {
+                await storage.removeItem("@user")
+                setUser(null)
+            },
+            unlockUser (pinCode: string) {
+                if (_user) {
+                    setUser({..._user, pinCode})
+                }
             }
         }),
-        [userToken]
+        [_user]
     )
+
+    useEffect(() => {
+        (async () => {
+            if (!_user) {
+                const user: User = await storage.getItem("@user")
+
+                if (user) {
+                    delete user.pinCode
+                    setUser(user)
+                }
+            }
+
+            const preferences: Preferences = await storage.getItem("@preferences")
+
+            if (preferences) {
+                setTheme(preferences.themeType)
+            }
+
+            setLoading(false)
+        })()
+    })
 
     return (
         <AuthContext.Provider value={authContext}>
             <PaperProvider theme={combinedTheme}>
-                <StatusBar style={themeType === "light" ? "dark" : "light"} />
+                <StatusBar style={_themeType === "light" ? "dark" : "light"} />
                 <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
                     <PreferencesContext.Provider value={preferences}>
-                        <RootNavigator/>
+                        {!_loading && <RootNavigator/>}
                     </PreferencesContext.Provider>
                 </NavigationContainer>
             </PaperProvider>

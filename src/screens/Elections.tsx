@@ -1,21 +1,25 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { FAB, Portal } from "react-native-paper"
+import { FAB, Portal, Text } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
-import { elections } from "../data/elections"
 import useTheme from "../hooks/useTheme"
-import { MaterialIcons } from "@expo/vector-icons"
 import PinKeyboard from "../components/PinKeyboard"
+import * as storage from "../utils/storage"
+import { AuthContext } from "../context/AuthContext"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
 }
 
 export default function Elections (props: Props) {
+    const {user, unlockUser} = useContext(AuthContext)
+
     const [_refreshing, setRefreshing] = useState(false)
-    const [_PinCodeVisibility, setPinCodeVisibility] = useState(false)
+    const [_pinCodeVisibility, setPinCodeVisibility] = useState(!user?.pinCode)
+    const [_elections, setElections] = useState<Election[]>([])
 
     const theme = useTheme()
 
@@ -23,14 +27,30 @@ export default function Elections (props: Props) {
         props.navigation?.push("ElectionDetails", { ...election })
     }
 
-    const updateElections = useCallback(() => {
+    const closePinCode = async (pinCode: string) => {
+        unlockUser(pinCode)
+        setPinCodeVisibility(false)
+    }
+
+    const updateElections = async () => {
         setRefreshing(true)
 
-        setTimeout(() => setRefreshing(false), 2000)
-    }, [])
+        setElections((await storage.getItem("@elections")) || [])
 
-    const closePinCode = () => setPinCodeVisibility(false)
-    const openPinCode = () => setPinCodeVisibility(true)
+        setRefreshing(false)
+    }
+
+    useEffect(() => {
+        if (user?.pinCode) {
+            (async () => {
+                const elections = await storage.getItem("@elections")
+
+                if (elections && elections.length > _elections.length) {
+                    setElections(elections)
+                }
+            })()
+        }
+    })
 
     return (
         <View style={styles.container}>
@@ -38,34 +58,38 @@ export default function Elections (props: Props) {
                 refreshControl={
                     <RefreshControl refreshing={_refreshing} onRefresh={updateElections} />
                 }>
-                { elections &&
-                    elections.map((election: Election, index: number) => (
-                        <View key={election.id}>
-                            <ElectionListItem
-                                election={election}
-                                onClick={() => openElectionDetails(election)}
-                            />
-                            { index !== elections.length - 1 &&
+                { _elections.map((election: Election, index: number) =>
+                    <View key={election.id}>
+                        <ElectionListItem
+                            election={election}
+                            onClick={() => openElectionDetails(election)}
+                        />
+                        { index !== _elections.length - 1 &&
                                 <View style={[
                                     styles.itemSeparator, 
                                     {borderBottomColor: theme.colors.border}
                                 ]} />
-                            }
-                        </View>
-                    ))
+                        }
+                    </View>)
                 }
             </ScrollView>
+
+            {_elections.length === 0 &&
+                <View style={styles.emptyList}>
+                    <MaterialCommunityIcons size={60} color={theme.colors.placeholder} name="emoticon-sad-outline"/>
+                    <Text style={{color: theme.colors.placeholder}}>No elections</Text>
+                </View>
+            }
+
             <FAB style={[{backgroundColor: theme.colors.surface}, styles.fab]}
                 color={theme.colors.primary}
                 onPress={() => props.navigation?.navigate("CreateElection")}
                 label="Create"
-                icon={({ color, size }) => (
-                    <MaterialIcons name="create" color={color} size={size} />
-                )}
+                icon="pencil"
             />
 
             <Portal>
-                <PinKeyboard visible={_PinCodeVisibility} onDismiss={closePinCode} />
+                <PinKeyboard visible={_pinCodeVisibility} onDismiss={closePinCode} />
             </Portal>
         </View>
     )
@@ -74,6 +98,15 @@ export default function Elections (props: Props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    emptyList: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        alignItems: "center",
+        justifyContent: "center"
     },
     fab: {
         position: "absolute",

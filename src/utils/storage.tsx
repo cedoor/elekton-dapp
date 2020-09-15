@@ -21,3 +21,7 @@ export async function getItem (key: string): Promise<any | null> {
 
     return null
 }
+
+export async function removeItem (key: string): Promise<void> {
+    return AsyncStorage.removeItem(key)
+}
