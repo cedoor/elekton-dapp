@@ -16,12 +16,12 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
 
     let qrCodeRef: any = useRef(null)
 
-    const backupQRCode = () => {
-        qrCodeRef.toDataURL(async (data: string) => {
-            // https://github.com/joltup/rn-fetch-blob
-            console.log(data)
-        })
-    }
+    // const backupQRCode = () => {
+    //     qrCodeRef.toDataURL(async (data: string) => {
+    //         // https://github.com/joltup/rn-fetch-blob
+    //         console.log(data)
+    //     })
+    // }
 
     return (
         <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={[{
@@ -36,7 +36,7 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
                 <QRCode backgroundColor="transparent" color={theme.colors.text} size={210}
                     value={value} getRef={(ref) => (qrCodeRef = ref)}/>
             </View>
-            <Button style={styles.button} mode="outlined" onPress={backupQRCode}>Backup</Button>
+            {/* <Button style={styles.button} mode="outlined" onPress={backupQRCode}>Backup</Button>*/}
             {buttons && buttons.map((button, index) =>
                 <Button key={index} style={styles.button} mode="outlined" onPress={button.onPress}>
                     {button.title}

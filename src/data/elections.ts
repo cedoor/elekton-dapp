@@ -3,7 +3,7 @@ import { Election } from "../Types"
 export const _elections: Election[] = [
     {
         id: 1,
-        title: "Parliamentary cut",
+        name: "Parliamentary cut",
         description: "Do you want to reduce the number of parliamentarians?",
         admin: "0x03Ed9bE36c5FC315B0559Cf344801653e2CE292f",
         startDate: 1598018870924,
@@ -12,7 +12,7 @@ export const _elections: Election[] = [
     },
     {
         id: 2,
-        title: "Regional elections",
+        name: "Regional elections",
         description: "Which party do you want to vote for?",
         admin: "0x03Ed9bE36c5FC315B0559Cf344801653e2CE292i",
         startDate: 1599562562693,
@@ -21,7 +21,7 @@ export const _elections: Election[] = [
     },
     {
         id: 3,
-        title: "National elections",
+        name: "National elections",
         description: "Which party do you want to vote for?",
         admin: "0x03Ed9bE36c5FC315B0559Cf344801653e2CE292i",
         startDate: 1598018870924,

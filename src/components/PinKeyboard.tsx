@@ -16,7 +16,7 @@ export default function PinKeyboard ({ visible, onDismiss }: Props) {
     const [_pinCode, setPinCode] = useState("")
     const [_wrongCode, setWrongCode] = useState(false)
 
-    const {signOut, user} = useContext(AuthContext)
+    const {signOut, _user} = useContext(AuthContext)
 
     const theme = useTheme()
 
@@ -33,7 +33,7 @@ export default function PinKeyboard ({ visible, onDismiss }: Props) {
     }
 
     const checkCode = async () => {
-        if (user) {
+        if (_user) {
             const cachedUser: User = await storage.getItem("@user")
             
             if (_pinCode !== cachedUser.pinCode) {
@@ -53,7 +53,7 @@ export default function PinKeyboard ({ visible, onDismiss }: Props) {
                 borderRadius: theme.roundness
             }, styles.container]}>
                 <Text style={styles.message}>
-                    {!user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}
+                    {!_user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}
                 </Text>
                 <Text style={[{borderColor: _wrongCode ? theme.colors.error : theme.colors.border}, styles.code]}>
                     {"•".repeat(_pinCode.length)}
@@ -116,7 +116,7 @@ export default function PinKeyboard ({ visible, onDismiss }: Props) {
                         </TouchableRipple>
                     </View>
                 </View>
-                {!!user && <Button style={styles.button} onPress={signOut}>Sign Out</Button>}
+                {!!_user && <Button style={styles.button} onPress={signOut}>Sign Out</Button>}
             </View>
         </Modal>
     )

@@ -23,11 +23,11 @@ function ElectionNavigator () {
                 )
             }}>
             <ElectionStack.Screen name="Elections" component={Elections} 
-                options={{ title: "Elections" }} />
+                options={{ name: "Elections" }} />
             <ElectionStack.Screen name="ElectionDetails" component={ElectionDetails} 
-                options={{ title: "" }}/>
+                options={{ name: "" }}/>
             <ElectionStack.Screen name="CreateElection" component={CreateElection} 
-                options={{ title: "Create election" }}/>
+                options={{ name: "Create election" }}/>
         </ElectionStack.Navigator>
     )
 }

@@ -8,7 +8,7 @@ import { AuthContext } from "../context/AuthContext"
 import useTheme from "../hooks/useTheme"
 
 export default function DrawerContent (props: DrawerContentComponentProps) {
-    const {user, signOut} = useContext(AuthContext)
+    const {_user, signOut} = useContext(AuthContext)
 
     const theme = useTheme()
 
@@ -25,9 +25,10 @@ export default function DrawerContent (props: DrawerContentComponentProps) {
                     transform: [{ translateX }]
                 }
             ]}>
-                <View style={styles.userInfoSection}>
-                    <Title style={styles.title}>{user?.name} {user?.surname}</Title>
-                    <Caption style={styles.caption}>@{user?.username}</Caption>
+                <View style={styles.userInfo}>
+                    <Title style={styles.name}>{_user?.name} {_user?.surname}</Title>
+                    <Caption style={styles.username}>@{_user?.username}</Caption>
+                    <Paragraph style={styles.role}>{_user?.role === 0 ? "Elector": "Admin"}</Paragraph>
                 </View>
                 <DrawerItem style={[{borderTopColor: theme.colors.border}, styles.drawerItem]}
                     labelStyle={{color: theme.colors.text}}
@@ -46,20 +47,20 @@ const styles = StyleSheet.create({
     drawerContent: {
         flex: 1
     },
-    userInfoSection: {
+    userInfo: {
         paddingLeft: 20
     },
-    title: {
+    name: {
         marginTop: 20,
         fontWeight: "bold"
     },
-    caption: {
+    username: {
         fontSize: 14,
         lineHeight: 14
     },
-    paragraph: {
+    role: {
         fontWeight: "bold",
-        marginRight: 3
+        marginTop: 10
     },
     drawerItem: {
         marginTop: 15,

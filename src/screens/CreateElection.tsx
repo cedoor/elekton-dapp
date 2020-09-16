@@ -8,6 +8,7 @@ import * as storage from "../utils/storage"
 import { StackNavigationProp } from "@react-navigation/stack"
 import TextInput from "../components/TextInput"
 import Snackbar from "../components/Snackbar"
+import useTheme from "../hooks/useTheme"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
@@ -21,6 +22,8 @@ export function CreateElection (props: Props) {
     const [_options, setOptions] = useState<string[] | null>(null)
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_dialogVisibility, setDialogVisibility] = useState(false)
+
+    const theme = useTheme()
 
     const closeSnackBar = () => setSnackBarVisibility(false)
     const openSnackBar = () => setSnackBarVisibility(true)
@@ -41,7 +44,7 @@ export function CreateElection (props: Props) {
         const election: Election = {
             id: Date.now(),
             admin: "Pinco Pallino",
-            title: _title as string,
+            name: _title as string,
             description: _description as string,
             startDate: _startDate?.getTime() as number,
             endDate: _endDate?.getTime() as number,
@@ -108,7 +111,8 @@ export function CreateElection (props: Props) {
                 </Button>
 
                 <Portal>
-                    <Dialog visible={_dialogVisibility} onDismiss={closeDialog}>
+                    <Dialog style={{backgroundColor: theme.colors.background}} 
+                        visible={_dialogVisibility} onDismiss={closeDialog}>
                         <Dialog.Title>Election creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this election?</Subheading>

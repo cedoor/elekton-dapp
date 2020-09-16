@@ -15,10 +15,10 @@ type Props = {
 }
 
 export default function Elections (props: Props) {
-    const {user, unlockUser} = useContext(AuthContext)
+    const {_user, unlockUser} = useContext(AuthContext)
 
     const [_refreshing, setRefreshing] = useState(false)
-    const [_pinCodeVisibility, setPinCodeVisibility] = useState(!user?.pinCode)
+    const [_pinCodeVisibility, setPinCodeVisibility] = useState(!_user?.pinCode)
     const [_elections, setElections] = useState<Election[]>([])
 
     const theme = useTheme()
@@ -41,7 +41,7 @@ export default function Elections (props: Props) {
     }
 
     useEffect(() => {
-        if (user?.pinCode) {
+        if (_user?.pinCode) {
             (async () => {
                 const elections = await storage.getItem("@elections")
 
@@ -81,12 +81,14 @@ export default function Elections (props: Props) {
                 </View>
             }
 
-            <FAB style={[{backgroundColor: theme.colors.surface}, styles.fab]}
-                color={theme.colors.primary}
-                onPress={() => props.navigation?.navigate("CreateElection")}
-                label="Create"
-                icon="pencil"
-            />
+            {_user &&
+                <FAB style={[{backgroundColor: theme.colors.surface}, styles.fab]}
+                    color={theme.colors.primary}
+                    onPress={() => props.navigation?.navigate("CreateElection")}
+                    label="Create"
+                    icon="pencil"
+                />
+            }
 
             <Portal>
                 <PinKeyboard visible={_pinCodeVisibility} onDismiss={closePinCode} />

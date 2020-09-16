@@ -1,11 +1,11 @@
 import React from "react"
 
 type PreferencesContextType = {
-    themeType: "light" | "dark"
+    _themeType: "light" | "dark"
     toggleTheme: () => Promise<void>
 }
 
 export const PreferencesContext = React.createContext<PreferencesContextType>({
-    themeType: "light",
+    _themeType: "light",
     toggleTheme: () => Promise.resolve()
 })

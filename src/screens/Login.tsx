@@ -13,28 +13,33 @@ type Props = {
 }
 
 export default function Login (props: Props) {
+    const { signIn } = useContext(AuthContext)
+
     const [_scannerVisibility, setScannerVisibility] = useState(false)
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_snackBarMessage, setSnackBarMessage] = useState("")
 
-    const { signIn } = useContext(AuthContext)
-
     const theme = useTheme()
 
     const closeSnackBar = () => setSnackBarVisibility(false)
-    const openSnackBar = (message: string) => {
+    const openScanner = () => setScannerVisibility(true)
+
+    const showError = (message: string) => {
         setSnackBarMessage(message)
         setSnackBarVisibility(true)
     }
 
-    const closeScanner = (username?: string) => {
+    const tryLogin = async (username?: string) => {
         setScannerVisibility(false)
 
         if (username) {
-            signIn(username)
+            try {
+                await signIn(username)
+            } catch (error) {
+                showError(error.message)
+            }
         }
     }
-    const openScanner = () => setScannerVisibility(true)
 
     return (
         <View style={styles.container}>
@@ -56,7 +61,7 @@ export default function Login (props: Props) {
             </View>
 
             <Portal>
-                <Scanner visible={_scannerVisibility} onDismiss={closeScanner} onError={openSnackBar}/>
+                <Scanner visible={_scannerVisibility} onDismiss={tryLogin} onError={showError}/>
                 <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar} message={_snackBarMessage}/>
             </Portal>
         </View>

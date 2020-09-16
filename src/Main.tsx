@@ -42,59 +42,55 @@ export default function Main () {
 
     const combinedTheme = _themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme
 
-    const toggleTheme = async () => {
-        const themeType = _themeType === "light" ? "dark" : "light"
+    const preferences = useMemo(() => ({
+        _themeType,
+        async toggleTheme () {
+            const themeType = _themeType === "light" ? "dark" : "light"
 
-        await storage.setItem("@preferences", { themeType })
-        setTheme(themeType)
-    }
+            await storage.setItem("@preferences", { themeType })
+            setTheme(themeType)
+        }
+    }), [_themeType])
 
-    const preferences = useMemo(
-        () => ({
-            themeType: _themeType,
-            toggleTheme
-        }),
-        [_themeType]
-    )
+    const authContext = useMemo(() => ({
+        _user,
+        async signIn (username: string) {
+            const users: User[] | null = await storage.getItem("@users")
 
-    const authContext = useMemo(
-        () => ({
-            user: _user,
-            async signIn (username: string) {
-                const users: User[] | null = await storage.getItem("@users")
-
-                if (users) {
-                    const user = users.find((u) => u.username === username)
-
-                    if (user) {
-                        await storage.setItem("@user", user)
-
-                        delete user.pinCode
-
-                        setUser(user)
-                    }
-                }
-            },
-            async signUp (user: User) {
-                const users: User[] = (await storage.getItem("@users")) || []
-
-                await storage.setItem("@users", [user, ...users])
-                await storage.setItem("@user", user)
-
-                setUser(user)
-            },
-            async signOut () {
-                await storage.removeItem("@user")
-                setUser(null)
-            },
-            unlockUser (pinCode: string) {
-                if (_user) {
-                    setUser({..._user, pinCode})
-                }
+            if (!users) {
+                throw Error("No registered users!")
             }
-        }),
-        [_user]
-    )
+
+            const user = users.find((u) => u.username === username)
+
+            if (!user) {
+                throw Error("This user does not exist!")
+            }
+
+            await storage.setItem("@user", user)
+
+            delete user.pinCode
+
+            setUser(user)
+        },
+        async signUp (user: User) {
+            const users: User[] = (await storage.getItem("@users")) || []
+
+            await storage.setItem("@users", [user, ...users])
+            await storage.setItem("@user", user)
+
+            setUser(user)
+        },
+        async signOut () {
+            await storage.removeItem("@user")
+            setUser(null)
+        },
+        unlockUser (pinCode: string) {
+            if (_user) {
+                setUser({..._user, pinCode})
+            }
+        }
+    }), [_user])
 
     useEffect(() => {
         (async () => {

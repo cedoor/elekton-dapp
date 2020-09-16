@@ -30,7 +30,7 @@ export function ElectionDetails (props: Props) {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Title style={styles.title}>{props.route.params.title}</Title>
+                <Title style={styles.name}>{props.route.params.name}</Title>
 
                 <View style={[{borderBottomColor: theme.colors.border}, styles.divider]} />
 
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingBottom: 16
     },
-    title: {
+    name: {
         fontSize: 24,
         marginBottom: 16,
         textAlign: "center"

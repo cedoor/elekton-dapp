@@ -5,7 +5,7 @@ export default {
             primary: "#38563f",
             accent: "#38563f",
             background: "#ffffff",
-            surface: "#ffffff",
+            surface: "#f6f6f6",
             text: "#212121",
             placeholder: "#535353",
             border: "#bdbdbd"

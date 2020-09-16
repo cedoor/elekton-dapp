@@ -7,8 +7,11 @@ import Picker from "../components/Picker"
 import QRCodeViewer from "../components/QRCodeViewer"
 import Snackbar from "../components/Snackbar"
 import PinKeyboard from "../components/PinKeyboard"
+import useTheme from "../hooks/useTheme"
 
 export default function SignUp () {
+    const { signUp } = useContext(AuthContext)
+
     const [_name, setName] = useState<string | null>(null)
     const [_surname, setSurname] = useState<string | null>(null)
     const [_username, setUsername] = useState<string | null>(null)
@@ -19,7 +22,7 @@ export default function SignUp () {
     const [_QRCodeViewerVisibility, setQRCodeViewerVisibility] = useState(false)
     const [_PinCodeVisibility, setPinCodeVisibility] = useState(false)
 
-    const { signUp } = useContext(AuthContext)
+    const theme = useTheme()
 
     const closeSnackBar = () => setSnackBarVisibility(false)
     const openSnackBar = () => setSnackBarVisibility(true)
@@ -38,8 +41,8 @@ export default function SignUp () {
     const closeQRCodeViewer = () => setQRCodeViewerVisibility(false)
     const openQRCodeViewer = () => setQRCodeViewerVisibility(true)
 
-    const openPinCode = () => setPinCodeVisibility(true)
-    const closePinCode = async (code: string) => {
+    const openPinKeyboard = () => setPinCodeVisibility(true)
+    const closePinKeyboard = async (code: string) => {
         setPinCodeVisibility(false)
         setPinCode(code)
         openQRCodeViewer()
@@ -47,7 +50,7 @@ export default function SignUp () {
 
     const createPinCode = async () => {
         closeDialog()
-        openPinCode()
+        openPinKeyboard()
     }
 
     const formHasErrors = () =>
@@ -96,9 +99,10 @@ export default function SignUp () {
                             pinCode: _pinCode as string
                         }) }]}/>
 
-                    <PinKeyboard visible={_PinCodeVisibility} onDismiss={closePinCode} />
+                    <PinKeyboard visible={_PinCodeVisibility} onDismiss={closePinKeyboard} />
 
-                    <Dialog visible={_dialogVisibility} onDismiss={closeDialog}>
+                    <Dialog style={{backgroundColor: theme.colors.background}} 
+                        visible={_dialogVisibility} onDismiss={closeDialog}>
                         <Dialog.Title>User creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this user?</Subheading>

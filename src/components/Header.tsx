@@ -4,14 +4,13 @@ import useTheme from "../hooks/useTheme"
 import { StackHeaderProps } from "@react-navigation/stack"
 import { StyleSheet } from "react-native"
 import { PreferencesContext } from "../context/PreferencesContext"
-import { MaterialIcons } from "@expo/vector-icons"
 import { AuthContext } from "../context/AuthContext"
 
 export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
     const [_menuVisibility, setMenuVisibility] = useState(false)
 
-    const { user } = useContext(AuthContext)
-    const { themeType, toggleTheme } = useContext(PreferencesContext)
+    const { _user } = useContext(AuthContext)
+    const { _themeType, toggleTheme } = useContext(PreferencesContext)
 
     const theme = useTheme()
 
@@ -21,7 +20,7 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
     return (
         <Appbar.Header
             style={[{backgroundColor: theme.colors.background}, styles.header]}>
-            {!previous && user && <Appbar.Action onPress={navigation.openDrawer} icon="menu"/>}
+            {!previous && _user && <Appbar.Action onPress={navigation.openDrawer} icon="menu"/>}
             {previous && <Appbar.BackAction onPress={navigation.goBack} />}
 
             <Appbar.Content title={scene.descriptor.options.title} />
@@ -34,17 +33,17 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
                         onPress={openMenu} icon="dots-vertical"/>
                 }>
                 <Menu.Item onPress={toggleTheme} 
-                    title={themeType === "light" ? "Dark theme" : "Light theme"}
+                    title={_themeType === "light" ? "Dark theme" : "Light theme"}
                     titleStyle={styles.item}
                     icon="theme-light-dark"/>
-                {!user &&
-                    <Menu.Item onPress={() => console.log("Pressed")}
-                        title="Verify elections"
-                        titleStyle={styles.item}
-                        icon={({ color, size }) => (
-                            <MaterialIcons name="verified-user" color={color} size={size} />
-                        )}/>
-                }
+                {/* {!user &&*/}
+                {/*    <Menu.Item onPress={() => console.log("Pressed")}*/}
+                {/*        title="Verify elections"*/}
+                {/*        titleStyle={styles.item}*/}
+                {/*        icon={({ color, size }) => (*/}
+                {/*            <MaterialIcons name="verified-user" color={color} size={size} />*/}
+                {/*        )}/>*/}
+                {/* }*/}
             </Menu>
         </Appbar.Header>
     )
