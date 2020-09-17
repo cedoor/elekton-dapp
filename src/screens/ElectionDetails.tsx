@@ -2,17 +2,10 @@ import React, { useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import { RouteProp } from "@react-navigation/native"
 import { ElectionNavigatorParamList } from "../Types"
-import {
-    Button,
-    Divider,
-    List,
-    RadioButton,
-    Subheading,
-    Title
-} from "react-native-paper"
+import { Button, List, RadioButton, Subheading, Title } from "react-native-paper"
 import { format } from "date-fns"
 import useTheme from "../hooks/useTheme"
-import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
 type Props = {
   route: RouteProp<ElectionNavigatorParamList, "ElectionDetails">;
@@ -30,7 +23,7 @@ export function ElectionDetails (props: Props) {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Title style={styles.name}>{props.route.params.name}</Title>
+                <Title style={styles.name}>{props.route.params.title}</Title>
 
                 <View style={[{borderBottomColor: theme.colors.border}, styles.divider]} />
 

@@ -7,6 +7,7 @@ import Scanner from "../components/Scanner"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { AuthNavigatorParamList } from "../Types"
 import Snackbar from "../components/Snackbar"
+import Loader from "../components/Loader"
 
 type Props = {
     navigation?: StackNavigationProp<AuthNavigatorParamList>
@@ -18,6 +19,7 @@ export default function Login (props: Props) {
     const [_scannerVisibility, setScannerVisibility] = useState(false)
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_snackBarMessage, setSnackBarMessage] = useState("")
+    const [_loadingVisibility, setLoadingVisibility] = useState(false)
 
     const theme = useTheme()
 
@@ -34,8 +36,10 @@ export default function Login (props: Props) {
 
         if (username) {
             try {
+                setLoadingVisibility(true)
                 await signIn(username)
             } catch (error) {
+                setLoadingVisibility(false)
                 showError(error.message)
             }
         }
@@ -61,7 +65,8 @@ export default function Login (props: Props) {
             </View>
 
             <Portal>
-                <Scanner visible={_scannerVisibility} onDismiss={tryLogin} onError={showError}/>
+                <Loader visible={_loadingVisibility} />
+                <Scanner visible={_scannerVisibility} onClose={tryLogin} onError={showError}/>
                 <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar} message={_snackBarMessage}/>
             </Portal>
         </View>

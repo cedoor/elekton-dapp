@@ -11,9 +11,7 @@ export type AuthNavigatorParamList = {
     SignUp: undefined
 }
 
-export type Preferences = {
-    themeType: "light" | "dark"
-}
+export type ThemeType = "light" | "dark"
 
 export type User = {
     name: string

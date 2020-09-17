@@ -18,8 +18,7 @@ export default function AuthNavigator () {
                 )
             }}>
             <AuthStack.Screen name="Login" component={Login} />
-            <AuthStack.Screen name="SignUp" component={SignUp}
-                options={{ name: "Create user" }}/>
+            <AuthStack.Screen name="SignUp" component={SignUp} options={{ title: "Create user" }}/>
         </AuthStack.Navigator>
     )
 }

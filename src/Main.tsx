@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import {
     DarkTheme as NavigationDarkTheme,
     DefaultTheme as NavigationDefaultTheme,
@@ -9,14 +9,14 @@ import {
     DefaultTheme as PaperDefaultTheme,
     Provider as PaperProvider
 } from "react-native-paper"
-import { PreferencesContext } from "./context/PreferencesContext"
+import { ThemeContext } from "./context/ThemeContext"
 import LinkingConfiguration from "./constants/routes"
 import { AuthContext } from "./context/AuthContext"
 import RootNavigator from "./navigation/RootNavigator"
 import Theme from "./constants/theme"
-import { StatusBar } from "expo-status-bar"
-import { Preferences, User } from "./Types"
+import { ThemeType, User } from "./Types"
 import * as storage from "./utils/storage"
+import { StatusBar } from "expo-status-bar"
 
 const CombinedDefaultTheme = {
     ...PaperDefaultTheme,
@@ -35,24 +35,28 @@ const CombinedDarkTheme = {
     roundness: Theme.roundness
 }
 
-export default function Main () {
-    const [_user, setUser] = useState<User | null>(null)
-    const [_themeType, setTheme] = useState<"light" | "dark">("dark")
-    const [_loading, setLoading] = useState(true)
+type Props = {
+    user: User | null
+    themeType: ThemeType
+}
+
+export default function Main ({user, themeType} : Props) {
+    const [_themeType, setTheme] = useState(themeType)
+    const [_user, setUser] = useState(user)
 
     const combinedTheme = _themeType === "light" ? CombinedDefaultTheme : CombinedDarkTheme
 
-    const preferences = useMemo(() => ({
+    const theme = useMemo(() => ({
         _themeType,
         async toggleTheme () {
             const themeType = _themeType === "light" ? "dark" : "light"
 
-            await storage.setItem("@preferences", { themeType })
+            await storage.setItem("@theme", { themeType })
             setTheme(themeType)
         }
     }), [_themeType])
 
-    const authContext = useMemo(() => ({
+    const auth = useMemo(() => ({
         _user,
         async signIn (username: string) {
             const users: User[] | null = await storage.getItem("@users")
@@ -83,6 +87,7 @@ export default function Main () {
         },
         async signOut () {
             await storage.removeItem("@user")
+
             setUser(null)
         },
         unlockUser (pinCode: string) {
@@ -92,37 +97,16 @@ export default function Main () {
         }
     }), [_user])
 
-    useEffect(() => {
-        (async () => {
-            if (!_user) {
-                const user: User = await storage.getItem("@user")
-
-                if (user) {
-                    delete user.pinCode
-                    setUser(user)
-                }
-            }
-
-            const preferences: Preferences = await storage.getItem("@preferences")
-
-            if (preferences) {
-                setTheme(preferences.themeType)
-            }
-
-            setLoading(false)
-        })()
-    })
-
     return (
-        <AuthContext.Provider value={authContext}>
-            <PaperProvider theme={combinedTheme}>
-                <StatusBar style={_themeType === "light" ? "dark" : "light"} />
-                <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
-                    <PreferencesContext.Provider value={preferences}>
-                        {!_loading && <RootNavigator/>}
-                    </PreferencesContext.Provider>
-                </NavigationContainer>
-            </PaperProvider>
+        <AuthContext.Provider value={auth}>
+            <ThemeContext.Provider value={theme}>
+                <PaperProvider theme={combinedTheme}>
+                    <StatusBar style={_themeType === "light" ? "dark" : "light"} />
+                    <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
+                        <RootNavigator/>
+                    </NavigationContainer>
+                </PaperProvider>
+            </ThemeContext.Provider>
         </AuthContext.Provider>
     )
 }

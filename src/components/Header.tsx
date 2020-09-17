@@ -3,14 +3,14 @@ import { Appbar, Menu } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
 import { StackHeaderProps } from "@react-navigation/stack"
 import { StyleSheet } from "react-native"
-import { PreferencesContext } from "../context/PreferencesContext"
+import { ThemeContext } from "../context/ThemeContext"
 import { AuthContext } from "../context/AuthContext"
 
 export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
-    const [_menuVisibility, setMenuVisibility] = useState(false)
-
     const { _user } = useContext(AuthContext)
-    const { _themeType, toggleTheme } = useContext(PreferencesContext)
+    const { _themeType, toggleTheme } = useContext(ThemeContext)
+
+    const [_menuVisibility, setMenuVisibility] = useState(false)
 
     const theme = useTheme()
 

@@ -22,7 +22,7 @@ export default function ElectionStopwatch ({ startDate, endDate }: Props) {
 
         // Clear timeout if the component is unmounted.
         return () => clearTimeout(timerID)
-    })
+    }, [_stopwatch])
 
     return currentDate < startDate || currentDate > endDate ? null : (
         <ProgressBar

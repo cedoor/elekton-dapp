@@ -18,7 +18,7 @@ export default function ElectionListItem ({ election, onClick }: Props) {
         <TouchableRipple onPress={() => onClick(election.id)}>
             <View>
                 <List.Item
-                    title={election.name}
+                    title={election.title}
                     description={election.description}
                     descriptionStyle={{color: theme.colors.placeholder}}
                     right={() => (

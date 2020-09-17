@@ -8,6 +8,7 @@ import QRCodeViewer from "../components/QRCodeViewer"
 import Snackbar from "../components/Snackbar"
 import PinKeyboard from "../components/PinKeyboard"
 import useTheme from "../hooks/useTheme"
+import Loader from "../components/Loader"
 
 export default function SignUp () {
     const { signUp } = useContext(AuthContext)
@@ -21,6 +22,7 @@ export default function SignUp () {
     const [_dialogVisibility, setDialogVisibility] = useState(false)
     const [_QRCodeViewerVisibility, setQRCodeViewerVisibility] = useState(false)
     const [_PinCodeVisibility, setPinCodeVisibility] = useState(false)
+    const [_loadingVisibility, setLoadingVisibility] = useState(false)
 
     const theme = useTheme()
 
@@ -42,15 +44,30 @@ export default function SignUp () {
     const openQRCodeViewer = () => setQRCodeViewerVisibility(true)
 
     const openPinKeyboard = () => setPinCodeVisibility(true)
-    const closePinKeyboard = async (code: string) => {
+    const closePinKeyboard = async (code?: string) => {
+        if (code) {
+            setPinCode(code)
+            openQRCodeViewer()
+        }
+
         setPinCodeVisibility(false)
-        setPinCode(code)
-        openQRCodeViewer()
     }
 
     const createPinCode = async () => {
-        closeDialog()
         openPinKeyboard()
+        closeDialog()
+    }
+
+    const createUser = async () => {
+        setLoadingVisibility(true)
+
+        await signUp({
+            name: _name as string,
+            surname: _surname as string,
+            username: _username as string,
+            role: _role as number,
+            pinCode: _pinCode as string
+        })
     }
 
     const formHasErrors = () =>
@@ -89,17 +106,13 @@ export default function SignUp () {
                 </Button>
 
                 <Portal>
+                    <Loader visible={_loadingVisibility} />
+
                     <QRCodeViewer value={_username as string} visible={_QRCodeViewerVisibility} 
                         onDismiss={closeQRCodeViewer}
-                        buttons={[{ title: "Sign Up", onPress: () => signUp({
-                            name: _name as string,
-                            surname: _surname as string,
-                            username: _username as string,
-                            role: _role as number,
-                            pinCode: _pinCode as string
-                        }) }]}/>
+                        buttons={[{ title: "Sign Up", onPress: createUser }]}/>
 
-                    <PinKeyboard visible={_PinCodeVisibility} onDismiss={closePinKeyboard} />
+                    <PinKeyboard visible={_PinCodeVisibility} onClose={closePinKeyboard} />
 
                     <Dialog style={{backgroundColor: theme.colors.background}} 
                         visible={_dialogVisibility} onDismiss={closeDialog}>

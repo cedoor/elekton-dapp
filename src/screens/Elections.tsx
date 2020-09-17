@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { FAB, Portal, Text } from "react-native-paper"
+import { ActivityIndicator, Colors, FAB, Portal, Text } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
 import useTheme from "../hooks/useTheme"
 import PinKeyboard from "../components/PinKeyboard"
@@ -19,7 +19,7 @@ export default function Elections (props: Props) {
 
     const [_refreshing, setRefreshing] = useState(false)
     const [_pinCodeVisibility, setPinCodeVisibility] = useState(!_user?.pinCode)
-    const [_elections, setElections] = useState<Election[]>([])
+    const [_elections, setElections] = useState<Election[] | null>(null)
 
     const theme = useTheme()
 
@@ -27,9 +27,11 @@ export default function Elections (props: Props) {
         props.navigation?.push("ElectionDetails", { ...election })
     }
 
-    const closePinCode = async (pinCode: string) => {
-        unlockUser(pinCode)
-        setPinCodeVisibility(false)
+    const closePinCode = async (pinCode?: string) => {
+        if (pinCode) {
+            unlockUser(pinCode)
+            setPinCodeVisibility(false)
+        }
     }
 
     const updateElections = async () => {
@@ -43,14 +45,10 @@ export default function Elections (props: Props) {
     useEffect(() => {
         if (_user?.pinCode) {
             (async () => {
-                const elections = await storage.getItem("@elections")
-
-                if (elections && elections.length > _elections.length) {
-                    setElections(elections)
-                }
+                setElections(await storage.getItem("@elections") || [])
             })()
         }
-    })
+    }, [_user])
 
     return (
         <View style={styles.container}>
@@ -58,7 +56,8 @@ export default function Elections (props: Props) {
                 refreshControl={
                     <RefreshControl refreshing={_refreshing} onRefresh={updateElections} />
                 }>
-                { _elections.map((election: Election, index: number) =>
+
+                { _elections && _elections.map((election: Election, index: number) =>
                     <View key={election.id}>
                         <ElectionListItem
                             election={election}
@@ -74,10 +73,16 @@ export default function Elections (props: Props) {
                 }
             </ScrollView>
 
-            {_elections.length === 0 &&
-                <View style={styles.emptyList}>
+            {_elections && _elections.length === 0 &&
+                <View style={styles.centerContent}>
                     <MaterialCommunityIcons size={60} color={theme.colors.placeholder} name="emoticon-sad-outline"/>
                     <Text style={{color: theme.colors.placeholder}}>No elections</Text>
+                </View>
+            }
+
+            {!_elections &&
+                <View style={styles.centerContent}>
+                    <ActivityIndicator size="large" color={theme.colors.placeholder}/>
                 </View>
             }
 
@@ -91,7 +96,7 @@ export default function Elections (props: Props) {
             }
 
             <Portal>
-                <PinKeyboard visible={_pinCodeVisibility} onDismiss={closePinCode} />
+                <PinKeyboard visible={_pinCodeVisibility} onClose={closePinCode} closeOnBackButton={false}/>
             </Portal>
         </View>
     )
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    emptyList: {
+    centerContent: {
         position: "absolute",
         top: 0,
         left: 0,

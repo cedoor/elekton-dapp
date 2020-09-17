@@ -1,18 +1,20 @@
 import React, { useContext, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import useTheme from "../hooks/useTheme"
-import { Button, Modal, Text, TouchableRipple } from "react-native-paper"
+import { Button, Text, TouchableRipple } from "react-native-paper"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { AuthContext } from "../context/AuthContext"
 import { User } from "../Types"
 import * as storage from "../utils/storage"
+import Modal from "./Modal"
 
 type Props = {
     visible: boolean
-    onDismiss: (pinCode: string) => void
+    onClose: (pinCode?: string) => void
+    closeOnBackButton?: boolean
 }
 
-export default function PinKeyboard ({ visible, onDismiss }: Props) {
+export default function PinKeyboard ({ visible, onClose, closeOnBackButton = true }: Props) {
     const [_pinCode, setPinCode] = useState("")
     const [_wrongCode, setWrongCode] = useState(false)
 
@@ -32,7 +34,12 @@ export default function PinKeyboard ({ visible, onDismiss }: Props) {
         setWrongCode(false)
     }
 
-    const checkCode = async () => {
+    const sendCode = async () => {
+        if (_pinCode.length === 0) {
+            setWrongCode(true)
+            return
+        }
+
         if (_user) {
             const cachedUser: User = await storage.getItem("@user")
             
@@ -42,97 +49,83 @@ export default function PinKeyboard ({ visible, onDismiss }: Props) {
             }
         }
 
-        onDismiss(_pinCode)
+        close(_pinCode)
+    }
+
+    const close = (pinCode?: string) => {
+        onClose(pinCode)
         setPinCode("")
     }
 
     return (
-        <Modal visible={visible} dismissable={false} contentContainerStyle={{alignItems: "center"}}>
-            <View style={[{
-                backgroundColor: theme.colors.background,
-                borderRadius: theme.roundness
-            }, styles.container]}>
-                <Text style={styles.message}>
-                    {!_user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}
-                </Text>
-                <Text style={[{borderColor: _wrongCode ? theme.colors.error : theme.colors.border}, styles.code]}>
-                    {"•".repeat(_pinCode.length)}
-                </Text>
-                <View style={[{borderColor: theme.colors.border}, styles.keyboard]}>
-                    <View style={[{borderColor: theme.colors.border}, styles.keyboardRow]}>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(1)}>
-                            <Text>1</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(2)}>
-                            <Text>2</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(3)}>
-                            <Text>3</Text>
-                        </TouchableRipple>
-                    </View>
-                    <View style={styles.keyboardRow}>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(4)}>
-                            <Text>4</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(5)}>
-                            <Text>5</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(6)}>
-                            <Text>6</Text>
-                        </TouchableRipple>
-                    </View>
-                    <View style={styles.keyboardRow}>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(7)}>
-                            <Text>7</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(8)}>
-                            <Text>8</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(9)}>
-                            <Text>9</Text>
-                        </TouchableRipple>
-                    </View>
-                    <View style={styles.keyboardRow}>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={removeDigit}>
-                            <MaterialCommunityIcons name="backspace" size={20} color={theme.colors.text} />
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={() => addDigit(0)}>
-                            <Text>0</Text>
-                        </TouchableRipple>
-                        <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
-                            onPress={checkCode}>
-                            <MaterialCommunityIcons name="check" size={20} color={theme.colors.text} />
-                        </TouchableRipple>
-                    </View>
+        <Modal visible={visible} closeOnBackButton={closeOnBackButton} onClose={close}>
+            <Text style={[{borderColor: _wrongCode ? theme.colors.error : theme.colors.border}, styles.code]}>
+                {"•".repeat(_pinCode.length)}
+            </Text>
+            <View style={[{borderColor: theme.colors.border}, styles.keyboard]}>
+                <View style={[{borderColor: theme.colors.border}, styles.keyboardRow]}>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(1)}>
+                        <Text>1</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(2)}>
+                        <Text>2</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(3)}>
+                        <Text>3</Text>
+                    </TouchableRipple>
                 </View>
-                {!!_user && <Button style={styles.button} onPress={signOut}>Sign Out</Button>}
+                <View style={styles.keyboardRow}>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(4)}>
+                        <Text>4</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(5)}>
+                        <Text>5</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(6)}>
+                        <Text>6</Text>
+                    </TouchableRipple>
+                </View>
+                <View style={styles.keyboardRow}>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(7)}>
+                        <Text>7</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(8)}>
+                        <Text>8</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(9)}>
+                        <Text>9</Text>
+                    </TouchableRipple>
+                </View>
+                <View style={styles.keyboardRow}>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={removeDigit}>
+                        <MaterialCommunityIcons name="backspace" size={20} color={theme.colors.text} />
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={() => addDigit(0)}>
+                        <Text>0</Text>
+                    </TouchableRipple>
+                    <TouchableRipple style={[{borderColor: theme.colors.border}, styles.keyboardNumber]}
+                        onPress={sendCode}>
+                        <MaterialCommunityIcons name="check" size={20} color={theme.colors.text} />
+                    </TouchableRipple>
+                </View>
             </View>
+            {!!_user && <Button style={styles.button} mode="outlined" onPress={signOut}>Sign Out</Button>}
         </Modal>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-        paddingHorizontal: 30,
-        paddingTop: 30,
-        paddingBottom: 20
-    },
-    message: {
-        width: 210,
-        textAlign: "center"
-    },
     code: {
         borderWidth: .4,
         marginTop: 20,
@@ -159,6 +152,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: .4
     },
     button: {
-        marginTop: 10
+        marginTop: 30,
+        width: 210
     }
 })

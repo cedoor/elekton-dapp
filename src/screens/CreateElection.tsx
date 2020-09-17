@@ -44,7 +44,7 @@ export function CreateElection (props: Props) {
         const election: Election = {
             id: Date.now(),
             admin: "Pinco Pallino",
-            name: _title as string,
+            title: _title as string,
             description: _description as string,
             startDate: _startDate?.getTime() as number,
             endDate: _endDate?.getTime() as number,
