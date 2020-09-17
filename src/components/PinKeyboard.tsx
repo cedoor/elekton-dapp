@@ -58,7 +58,8 @@ export default function PinKeyboard ({ visible, onClose, closeOnBackButton = tru
     }
 
     return (
-        <Modal visible={visible} closeOnBackButton={closeOnBackButton} onClose={close}>
+        <Modal visible={visible} closeOnBackButton={closeOnBackButton} onClose={close}
+            message={!_user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}>
             <Text style={[{borderColor: _wrongCode ? theme.colors.error : theme.colors.border}, styles.code]}>
                 {"•".repeat(_pinCode.length)}
             </Text>

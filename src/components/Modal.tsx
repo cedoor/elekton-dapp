@@ -9,9 +9,10 @@ type Props = {
     onClose: () => void
     closeOnBackButton?: boolean
     children: ReactElement | ReactElement[] | any
+    message: string
 }
 
-export default function Modal ({ visible, onClose, closeOnBackButton, children }: Props) {
+export default function Modal ({ visible, onClose, closeOnBackButton, children, message }: Props) {
     const theme = useTheme()
 
     return (
@@ -24,7 +25,7 @@ export default function Modal ({ visible, onClose, closeOnBackButton, children }
             <View style={[{
                 borderColor: theme.colors.border
             }, styles.messageBox]}>
-                <Text>Scan the QR code with your personal key</Text>
+                <Text style={styles.message}>{message}</Text>
             </View>
         </OriginalModal>
     )
@@ -43,7 +44,9 @@ const styles = StyleSheet.create({
         borderTopWidth: .4,
         paddingVertical: 20,
         marginHorizontal: 20,
-        marginTop: -Constants.statusBarHeight,
-        alignItems: "center"
+        marginTop: -Constants.statusBarHeight
+    },
+    message: {
+        textAlign: "center"
     }
 })
