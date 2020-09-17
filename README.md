@@ -1,6 +1,6 @@
 <p align="center">
     <h1 align="center">
-        <img width="40" src="https://raw.githubusercontent.com/elekton/dapp/master/src/assets/images/icon.png">
+        <img width="40" src="https://github.com/elekton/dapp/raw/master/assets/images/icon.png">
         Elekton
     </h1>
     <p align="center">Elekton cross-platform decentralized application.</p>
