@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import Main from "./src/Main"
 import { ThemeType, User } from "./src/Types"
-import * as storage from "./src/utils/cache"
+import cache from "./src/utils/cache"
 import * as SplashScreen from "expo-splash-screen"
 import * as Font from "expo-font"
 import { Ionicons } from "@expo/vector-icons"
@@ -25,7 +25,7 @@ export default function App () {
                 })
 
                 // Load user if it exists.
-                const user: User | null = await storage.getItem("@user")
+                const user: User | null = await cache.getUser()
 
                 if (user) {
                     delete user.pinCode
@@ -33,7 +33,7 @@ export default function App () {
                 }
 
                 // Load theme if it exists.
-                const themeType: ThemeType | null = await storage.getItem("@theme")
+                const themeType: ThemeType | null = await cache.getTheme()
 
                 if (themeType) {
                     setThemeType(themeType)

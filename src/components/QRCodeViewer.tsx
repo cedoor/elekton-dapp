@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import { Button } from "react-native-paper"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet } from "react-native"
 import QRCode from "react-native-qrcode-svg"
 import useTheme from "../hooks/useTheme"
 import Modal from "./Modal"
@@ -32,9 +32,7 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
                 value={value} getRef={(ref) => (qrCodeRef = ref)}/>
             {/* <Button style={styles.button} mode="outlined" onPress={backupQRCode}>Backup</Button>*/}
             {buttons && buttons.map((button, index) =>
-                <Button key={index} style={styles.button} mode="outlined" onPress={button.onPress}>
-                    {button.title}
-                </Button>
+                <Button key={index} style={styles.button} onPress={button.onPress}>{button.title}</Button>
             )}
         </Modal>
     )
