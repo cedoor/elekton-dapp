@@ -14,7 +14,7 @@ type Props = {
 export function ElectionDetails (props: Props) {
     const theme = useTheme()
 
-    const [_option, setOption] = useState<string>("")
+    const [_option, setOption] = useState("")
 
     const vote = () => {
         console.log(Number(_option))

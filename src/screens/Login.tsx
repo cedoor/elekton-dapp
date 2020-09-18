@@ -8,6 +8,7 @@ import { StackNavigationProp } from "@react-navigation/stack"
 import { AuthNavigatorParamList } from "../Types"
 import Snackbar from "../components/Snackbar"
 import Loader from "../components/Loader"
+import { bindWithFalse, bindWithTrue } from "../utils/helper"
 
 type Props = {
     navigation?: StackNavigationProp<AuthNavigatorParamList>
@@ -23,14 +24,6 @@ export default function Login (props: Props) {
 
     const theme = useTheme()
 
-    const closeSnackBar = () => setSnackBarVisibility(false)
-    const openScanner = () => setScannerVisibility(true)
-
-    const showError = (message: string) => {
-        setSnackBarMessage(message)
-        setSnackBarVisibility(true)
-    }
-
     const tryLogin = async (username?: string) => {
         setScannerVisibility(false)
 
@@ -45,6 +38,11 @@ export default function Login (props: Props) {
         }
     }
 
+    const showError = (message: string) => {
+        setSnackBarMessage(message)
+        setSnackBarVisibility(true)
+    }
+
     return (
         <View style={styles.container}>
             <View style={{ alignItems: "center" }}>
@@ -55,7 +53,7 @@ export default function Login (props: Props) {
                 <Text style={[{ color: theme.colors.primary }, styles.logoText]}>Elekton</Text>
             </View>
             <View>
-                <Button style={styles.button} mode="outlined" onPress={openScanner}>
+                <Button style={styles.button} mode="outlined" onPress={bindWithTrue(setScannerVisibility)}>
                         Sign In
                 </Button>
                 <Button style={styles.button} mode="outlined"
@@ -67,7 +65,8 @@ export default function Login (props: Props) {
             <Portal>
                 <Loader visible={_loadingVisibility} />
                 <Scanner visible={_scannerVisibility} onClose={tryLogin} onError={showError}/>
-                <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar} message={_snackBarMessage}/>
+                <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
+                    message={_snackBarMessage}/>
             </Portal>
         </View>
     )

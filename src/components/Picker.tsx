@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { IconButton, Menu, Text, TouchableRipple } from "react-native-paper"
 import useTheme from "../hooks/useTheme"
+import { bindWithFalse, bindWithTrue } from "../utils/helper"
 
 type Props = {
     selectedValue: number
@@ -14,23 +15,20 @@ export default function Picker ({ selectedValue, onValueChange, items }: Props) 
 
     const theme = useTheme()
 
-    const openMenu = () => setMenuVisibility(true)
-    const closeMenu = () => setMenuVisibility(false)
-
     const selectValue = (index: number) => {
         onValueChange(index)
-        closeMenu()
+        setMenuVisibility(false)
     }
 
     return (
-        <TouchableRipple onPress={openMenu}>
+        <TouchableRipple onPress={bindWithTrue(setMenuVisibility)}>
             <View style={[{borderBottomColor: theme.colors.border}, styles.container]}>
                 <View style={styles.labelContainer}>
                     <Text style={styles.label}>{items[selectedValue]}</Text>
                 </View>
                 <Menu contentStyle={{backgroundColor: theme.colors.surface}}
                     visible={_menuVisibility}
-                    onDismiss={closeMenu}
+                    onDismiss={bindWithFalse(setMenuVisibility)}
                     anchor={<IconButton icon="menu-down"/>}>
                     {items.map((item, index) =>
                         <Menu.Item key={item} title={item} titleStyle={styles.item}

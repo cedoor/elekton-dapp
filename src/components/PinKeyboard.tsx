@@ -5,7 +5,7 @@ import { Button, Text, TouchableRipple } from "react-native-paper"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { AuthContext } from "../context/AuthContext"
 import { User } from "../Types"
-import * as storage from "../utils/storage"
+import cache from "../utils/cache"
 import Modal from "./Modal"
 
 type Props = {
@@ -15,10 +15,10 @@ type Props = {
 }
 
 export default function PinKeyboard ({ visible, onClose, closeOnBackButton = true }: Props) {
+    const {signOut, _user} = useContext(AuthContext)
+
     const [_pinCode, setPinCode] = useState("")
     const [_wrongCode, setWrongCode] = useState(false)
-
-    const {signOut, _user} = useContext(AuthContext)
 
     const theme = useTheme()
 
@@ -41,7 +41,7 @@ export default function PinKeyboard ({ visible, onClose, closeOnBackButton = tru
         }
 
         if (_user) {
-            const cachedUser: User = await storage.getItem("@user")
+            const cachedUser: User = await cache.getUser()
             
             if (_pinCode !== cachedUser.pinCode) {
                 setWrongCode(true)

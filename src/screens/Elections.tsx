@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react"
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { Election, ElectionNavigatorParamList } from "../Types"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { ActivityIndicator, Colors, FAB, Portal, Text } from "react-native-paper"
+import { ActivityIndicator, FAB, Portal, Text } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
 import useTheme from "../hooks/useTheme"
 import PinKeyboard from "../components/PinKeyboard"
-import * as storage from "../utils/storage"
+import cache from "../utils/cache"
 import { AuthContext } from "../context/AuthContext"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
@@ -18,7 +18,7 @@ export default function Elections (props: Props) {
     const {_user, unlockUser} = useContext(AuthContext)
 
     const [_refreshing, setRefreshing] = useState(false)
-    const [_pinCodeVisibility, setPinCodeVisibility] = useState(!_user?.pinCode)
+    const [_pinKeyboardVisibility, setPinKeyboardVisibility] = useState(!_user?.pinCode)
     const [_elections, setElections] = useState<Election[] | null>(null)
 
     const theme = useTheme()
@@ -27,17 +27,17 @@ export default function Elections (props: Props) {
         props.navigation?.push("ElectionDetails", { ...election })
     }
 
-    const closePinCode = async (pinCode?: string) => {
+    const unlock = async (pinCode?: string) => {
         if (pinCode) {
             unlockUser(pinCode)
-            setPinCodeVisibility(false)
+            setPinKeyboardVisibility(false)
         }
     }
 
     const updateElections = async () => {
         setRefreshing(true)
 
-        setElections((await storage.getItem("@elections")) || [])
+        setElections((await cache.getElections()) || [])
 
         setRefreshing(false)
     }
@@ -45,7 +45,7 @@ export default function Elections (props: Props) {
     useEffect(() => {
         if (_user?.pinCode) {
             (async () => {
-                setElections(await storage.getItem("@elections") || [])
+                setElections(await cache.getElections() || [])
             })()
         }
     }, [_user])
@@ -96,7 +96,7 @@ export default function Elections (props: Props) {
             }
 
             <Portal>
-                <PinKeyboard visible={_pinCodeVisibility} onClose={closePinCode} closeOnBackButton={false}/>
+                <PinKeyboard visible={_pinKeyboardVisibility} onClose={unlock} closeOnBackButton={false}/>
             </Portal>
         </View>
     )

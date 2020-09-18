@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import Main from "./src/Main"
 import { ThemeType, User } from "./src/Types"
-import * as storage from "./src/utils/storage"
+import * as storage from "./src/utils/cache"
 import * as SplashScreen from "expo-splash-screen"
 import * as Font from "expo-font"
 import { Ionicons } from "@expo/vector-icons"
@@ -24,7 +24,7 @@ export default function App () {
                     "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
                 })
 
-                // Load user if exists.
+                // Load user if it exists.
                 const user: User | null = await storage.getItem("@user")
 
                 if (user) {
@@ -32,7 +32,7 @@ export default function App () {
                     setUser(user)
                 }
 
-                // Load preferences if exists.
+                // Load theme if it exists.
                 const themeType: ThemeType | null = await storage.getItem("@theme")
 
                 if (themeType) {

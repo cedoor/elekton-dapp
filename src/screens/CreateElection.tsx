@@ -4,11 +4,12 @@ import { Button, Dialog, Portal, Subheading } from "react-native-paper"
 import DatePicker from "../components/DatePicker"
 import DynamicList from "../components/DynamicList"
 import { Election, ElectionNavigatorParamList } from "../Types"
-import * as storage from "../utils/storage"
+import cache from "../utils/cache"
 import { StackNavigationProp } from "@react-navigation/stack"
 import TextInput from "../components/TextInput"
 import Snackbar from "../components/Snackbar"
 import useTheme from "../hooks/useTheme"
+import { bindWithFalse } from "../utils/helper"
 
 type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
@@ -25,13 +26,9 @@ export function CreateElection (props: Props) {
 
     const theme = useTheme()
 
-    const closeSnackBar = () => setSnackBarVisibility(false)
-    const openSnackBar = () => setSnackBarVisibility(true)
-
-    const closeDialog = () => setDialogVisibility(false)
-    const showDialog = () => {
+    const showConfirmDialog = () => {
         if (formHasErrors()) {
-            openSnackBar()
+            setSnackBarVisibility(true)
 
             return
         }
@@ -40,7 +37,7 @@ export function CreateElection (props: Props) {
     }
 
     const createElection = async () => {
-        const elections = ((await storage.getItem("@elections")) || []) as []
+        const elections = ((await cache.getElections()) || []) as []
         const election: Election = {
             id: Date.now(),
             admin: "Pinco Pallino",
@@ -51,9 +48,10 @@ export function CreateElection (props: Props) {
             options: _options as string[]
         }
 
-        await storage.setItem("@elections", [election, ...elections])
+        await cache.setElections([election, ...elections])
 
-        closeDialog()
+        setDialogVisibility(false)
+
         props.navigation?.goBack()
     }
 
@@ -106,24 +104,24 @@ export function CreateElection (props: Props) {
                     }/>
                 </View>
 
-                <Button style={styles.createButton} mode="outlined" onPress={showDialog}>
+                <Button style={styles.createButton} mode="outlined" onPress={showConfirmDialog}>
                     Create
                 </Button>
 
                 <Portal>
                     <Dialog style={{backgroundColor: theme.colors.background}} 
-                        visible={_dialogVisibility} onDismiss={closeDialog}>
+                        visible={_dialogVisibility} onDismiss={bindWithFalse(setDialogVisibility)}>
                         <Dialog.Title>Election creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this election?</Subheading>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button onPress={closeDialog}>No</Button>
+                            <Button onPress={bindWithFalse(setDialogVisibility)}>No</Button>
                             <Button onPress={createElection}>Yes</Button>
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar} 
+                    <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
                         message="Fill out all the fields or fix the errors!"/>
                 </Portal>
             </View>

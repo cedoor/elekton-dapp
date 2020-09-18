@@ -5,6 +5,7 @@ import { StackHeaderProps } from "@react-navigation/stack"
 import { StyleSheet } from "react-native"
 import { ThemeContext } from "../context/ThemeContext"
 import { AuthContext } from "../context/AuthContext"
+import { bindWithFalse, bindWithTrue } from "../utils/helper"
 
 export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
     const { _user } = useContext(AuthContext)
@@ -13,9 +14,6 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
     const [_menuVisibility, setMenuVisibility] = useState(false)
 
     const theme = useTheme()
-
-    const openMenu = () => setMenuVisibility(true)
-    const closeMenu = () => setMenuVisibility(false)
 
     return (
         <Appbar.Header
@@ -27,10 +25,10 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
 
             <Menu contentStyle={{backgroundColor: theme.colors.surface}}
                 visible={_menuVisibility}
-                onDismiss={closeMenu}
+                onDismiss={bindWithFalse(setMenuVisibility)}
                 anchor={
                     <Appbar.Action color={theme.colors.text}
-                        onPress={openMenu} icon="dots-vertical"/>
+                        onPress={bindWithTrue(setMenuVisibility)} icon="dots-vertical"/>
                 }>
                 <Menu.Item onPress={toggleTheme} 
                     title={_themeType === "light" ? "Dark theme" : "Light theme"}

@@ -9,6 +9,7 @@ import Snackbar from "../components/Snackbar"
 import PinKeyboard from "../components/PinKeyboard"
 import useTheme from "../hooks/useTheme"
 import Loader from "../components/Loader"
+import { bindWithFalse } from "../utils/helper"
 
 export default function SignUp () {
     const { signUp } = useContext(AuthContext)
@@ -21,18 +22,14 @@ export default function SignUp () {
     const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
     const [_dialogVisibility, setDialogVisibility] = useState(false)
     const [_QRCodeViewerVisibility, setQRCodeViewerVisibility] = useState(false)
-    const [_PinCodeVisibility, setPinCodeVisibility] = useState(false)
+    const [_pinKeyboardVisibility, setPinKeyboardVisibility] = useState(false)
     const [_loadingVisibility, setLoadingVisibility] = useState(false)
 
     const theme = useTheme()
 
-    const closeSnackBar = () => setSnackBarVisibility(false)
-    const openSnackBar = () => setSnackBarVisibility(true)
-
-    const closeDialog = () => setDialogVisibility(false)
-    const showDialog = () => {
+    const showConfirmDialog = () => {
         if (formHasErrors()) {
-            openSnackBar()
+            setSnackBarVisibility(true)
 
             return
         }
@@ -40,22 +37,18 @@ export default function SignUp () {
         setDialogVisibility(true)
     }
 
-    const closeQRCodeViewer = () => setQRCodeViewerVisibility(false)
-    const openQRCodeViewer = () => setQRCodeViewerVisibility(true)
-
-    const openPinKeyboard = () => setPinCodeVisibility(true)
-    const closePinKeyboard = async (code?: string) => {
-        if (code) {
-            setPinCode(code)
-            openQRCodeViewer()
-        }
-
-        setPinCodeVisibility(false)
+    const showPinKeyboard = async () => {
+        setPinKeyboardVisibility(true)
+        setDialogVisibility(false)
     }
 
-    const createPinCode = async () => {
-        openPinKeyboard()
-        closeDialog()
+    const addPinCode = async (pinCode?: string) => {
+        if (pinCode) {
+            setPinCode(pinCode)
+            setQRCodeViewerVisibility(true)
+        }
+
+        setPinKeyboardVisibility(false)
     }
 
     const createUser = async () => {
@@ -70,8 +63,7 @@ export default function SignUp () {
         })
     }
 
-    const formHasErrors = () =>
-        _name === null || _surname === null || _username === null
+    const formHasErrors = () => _name === null || _surname === null || _username === null
 
     return (
         <ScrollView>
@@ -101,7 +93,7 @@ export default function SignUp () {
                     <Picker selectedValue={_role} onValueChange={setRole} items={["Elector", "Admin"]} />
                 </View>
 
-                <Button style={styles.createButton} mode="outlined" onPress={showDialog}>
+                <Button style={styles.createButton} mode="outlined" onPress={showConfirmDialog}>
                     Create
                 </Button>
 
@@ -109,24 +101,24 @@ export default function SignUp () {
                     <Loader visible={_loadingVisibility} />
 
                     <QRCodeViewer value={_username as string} visible={_QRCodeViewerVisibility} 
-                        onDismiss={closeQRCodeViewer}
+                        onDismiss={bindWithFalse(setQRCodeViewerVisibility)}
                         buttons={[{ title: "Sign Up", onPress: createUser }]}/>
 
-                    <PinKeyboard visible={_PinCodeVisibility} onClose={closePinKeyboard} />
+                    <PinKeyboard visible={_pinKeyboardVisibility} onClose={addPinCode} />
 
                     <Dialog style={{backgroundColor: theme.colors.background}} 
-                        visible={_dialogVisibility} onDismiss={closeDialog}>
+                        visible={_dialogVisibility} onDismiss={bindWithFalse(setDialogVisibility)}>
                         <Dialog.Title>User creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this user?</Subheading>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button onPress={closeDialog}>No</Button>
-                            <Button onPress={createPinCode}>Yes</Button>
+                            <Button onPress={bindWithFalse(setDialogVisibility)}>No</Button>
+                            <Button onPress={showPinKeyboard}>Yes</Button>
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={_snackBarVisibility} onDismiss={closeSnackBar}
+                    <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
                         message="Fill out all the fields or fix the errors!"/>
                 </Portal>
             </View>

@@ -10,12 +10,12 @@ import {
     Provider as PaperProvider
 } from "react-native-paper"
 import { ThemeContext } from "./context/ThemeContext"
-import LinkingConfiguration from "./constants/routes"
+import linkingConfiguration from "./constants/routes"
 import { AuthContext } from "./context/AuthContext"
 import RootNavigator from "./navigation/RootNavigator"
-import Theme from "./constants/theme"
+import theme from "./constants/theme"
 import { ThemeType, User } from "./Types"
-import * as storage from "./utils/storage"
+import cache from "./utils/cache"
 import { StatusBar } from "expo-status-bar"
 
 const CombinedDefaultTheme = {
@@ -24,15 +24,15 @@ const CombinedDefaultTheme = {
     colors: {
         ...PaperDefaultTheme.colors,
         ...NavigationDefaultTheme.colors,
-        ...Theme.colors.light
+        ...theme.colors.light
     },
-    roundness: Theme.roundness
+    roundness: theme.roundness
 }
 const CombinedDarkTheme = {
     ...PaperDarkTheme,
     ...NavigationDarkTheme,
-    colors: { ...PaperDarkTheme.colors, ...NavigationDarkTheme.colors, ...Theme.colors.dark },
-    roundness: Theme.roundness
+    colors: { ...PaperDarkTheme.colors, ...NavigationDarkTheme.colors, ...theme.colors.dark },
+    roundness: theme.roundness
 }
 
 type Props = {
@@ -51,7 +51,7 @@ export default function Main ({user, themeType} : Props) {
         async toggleTheme () {
             const themeType = _themeType === "light" ? "dark" : "light"
 
-            await storage.setItem("@theme", { themeType })
+            await cache.setTheme(themeType)
             setTheme(themeType)
         }
     }), [_themeType])
@@ -59,7 +59,7 @@ export default function Main ({user, themeType} : Props) {
     const auth = useMemo(() => ({
         _user,
         async signIn (username: string) {
-            const users: User[] | null = await storage.getItem("@users")
+            const users: User[] | null = await cache.getUsers()
 
             if (!users) {
                 throw Error("No registered users!")
@@ -71,22 +71,22 @@ export default function Main ({user, themeType} : Props) {
                 throw Error("This user does not exist!")
             }
 
-            await storage.setItem("@user", user)
+            await cache.setUser(user)
 
             delete user.pinCode
 
             setUser(user)
         },
         async signUp (user: User) {
-            const users: User[] = (await storage.getItem("@users")) || []
+            const users: User[] = (await cache.getUsers()) || []
 
-            await storage.setItem("@users", [user, ...users])
-            await storage.setItem("@user", user)
+            await cache.setUsers([user, ...users])
+            await cache.setUser(user)
 
             setUser(user)
         },
         async signOut () {
-            await storage.removeItem("@user")
+            await cache.removeUser()
 
             setUser(null)
         },
@@ -102,7 +102,7 @@ export default function Main ({user, themeType} : Props) {
             <ThemeContext.Provider value={theme}>
                 <PaperProvider theme={combinedTheme}>
                     <StatusBar style={_themeType === "light" ? "dark" : "light"} />
-                    <NavigationContainer linking={LinkingConfiguration} theme={combinedTheme}>
+                    <NavigationContainer linking={linkingConfiguration} theme={combinedTheme}>
                         <RootNavigator/>
                     </NavigationContainer>
                 </PaperProvider>
