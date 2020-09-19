@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext"
 import Picker from "../components/Picker"
 import QRCodeViewer from "../components/QRCodeViewer"
 import Snackbar from "../components/Snackbar"
-import PinKeyboard from "../components/PinKeyboard"
+import PinKeyboardModal from "../components/PinKeyboardModal/PinKeyboardModal"
 import useTheme from "../hooks/useTheme"
 import Loader from "../components/Loader"
 import { bindWithFalse } from "../utils/helper"
@@ -104,7 +104,7 @@ export default function SignUp () {
                         onDismiss={bindWithFalse(setQRCodeViewerVisibility)}
                         buttons={[{ title: "Sign Up", onPress: createUser }]}/>
 
-                    <PinKeyboard visible={_pinKeyboardVisibility} onClose={addPinCode} />
+                    <PinKeyboardModal visible={_pinKeyboardVisibility} onClose={addPinCode} />
 
                     <Dialog style={{backgroundColor: theme.colors.background}} 
                         visible={_dialogVisibility} onDismiss={bindWithFalse(setDialogVisibility)}>

@@ -5,7 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack"
 import { ActivityIndicator, FAB, Portal, Text } from "react-native-paper"
 import ElectionListItem from "../components/ElectionListItem"
 import useTheme from "../hooks/useTheme"
-import PinKeyboard from "../components/PinKeyboard"
+import PinKeyboardModal from "../components/PinKeyboardModal/PinKeyboardModal"
 import cache from "../utils/cache"
 import { AuthContext } from "../context/AuthContext"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
@@ -96,7 +96,7 @@ export default function Elections (props: Props) {
             }
 
             <Portal>
-                <PinKeyboard visible={_pinKeyboardVisibility} onClose={unlock} closeOnBackButton={false}/>
+                <PinKeyboardModal visible={_pinKeyboardVisibility} onClose={unlock} closeOnBackButton={false}/>
             </Portal>
         </View>
     )
