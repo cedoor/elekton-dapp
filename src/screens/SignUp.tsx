@@ -8,7 +8,7 @@ import QRCodeViewer from "../components/QRCodeViewer"
 import Snackbar from "../components/Snackbar"
 import PinKeyboardModal from "../components/PinKeyboardModal/PinKeyboardModal"
 import useTheme from "../hooks/useTheme"
-import Loader from "../components/Loader"
+import FullscreenLoader from "../components/FullscreenLoader"
 import { bindWithFalse } from "../utils/helper"
 
 export default function SignUp () {
@@ -98,7 +98,7 @@ export default function SignUp () {
                 </Button>
 
                 <Portal>
-                    <Loader visible={_loadingVisibility} />
+                    <FullscreenLoader visible={_loadingVisibility} />
 
                     <QRCodeViewer value={_username as string} visible={_QRCodeViewerVisibility} 
                         onDismiss={bindWithFalse(setQRCodeViewerVisibility)}

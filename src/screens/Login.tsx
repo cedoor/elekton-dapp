@@ -7,7 +7,7 @@ import Scanner from "../components/Scanner"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { AuthNavigatorParamList } from "../Types"
 import Snackbar from "../components/Snackbar"
-import Loader from "../components/Loader"
+import FullscreenLoader from "../components/FullscreenLoader"
 import { bindWithFalse, bindWithTrue } from "../utils/helper"
 
 type Props = {
@@ -63,7 +63,7 @@ export default function Login (props: Props) {
             </View>
 
             <Portal>
-                <Loader visible={_loadingVisibility} />
+                <FullscreenLoader visible={_loadingVisibility} />
                 <Scanner visible={_scannerVisibility} onClose={tryLogin} onError={showError}/>
                 <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
                     message={_snackBarMessage}/>

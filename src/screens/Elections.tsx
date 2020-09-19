@@ -17,9 +17,9 @@ type Props = {
 export default function Elections (props: Props) {
     const {_user, unlockUser} = useContext(AuthContext)
 
+    const [_elections, setElections] = useState<Election[] | null>(null)
     const [_refreshing, setRefreshing] = useState(false)
     const [_pinKeyboardVisibility, setPinKeyboardVisibility] = useState(!_user?.pinCode)
-    const [_elections, setElections] = useState<Election[] | null>(null)
 
     const theme = useTheme()
 
@@ -74,14 +74,14 @@ export default function Elections (props: Props) {
             </ScrollView>
 
             {_elections && _elections.length === 0 &&
-                <View style={styles.centerContent}>
+                <View style={styles.centralContent}>
                     <MaterialCommunityIcons size={60} color={theme.colors.placeholder} name="emoticon-sad-outline"/>
                     <Text style={{color: theme.colors.placeholder}}>No elections</Text>
                 </View>
             }
 
             {!_elections &&
-                <View style={styles.centerContent}>
+                <View style={styles.centralContent}>
                     <ActivityIndicator size="large" color={theme.colors.placeholder}/>
                 </View>
             }
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    centerContent: {
+    centralContent: {
         position: "absolute",
         top: 0,
         left: 0,

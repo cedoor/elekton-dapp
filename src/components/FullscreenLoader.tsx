@@ -6,7 +6,7 @@ type Props = {
     visible: boolean
 }
 
-export default function Loader ({ visible }: Props) {
+export default function FullscreenLoader ({ visible }: Props) {
     return (
         <Modal visible={visible} transparent={true} statusBarTranslucent={true} animationType="fade">
             <View style={styles.container}>
