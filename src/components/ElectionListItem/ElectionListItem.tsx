@@ -2,8 +2,8 @@ import React from "react"
 import { List, TouchableRipple } from "react-native-paper"
 import { StyleSheet, Text, View } from "react-native"
 import { format } from "date-fns"
-import useTheme from "../hooks/useTheme"
-import { Election } from "../Types"
+import useTheme from "../../hooks/useTheme"
+import { Election } from "../../Types"
 import ElectionStopwatch from "./ElectionStopwatch"
 
 type Props = {
