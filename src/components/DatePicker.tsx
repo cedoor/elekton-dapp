@@ -12,8 +12,8 @@ type Props = {
     errors?: (data: Date) => string
 }
 
-export default function DatePicker ({ date = new Date(), onChange, errors }: Props) {
-    const [_date, setDate] = useState({value: date, error: ""})
+export default function DatePicker({ date = new Date(), onChange, errors }: Props) {
+    const [_date, setDate] = useState({ value: date, error: "" })
     const [_datePickerMode, setDatePickerMode] = useState<"date" | "time">("date")
     const [_datePickerVisibility, setDatePickerVisibility] = useState(false)
 
@@ -23,7 +23,7 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
         const error = errors ? errors(date) : ""
 
         setDatePickerVisibility(Platform.OS === "ios")
-        setDate({value: date, error})
+        setDate({ value: date, error })
         onChange(!error ? date : null)
     }
 
@@ -42,9 +42,7 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
                         description={format(_date.value, "MMM dd, yyyy")}
                         left={() => (
                             <List.Icon
-                                icon={({ color, size }) => (
-                                    <MaterialIcons name="today" size={size} color={color} />
-                                )}
+                                icon={({ color, size }) => <MaterialIcons name="today" size={size} color={color} />}
                             />
                         )}
                     />
@@ -64,19 +62,13 @@ export default function DatePicker ({ date = new Date(), onChange, errors }: Pro
                     />
                 </TouchableRipple>
             </View>
-            {!!_date.error &&
-                <HelperText style={[
-                    {borderTopColor: theme.colors.error},
-                    styles.helperText
-                ]} type="error">{_date.error}</HelperText>
-            }
+            {!!_date.error && (
+                <HelperText style={[{ borderTopColor: theme.colors.error }, styles.helperText]} type="error">
+                    {_date.error}
+                </HelperText>
+            )}
             {_datePickerVisibility && (
-                <DateTimePicker
-                    value={_date.value}
-                    mode={_datePickerMode}
-                    display="default"
-                    onChange={updateDate}
-                />
+                <DateTimePicker value={_date.value} mode={_datePickerMode} display="default" onChange={updateDate} />
             )}
         </View>
     )

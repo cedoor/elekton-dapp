@@ -7,7 +7,7 @@ type Props = {
     endDate: number
 }
 
-export default function ElectionStopwatch ({ startDate, endDate }: Props) {
+export default function ElectionStopwatch({ startDate, endDate }: Props) {
     const [_stopwatch, setStopwatch] = useState<number>(Date.now() - startDate)
     const currentDate = Date.now()
 

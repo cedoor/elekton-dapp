@@ -7,7 +7,7 @@ import { AuthNavigatorParamList } from "../Types"
 
 const AuthStack = createStackNavigator<AuthNavigatorParamList>()
 
-export default function AuthNavigator () {
+export default function AuthNavigator() {
     return (
         <AuthStack.Navigator
             headerMode="screen"
@@ -16,9 +16,10 @@ export default function AuthNavigator () {
                 header: ({ scene, previous, navigation }: StackHeaderProps) => (
                     <Header scene={scene} previous={previous} navigation={navigation} />
                 )
-            }}>
+            }}
+        >
             <AuthStack.Screen name="Login" component={Login} />
-            <AuthStack.Screen name="SignUp" component={SignUp} options={{ title: "Create user" }}/>
+            <AuthStack.Screen name="SignUp" component={SignUp} options={{ title: "Create user" }} />
         </AuthStack.Navigator>
     )
 }

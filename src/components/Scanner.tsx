@@ -10,11 +10,11 @@ type Props = {
     onError: (message: string) => void
 }
 
-export default function Scanner ({ visible, onClose, onError }: Props) {
+export default function Scanner({ visible, onClose, onError }: Props) {
     const [_hasPermission, setHasPermission] = useState(false)
 
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync()
 
             if (status !== "granted") {
@@ -27,9 +27,8 @@ export default function Scanner ({ visible, onClose, onError }: Props) {
     }, [])
 
     return (
-        <Modal visible={visible && _hasPermission} onClose={onClose}
-            message="Scan the QR code with your personal key">
-            <BarCodeScanner onBarCodeScanned={({data}) => onClose(data)} style={styles.scanner}/>
+        <Modal visible={visible && _hasPermission} onClose={onClose} message="Scan the QR code with your personal key">
+            <BarCodeScanner onBarCodeScanned={({ data }) => onClose(data)} style={styles.scanner} />
         </Modal>
     )
 }

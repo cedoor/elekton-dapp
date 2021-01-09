@@ -9,10 +9,10 @@ type Props = {
     visible: boolean
     value: string
     onDismiss: (data?: string) => void
-    buttons?: {title: string, onPress: () => void}[]
+    buttons?: { title: string; onPress: () => void }[]
 }
 
-export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Props) {
+export default function QRCodeViewer({ visible, value, onDismiss, buttons }: Props) {
     const theme = useTheme()
 
     let qrCodeRef: any = useRef(null)
@@ -25,15 +25,26 @@ export default function QRCodeViewer ({ visible, value, onDismiss, buttons }: Pr
     // }
 
     return (
-        <Modal visible={visible} onClose={onDismiss}
+        <Modal
+            visible={visible}
+            onClose={onDismiss}
             message="Your private key has been generated, in the future you will need
-                to scan the related qr code to login, backup it and keep it safe!">
-            <QRCode backgroundColor="transparent" color={theme.colors.text} size={210}
-                value={value} getRef={(ref) => (qrCodeRef = ref)}/>
+                to scan the related qr code to login, backup it and keep it safe!"
+        >
+            <QRCode
+                backgroundColor="transparent"
+                color={theme.colors.text}
+                size={210}
+                value={value}
+                getRef={(ref) => (qrCodeRef = ref)}
+            />
             {/* <Button style={styles.button} mode="outlined" onPress={backupQRCode}>Backup</Button>*/}
-            {buttons && buttons.map((button, index) =>
-                <Button key={index} style={styles.button} onPress={button.onPress}>{button.title}</Button>
-            )}
+            {buttons &&
+                buttons.map((button, index) => (
+                    <Button key={index} style={styles.button} onPress={button.onPress}>
+                        {button.title}
+                    </Button>
+                ))}
         </Modal>
     )
 }

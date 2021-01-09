@@ -5,12 +5,12 @@ import { IconButton, Text } from "react-native-paper"
 import TouchableDigit from "./TouchableDigit"
 
 type Props = {
-    onConfirm: (pinCode: string) => void,
-    max?: number,
+    onConfirm: (pinCode: string) => void
+    max?: number
     checkFunction?: (pinCode: string) => boolean | Promise<boolean>
 }
 
-export default function PinKeyboard ({ onConfirm, max = 10, checkFunction }: Props) {
+export default function PinKeyboard({ onConfirm, max = 10, checkFunction }: Props) {
     const [_pinCode, setPinCode] = useState("")
     const [_error, setError] = useState(false)
 
@@ -41,53 +41,68 @@ export default function PinKeyboard ({ onConfirm, max = 10, checkFunction }: Pro
 
     return (
         <View style={styles.container}>
-            <Text style={[{
-                borderColor: _error ? theme.colors.error : theme.colors.primary
-            }, styles.pinCode]}>
+            <Text
+                style={[
+                    {
+                        borderColor: _error ? theme.colors.error : theme.colors.primary
+                    },
+                    styles.pinCode
+                ]}
+            >
                 {"•".repeat(_pinCode.length)}
             </Text>
             <View style={styles.keyboard}>
-                <View style={[{borderColor: theme.colors.border}, styles.keyboardRow]}>
+                <View style={[{ borderColor: theme.colors.border }, styles.keyboardRow]}>
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={1} onPress={addDigit}/>
+                        <TouchableDigit value={1} onPress={addDigit} />
                     </View>
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={2} onPress={addDigit}/>
+                        <TouchableDigit value={2} onPress={addDigit} />
                     </View>
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={3} onPress={addDigit}/>
-                    </View>
-                </View>
-                <View style={styles.keyboardRow}>
-                    <View style={styles.keyboardItem}>
-                        <TouchableDigit value={4} onPress={addDigit}/>
-                    </View>
-                    <View style={styles.keyboardItem}>
-                        <TouchableDigit value={5} onPress={addDigit}/>
-                    </View>
-                    <View style={styles.keyboardItem}>
-                        <TouchableDigit value={6} onPress={addDigit}/>
+                        <TouchableDigit value={3} onPress={addDigit} />
                     </View>
                 </View>
                 <View style={styles.keyboardRow}>
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={7} onPress={addDigit}/>
+                        <TouchableDigit value={4} onPress={addDigit} />
                     </View>
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={8} onPress={addDigit}/>
+                        <TouchableDigit value={5} onPress={addDigit} />
                     </View>
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={9} onPress={addDigit}/>
+                        <TouchableDigit value={6} onPress={addDigit} />
                     </View>
                 </View>
                 <View style={styles.keyboardRow}>
-                    <IconButton style={styles.keyboardItem} color={theme.colors.placeholder}
-                        icon="backspace" size={24} onPress={removeDigit} />
                     <View style={styles.keyboardItem}>
-                        <TouchableDigit value={0} onPress={addDigit}/>
+                        <TouchableDigit value={7} onPress={addDigit} />
                     </View>
-                    <IconButton style={styles.keyboardItem} color={theme.colors.primary}
-                        icon="check" size={24} onPress={confirmPinCode} />
+                    <View style={styles.keyboardItem}>
+                        <TouchableDigit value={8} onPress={addDigit} />
+                    </View>
+                    <View style={styles.keyboardItem}>
+                        <TouchableDigit value={9} onPress={addDigit} />
+                    </View>
+                </View>
+                <View style={styles.keyboardRow}>
+                    <IconButton
+                        style={styles.keyboardItem}
+                        color={theme.colors.placeholder}
+                        icon="backspace"
+                        size={24}
+                        onPress={removeDigit}
+                    />
+                    <View style={styles.keyboardItem}>
+                        <TouchableDigit value={0} onPress={addDigit} />
+                    </View>
+                    <IconButton
+                        style={styles.keyboardItem}
+                        color={theme.colors.primary}
+                        icon="check"
+                        size={24}
+                        onPress={confirmPinCode}
+                    />
                 </View>
             </View>
         </View>
@@ -99,7 +114,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     pinCode: {
-        borderBottomWidth: .4,
+        borderBottomWidth: 0.4,
         borderStyle: "solid",
         paddingBottom: 10,
         width: 230,

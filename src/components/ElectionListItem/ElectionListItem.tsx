@@ -11,7 +11,7 @@ type Props = {
     onClick: (id: number) => void
 }
 
-export default function ElectionListItem ({ election, onClick }: Props) {
+export default function ElectionListItem({ election, onClick }: Props) {
     const theme = useTheme()
 
     return (
@@ -20,7 +20,7 @@ export default function ElectionListItem ({ election, onClick }: Props) {
                 <List.Item
                     title={election.title}
                     description={election.description}
-                    descriptionStyle={{color: theme.colors.placeholder}}
+                    descriptionStyle={{ color: theme.colors.placeholder }}
                     right={() => (
                         <View style={styles.date}>
                             <Text style={[{ color: theme.colors.placeholder }, styles.dateText]}>

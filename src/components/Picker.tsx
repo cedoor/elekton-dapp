@@ -10,7 +10,7 @@ type Props = {
     items: string[]
 }
 
-export default function Picker ({ selectedValue, onValueChange, items }: Props) {
+export default function Picker({ selectedValue, onValueChange, items }: Props) {
     const [_menuVisibility, setMenuVisibility] = useState(false)
 
     const theme = useTheme()
@@ -22,18 +22,24 @@ export default function Picker ({ selectedValue, onValueChange, items }: Props) 
 
     return (
         <TouchableRipple onPress={bindWithTrue(setMenuVisibility)}>
-            <View style={[{borderBottomColor: theme.colors.border}, styles.container]}>
+            <View style={[{ borderBottomColor: theme.colors.border }, styles.container]}>
                 <View style={styles.labelContainer}>
                     <Text style={styles.label}>{items[selectedValue]}</Text>
                 </View>
-                <Menu contentStyle={{backgroundColor: theme.colors.surface}}
+                <Menu
+                    contentStyle={{ backgroundColor: theme.colors.surface }}
                     visible={_menuVisibility}
                     onDismiss={bindWithFalse(setMenuVisibility)}
-                    anchor={<IconButton icon="menu-down"/>}>
-                    {items.map((item, index) =>
-                        <Menu.Item key={item} title={item} titleStyle={styles.item}
-                            onPress={() => selectValue(index)}/>
-                    )}
+                    anchor={<IconButton icon="menu-down" />}
+                >
+                    {items.map((item, index) => (
+                        <Menu.Item
+                            key={item}
+                            title={item}
+                            titleStyle={styles.item}
+                            onPress={() => selectValue(index)}
+                        />
+                    ))}
                 </Menu>
             </View>
         </TouchableRipple>

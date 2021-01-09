@@ -11,8 +11,8 @@ type Props = {
     errors?: (text: string) => string
 }
 
-export default function TextInput ({ label, maxLength, onBlurText, multiline, errors }: Props) {
-    const [_text, setText] = useState({value: "", error: ""})
+export default function TextInput({ label, maxLength, onBlurText, multiline, errors }: Props) {
+    const [_text, setText] = useState({ value: "", error: "" })
 
     const theme = useTheme()
 

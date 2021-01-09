@@ -6,11 +6,11 @@ type Props = {
     visible: boolean
 }
 
-export default function FullscreenLoader ({ visible }: Props) {
+export default function FullscreenLoader({ visible }: Props) {
     return (
         <Modal visible={visible} transparent={true} statusBarTranslucent={true} animationType="fade">
             <View style={styles.container}>
-                <ActivityIndicator size="large" color={Colors.grey200}/>
+                <ActivityIndicator size="large" color={Colors.grey200} />
             </View>
         </Modal>
     )

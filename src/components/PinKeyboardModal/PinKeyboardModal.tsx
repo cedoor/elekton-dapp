@@ -16,8 +16,8 @@ type Props = {
     closeOnBackButton?: boolean
 }
 
-export default function PinKeyboardModal ({ visible, onClose, closeOnBackButton = true }: Props) {
-    const { _user, signOut} = useContext(AuthContext)
+export default function PinKeyboardModal({ visible, onClose, closeOnBackButton = true }: Props) {
+    const { _user, signOut } = useContext(AuthContext)
 
     const theme = useTheme()
 
@@ -25,21 +25,29 @@ export default function PinKeyboardModal ({ visible, onClose, closeOnBackButton 
         if (!_user) {
             return true
         }
-        
+
         const user: User = await cache.getUser()
 
         return pinCode === user.pinCode
     }
 
     return (
-        <Modal visible={visible} closeOnBackButton={closeOnBackButton} onClose={onClose}
-            message={!_user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}>
+        <Modal
+            visible={visible}
+            closeOnBackButton={closeOnBackButton}
+            onClose={onClose}
+            message={!_user ? "Set a pin code to encrypt your key" : "Unlock your account with your pin code"}
+        >
             <View style={styles.topIcon}>
-                <MaterialCommunityIcons name="lock" size={24} color={theme.colors.placeholder}/>
+                <MaterialCommunityIcons name="lock" size={24} color={theme.colors.placeholder} />
             </View>
             <View style={styles.content}>
-                <PinKeyboard onConfirm={onClose} max={6} checkFunction={checkFunction}/>
-                {!!_user && <Button style={styles.button} onPress={signOut}>Sign Out</Button>}
+                <PinKeyboard onConfirm={onClose} max={6} checkFunction={checkFunction} />
+                {!!_user && (
+                    <Button style={styles.button} onPress={signOut}>
+                        Sign Out
+                    </Button>
+                )}
             </View>
         </Modal>
     )

@@ -7,7 +7,7 @@ import { ThemeContext } from "../context/ThemeContext"
 import { AuthContext } from "../context/AuthContext"
 import { bindWithFalse, bindWithTrue } from "../utils/helper"
 
-export default function Header ({ scene, previous, navigation }: StackHeaderProps | any) {
+export default function Header({ scene, previous, navigation }: StackHeaderProps | any) {
     const { _user } = useContext(AuthContext)
     const { _themeType, toggleTheme } = useContext(ThemeContext)
 
@@ -16,24 +16,30 @@ export default function Header ({ scene, previous, navigation }: StackHeaderProp
     const theme = useTheme()
 
     return (
-        <Appbar.Header
-            style={[{backgroundColor: theme.colors.background}, styles.header]}>
-            {!previous && _user && <Appbar.Action onPress={navigation.openDrawer} icon="menu"/>}
+        <Appbar.Header style={[{ backgroundColor: theme.colors.background }, styles.header]}>
+            {!previous && _user && <Appbar.Action onPress={navigation.openDrawer} icon="menu" />}
             {previous && <Appbar.BackAction onPress={navigation.goBack} />}
 
             <Appbar.Content title={scene.descriptor.options.title} />
 
-            <Menu contentStyle={{backgroundColor: theme.colors.surface}}
+            <Menu
+                contentStyle={{ backgroundColor: theme.colors.surface }}
                 visible={_menuVisibility}
                 onDismiss={bindWithFalse(setMenuVisibility)}
                 anchor={
-                    <Appbar.Action color={theme.colors.text}
-                        onPress={bindWithTrue(setMenuVisibility)} icon="dots-vertical"/>
-                }>
-                <Menu.Item onPress={toggleTheme} 
+                    <Appbar.Action
+                        color={theme.colors.text}
+                        onPress={bindWithTrue(setMenuVisibility)}
+                        icon="dots-vertical"
+                    />
+                }
+            >
+                <Menu.Item
+                    onPress={toggleTheme}
                     title={_themeType === "light" ? "Dark theme" : "Light theme"}
                     titleStyle={styles.item}
-                    icon="theme-light-dark"/>
+                    icon="theme-light-dark"
+                />
                 {/* {!user &&*/}
                 {/*    <Menu.Item onPress={() => console.log("Pressed")}*/}
                 {/*        title="Verify elections"*/}

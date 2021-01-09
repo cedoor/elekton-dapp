@@ -12,19 +12,30 @@ type Props = {
     message: string
 }
 
-export default function Modal ({ visible, onClose, closeOnBackButton, children, message }: Props) {
+export default function Modal({ visible, onClose, closeOnBackButton, children, message }: Props) {
     const theme = useTheme()
 
     return (
-        <OriginalModal visible={visible} onDismiss={onClose} dismissable={closeOnBackButton} contentContainerStyle={[{
-            backgroundColor: theme.colors.background
-        }, styles.container]}>
-            <View style={styles.modalBox}>
-                {children}
-            </View>
-            <View style={[{
-                borderColor: theme.colors.border
-            }, styles.messageBox]}>
+        <OriginalModal
+            visible={visible}
+            onDismiss={onClose}
+            dismissable={closeOnBackButton}
+            contentContainerStyle={[
+                {
+                    backgroundColor: theme.colors.background
+                },
+                styles.container
+            ]}
+        >
+            <View style={styles.modalBox}>{children}</View>
+            <View
+                style={[
+                    {
+                        borderColor: theme.colors.border
+                    },
+                    styles.messageBox
+                ]}
+            >
                 <Text style={styles.message}>{message}</Text>
             </View>
         </OriginalModal>
@@ -41,7 +52,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     messageBox: {
-        borderTopWidth: .4,
+        borderTopWidth: 0.4,
         paddingVertical: 20,
         marginHorizontal: 20,
         marginTop: -Constants.statusBarHeight

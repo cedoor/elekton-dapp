@@ -10,9 +10,9 @@ type Props = {
     errors?: (options: string[]) => string
 }
 
-export default function DynamicList ({ options = [], onChange, errors }: Props) {
+export default function DynamicList({ options = [], onChange, errors }: Props) {
     const [_inputValue, setInputValue] = useState("")
-    const [_options, setOptions] = useState({value: options, error: ""})
+    const [_options, setOptions] = useState({ value: options, error: "" })
 
     const theme = useTheme()
 
@@ -21,7 +21,7 @@ export default function DynamicList ({ options = [], onChange, errors }: Props) 
             const options = [..._options.value, _inputValue]
             const error = errors ? errors(options) : ""
 
-            setOptions({value: options, error})
+            setOptions({ value: options, error })
             setInputValue("")
             onChange(!error ? options : null)
         }
@@ -33,7 +33,7 @@ export default function DynamicList ({ options = [], onChange, errors }: Props) 
         const options = _options.value.slice()
         const error = errors ? errors(options) : ""
 
-        setOptions({value: options, error})
+        setOptions({ value: options, error })
         onChange(!error ? options : null)
     }
 

@@ -15,7 +15,7 @@ type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
 }
 
-export function CreateElection (props: Props) {
+export function CreateElection(props: Props) {
     const [_title, setTitle] = useState<string | null>(null)
     const [_description, setDescription] = useState<string | null>(null)
     const [_startDate, setStartDate] = useState<Date | null>(null)
@@ -56,52 +56,65 @@ export function CreateElection (props: Props) {
     }
 
     const formHasErrors = () =>
-        _title === null || _description === null ||
-        _startDate === null || _endDate === null ||
-        _options === null
+        _title === null || _description === null || _startDate === null || _endDate === null || _options === null
 
     return (
         <ScrollView>
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
-                    <TextInput label="Title"
+                    <TextInput
+                        label="Title"
                         onBlurText={setTitle}
                         errors={(title) =>
-                            title.length === 0 ? "Title is required" :
-                                title.length > 30 ? "Title is too long" : ""
+                            title.length === 0 ? "Title is required" : title.length > 30 ? "Title is too long" : ""
                         }
-                        maxLength={30}/>
-                    <TextInput label="Description"
+                        maxLength={30}
+                    />
+                    <TextInput
+                        label="Description"
                         onBlurText={setDescription}
                         errors={(description) =>
-                            description.length === 0 ? "Description is required" :
-                                description.length > 30 ? "Description is too long" : ""
+                            description.length === 0
+                                ? "Description is required"
+                                : description.length > 30
+                                ? "Description is too long"
+                                : ""
                         }
                         maxLength={60}
-                        multiline/>
+                        multiline
+                    />
                 </View>
 
                 <View>
                     <Subheading>Start date</Subheading>
-                    <DatePicker onChange={setStartDate} errors={(startDate) =>
-                        startDate.getTime() < Date.now() + 3600000 ?
-                            "The start date must be at least one hour after creation" : ""
-                    }/>
+                    <DatePicker
+                        onChange={setStartDate}
+                        errors={(startDate) =>
+                            startDate.getTime() < Date.now() + 3600000
+                                ? "The start date must be at least one hour after creation"
+                                : ""
+                        }
+                    />
                 </View>
 
                 <View>
                     <Subheading>End date</Subheading>
-                    <DatePicker onChange={setEndDate} errors={(endDate) =>
-                        _startDate && _startDate.getTime() + 3600000 > endDate.getTime() ?
-                            "The end date must be at least one hour after the start date" : ""
-                    }/>
+                    <DatePicker
+                        onChange={setEndDate}
+                        errors={(endDate) =>
+                            _startDate && _startDate.getTime() + 3600000 > endDate.getTime()
+                                ? "The end date must be at least one hour after the start date"
+                                : ""
+                        }
+                    />
                 </View>
 
                 <View>
                     <Subheading>Options</Subheading>
-                    <DynamicList onChange={setOptions} errors={(options) =>
-                        options.length < 2 ? "There must be at least 2 options" : ""
-                    }/>
+                    <DynamicList
+                        onChange={setOptions}
+                        errors={(options) => (options.length < 2 ? "There must be at least 2 options" : "")}
+                    />
                 </View>
 
                 <Button style={styles.createButton} mode="outlined" onPress={showConfirmDialog}>
@@ -109,8 +122,11 @@ export function CreateElection (props: Props) {
                 </Button>
 
                 <Portal>
-                    <Dialog style={{backgroundColor: theme.colors.background}} 
-                        visible={_dialogVisibility} onDismiss={bindWithFalse(setDialogVisibility)}>
+                    <Dialog
+                        style={{ backgroundColor: theme.colors.background }}
+                        visible={_dialogVisibility}
+                        onDismiss={bindWithFalse(setDialogVisibility)}
+                    >
                         <Dialog.Title>Election creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this election?</Subheading>
@@ -121,8 +137,11 @@ export function CreateElection (props: Props) {
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
-                        message="Fill out all the fields or fix the errors!"/>
+                    <Snackbar
+                        visible={_snackBarVisibility}
+                        onDismiss={bindWithFalse(setSnackBarVisibility)}
+                        message="Fill out all the fields or fix the errors!"
+                    />
                 </Portal>
             </View>
         </ScrollView>

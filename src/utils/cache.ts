@@ -53,7 +53,7 @@ export default {
     getUsers: async () => getItem(Key.USERS), // TODO: to remove.
     setUsers: async (users: User[]) => setItem(Key.USERS, users), // TODO: to remove.
     addUser: async (user: User) => addItemToArray(Key.USERS, user), // TODO: to remove.
-    getUser:  async () => getItem(Key.USER),
+    getUser: async () => getItem(Key.USER),
     setUser: async (user: User) => setItem(Key.USER, user),
     removeUser: async () => removeItem(Key.USER)
 }

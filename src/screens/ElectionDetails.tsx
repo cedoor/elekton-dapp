@@ -8,10 +8,10 @@ import useTheme from "../hooks/useTheme"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
 type Props = {
-  route: RouteProp<ElectionNavigatorParamList, "ElectionDetails">;
-};
+    route: RouteProp<ElectionNavigatorParamList, "ElectionDetails">
+}
 
-export function ElectionDetails (props: Props) {
+export function ElectionDetails(props: Props) {
     const theme = useTheme()
 
     const [_option, setOption] = useState("")
@@ -25,12 +25,12 @@ export function ElectionDetails (props: Props) {
             <View style={styles.container}>
                 <Title style={styles.name}>{props.route.params.title}</Title>
 
-                <View style={[{borderBottomColor: theme.colors.border}, styles.divider]} />
+                <View style={[{ borderBottomColor: theme.colors.border }, styles.divider]} />
 
                 <View style={styles.list}>
                     <List.Item
                         style={styles.listItem}
-                        descriptionStyle={{color: theme.colors.placeholder}}
+                        descriptionStyle={{ color: theme.colors.placeholder }}
                         title="Administrator"
                         description={props.route.params.admin}
                         left={() => (
@@ -43,12 +43,9 @@ export function ElectionDetails (props: Props) {
                     />
                     <List.Item
                         style={styles.listItem}
-                        descriptionStyle={{color: theme.colors.placeholder}}
+                        descriptionStyle={{ color: theme.colors.placeholder }}
                         title="Start date"
-                        description={format(
-                            props.route.params.startDate,
-                            "MMM dd yyyy - HH:mm"
-                        )}
+                        description={format(props.route.params.startDate, "MMM dd yyyy - HH:mm")}
                         left={() => (
                             <List.Icon
                                 icon={({ color, size }) => (
@@ -59,12 +56,9 @@ export function ElectionDetails (props: Props) {
                     />
                     <List.Item
                         style={styles.listItem}
-                        descriptionStyle={{color: theme.colors.placeholder}}
+                        descriptionStyle={{ color: theme.colors.placeholder }}
                         title="End date"
-                        description={format(
-                            props.route.params.endDate,
-                            "MMM dd yyyy - HH:mm"
-                        )}
+                        description={format(props.route.params.endDate, "MMM dd yyyy - HH:mm")}
                         left={() => (
                             <List.Icon
                                 icon={({ color, size }) => (
@@ -75,15 +69,8 @@ export function ElectionDetails (props: Props) {
                     />
                 </View>
 
-                <View
-                    style={[
-                        { borderColor: theme.colors.border, borderRadius: theme.roundness },
-                        styles.paper
-                    ]}
-                >
-                    <Subheading style={styles.description}>
-                        {props.route.params.description}
-                    </Subheading>
+                <View style={[{ borderColor: theme.colors.border, borderRadius: theme.roundness }, styles.paper]}>
+                    <Subheading style={styles.description}>{props.route.params.description}</Subheading>
                     <RadioButton.Group onValueChange={setOption} value={_option}>
                         {props.route.params.options.map((option, index) => (
                             <RadioButton.Item
@@ -97,7 +84,7 @@ export function ElectionDetails (props: Props) {
                 </View>
 
                 <Button style={styles.createButton} mode="outlined" onPress={vote}>
-          Vote
+                    Vote
                 </Button>
             </View>
         </ScrollView>
@@ -115,7 +102,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     divider: {
-        borderBottomWidth: .4
+        borderBottomWidth: 0.4
     },
     list: {
         paddingTop: 6
@@ -126,7 +113,7 @@ const styles = StyleSheet.create({
     paper: {
         marginTop: 18,
         padding: 16,
-        borderWidth: .4
+        borderWidth: 0.4
     },
     description: {
         paddingBottom: 8

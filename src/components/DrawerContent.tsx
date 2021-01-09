@@ -7,8 +7,8 @@ import Animated from "react-native-reanimated"
 import { AuthContext } from "../context/AuthContext"
 import useTheme from "../hooks/useTheme"
 
-export default function DrawerContent (props: DrawerContentComponentProps) {
-    const {_user, signOut} = useContext(AuthContext)
+export default function DrawerContent(props: DrawerContentComponentProps) {
+    const { _user, signOut } = useContext(AuthContext)
 
     const theme = useTheme()
 
@@ -18,23 +18,26 @@ export default function DrawerContent (props: DrawerContentComponentProps) {
     })
 
     return (
-        <DrawerContentScrollView {...props} style={{backgroundColor: theme.colors.background}}>
-            <Animated.View style={[
-                styles.drawerContent,
-                {
-                    transform: [{ translateX }]
-                }
-            ]}>
+        <DrawerContentScrollView {...props} style={{ backgroundColor: theme.colors.background }}>
+            <Animated.View
+                style={[
+                    styles.drawerContent,
+                    {
+                        transform: [{ translateX }]
+                    }
+                ]}
+            >
                 <View style={styles.userInfo}>
-                    <Title style={styles.name}>{_user?.name} {_user?.surname}</Title>
+                    <Title style={styles.name}>
+                        {_user?.name} {_user?.surname}
+                    </Title>
                     <Caption style={styles.username}>@{_user?.username}</Caption>
-                    <Paragraph style={styles.role}>{_user?.role === 0 ? "Elector": "Admin"}</Paragraph>
+                    <Paragraph style={styles.role}>{_user?.role === 0 ? "Elector" : "Admin"}</Paragraph>
                 </View>
-                <DrawerItem style={[{borderTopColor: theme.colors.border}, styles.drawerItem]}
-                    labelStyle={{color: theme.colors.text}}
-                    icon={({ color, size }) => (
-                        <MaterialCommunityIcons name="logout" color={color} size={size} />
-                    )}
+                <DrawerItem
+                    style={[{ borderTopColor: theme.colors.border }, styles.drawerItem]}
+                    labelStyle={{ color: theme.colors.text }}
+                    icon={({ color, size }) => <MaterialCommunityIcons name="logout" color={color} size={size} />}
                     label="Sign out"
                     onPress={signOut}
                 />
@@ -64,6 +67,6 @@ const styles = StyleSheet.create({
     },
     drawerItem: {
         marginTop: 15,
-        borderTopWidth: .4
+        borderTopWidth: 0.4
     }
 })

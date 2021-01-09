@@ -8,15 +8,14 @@ type Props = {
     message?: string
 }
 
-export default function BackgroundLoader ({visible, message = ""}: Props) {
+export default function BackgroundLoader({ visible, message = "" }: Props) {
     const theme = useTheme()
 
-    return (
-        !visible ? null :
-            <View style={styles.container}>
-                <ActivityIndicator animating={true} color={theme.colors.primary} size={20} />
-                <Text style={[{color: theme.colors.placeholder}, styles.message]}>{message}</Text>
-            </View>
+    return !visible ? null : (
+        <View style={styles.container}>
+            <ActivityIndicator animating={true} color={theme.colors.primary} size={20} />
+            <Text style={[{ color: theme.colors.placeholder }, styles.message]}>{message}</Text>
+        </View>
     )
 }
 

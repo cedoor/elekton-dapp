@@ -14,8 +14,8 @@ type Props = {
     navigation?: StackNavigationProp<ElectionNavigatorParamList>
 }
 
-export default function Elections (props: Props) {
-    const {_user, unlockUser} = useContext(AuthContext)
+export default function Elections(props: Props) {
+    const { _user, unlockUser } = useContext(AuthContext)
 
     const [_elections, setElections] = useState<Election[] | null>(null)
     const [_refreshing, setRefreshing] = useState(false)
@@ -44,59 +44,51 @@ export default function Elections (props: Props) {
 
     useEffect(() => {
         if (_user?.pinCode) {
-            (async () => {
-                setElections(await cache.getElections() || [])
+            ;(async () => {
+                setElections((await cache.getElections()) || [])
             })()
         }
     }, [_user])
 
     return (
         <View style={styles.container}>
-            <ScrollView
-                refreshControl={
-                    <RefreshControl refreshing={_refreshing} onRefresh={updateElections} />
-                }>
-
-                { _elections && _elections.map((election: Election, index: number) =>
-                    <View key={election.id}>
-                        <ElectionListItem
-                            election={election}
-                            onClick={() => openElectionDetails(election)}
-                        />
-                        { index !== _elections.length - 1 &&
-                                <View style={[
-                                    styles.itemSeparator, 
-                                    {borderBottomColor: theme.colors.border}
-                                ]} />
-                        }
-                    </View>)
-                }
+            <ScrollView refreshControl={<RefreshControl refreshing={_refreshing} onRefresh={updateElections} />}>
+                {_elections &&
+                    _elections.map((election: Election, index: number) => (
+                        <View key={election.id}>
+                            <ElectionListItem election={election} onClick={() => openElectionDetails(election)} />
+                            {index !== _elections.length - 1 && (
+                                <View style={[styles.itemSeparator, { borderBottomColor: theme.colors.border }]} />
+                            )}
+                        </View>
+                    ))}
             </ScrollView>
 
-            {_elections && _elections.length === 0 &&
+            {_elections && _elections.length === 0 && (
                 <View style={styles.centralContent}>
-                    <MaterialCommunityIcons size={60} color={theme.colors.placeholder} name="emoticon-sad-outline"/>
-                    <Text style={{color: theme.colors.placeholder}}>No elections</Text>
+                    <MaterialCommunityIcons size={60} color={theme.colors.placeholder} name="emoticon-sad-outline" />
+                    <Text style={{ color: theme.colors.placeholder }}>No elections</Text>
                 </View>
-            }
+            )}
 
-            {!_elections &&
+            {!_elections && (
                 <View style={styles.centralContent}>
-                    <ActivityIndicator size="large" color={theme.colors.placeholder}/>
+                    <ActivityIndicator size="large" color={theme.colors.placeholder} />
                 </View>
-            }
+            )}
 
-            {_user &&
-                <FAB style={[{backgroundColor: theme.colors.surface}, styles.fab]}
+            {_user && (
+                <FAB
+                    style={[{ backgroundColor: theme.colors.surface }, styles.fab]}
                     color={theme.colors.primary}
                     onPress={() => props.navigation?.navigate("CreateElection")}
                     label="Create"
                     icon="pencil"
                 />
-            }
+            )}
 
             <Portal>
-                <PinKeyboardModal visible={_pinKeyboardVisibility} onClose={unlock} closeOnBackButton={false}/>
+                <PinKeyboardModal visible={_pinKeyboardVisibility} onClose={unlock} closeOnBackButton={false} />
             </Portal>
         </View>
     )
@@ -122,7 +114,7 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     itemSeparator: {
-        borderBottomWidth: .4,
+        borderBottomWidth: 0.4,
         marginHorizontal: 16
     }
 })

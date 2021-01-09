@@ -11,7 +11,7 @@ import useTheme from "../hooks/useTheme"
 import FullscreenLoader from "../components/FullscreenLoader"
 import { bindWithFalse } from "../utils/helper"
 
-export default function SignUp () {
+export default function SignUp() {
     const { signUp } = useContext(AuthContext)
 
     const [_name, setName] = useState<string | null>(null)
@@ -69,27 +69,38 @@ export default function SignUp () {
         <ScrollView>
             <View style={styles.container}>
                 <View style={{ marginBottom: 20 }}>
-                    <TextInput label="Name"
+                    <TextInput
+                        label="Name"
                         onBlurText={setName}
                         errors={(name) =>
-                            name.length === 0 ? "Name is required" :
-                                name.length > 30 ? "Name is too long" : ""
+                            name.length === 0 ? "Name is required" : name.length > 30 ? "Name is too long" : ""
                         }
-                        maxLength={20}/>
-                    <TextInput label="Surname"
+                        maxLength={20}
+                    />
+                    <TextInput
+                        label="Surname"
                         onBlurText={setSurname}
                         errors={(surname) =>
-                            surname.length === 0 ? "Surname is required" :
-                                surname.length > 30 ? "Surname is too long" : ""
+                            surname.length === 0
+                                ? "Surname is required"
+                                : surname.length > 30
+                                ? "Surname is too long"
+                                : ""
                         }
-                        maxLength={20} />
-                    <TextInput label="Username"
+                        maxLength={20}
+                    />
+                    <TextInput
+                        label="Username"
                         onBlurText={setUsername}
                         errors={(username) =>
-                            username.length === 0 ? "Username is required" :
-                                username.length > 30 ? "Username is too long" : ""
+                            username.length === 0
+                                ? "Username is required"
+                                : username.length > 30
+                                ? "Username is too long"
+                                : ""
                         }
-                        maxLength={15} />
+                        maxLength={15}
+                    />
                     <Picker selectedValue={_role} onValueChange={setRole} items={["Elector", "Admin"]} />
                 </View>
 
@@ -100,14 +111,20 @@ export default function SignUp () {
                 <Portal>
                     <FullscreenLoader visible={_loadingVisibility} />
 
-                    <QRCodeViewer value={_username as string} visible={_QRCodeViewerVisibility} 
+                    <QRCodeViewer
+                        value={_username as string}
+                        visible={_QRCodeViewerVisibility}
                         onDismiss={bindWithFalse(setQRCodeViewerVisibility)}
-                        buttons={[{ title: "Sign Up", onPress: createUser }]}/>
+                        buttons={[{ title: "Sign Up", onPress: createUser }]}
+                    />
 
                     <PinKeyboardModal visible={_pinKeyboardVisibility} onClose={addPinCode} />
 
-                    <Dialog style={{backgroundColor: theme.colors.background}} 
-                        visible={_dialogVisibility} onDismiss={bindWithFalse(setDialogVisibility)}>
+                    <Dialog
+                        style={{ backgroundColor: theme.colors.background }}
+                        visible={_dialogVisibility}
+                        onDismiss={bindWithFalse(setDialogVisibility)}
+                    >
                         <Dialog.Title>User creation</Dialog.Title>
                         <Dialog.Content>
                             <Subheading>Are you sure you want to create this user?</Subheading>
@@ -118,8 +135,11 @@ export default function SignUp () {
                         </Dialog.Actions>
                     </Dialog>
 
-                    <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
-                        message="Fill out all the fields or fix the errors!"/>
+                    <Snackbar
+                        visible={_snackBarVisibility}
+                        onDismiss={bindWithFalse(setSnackBarVisibility)}
+                        message="Fill out all the fields or fix the errors!"
+                    />
                 </Portal>
             </View>
         </ScrollView>

@@ -14,7 +14,7 @@ type Props = {
     navigation?: StackNavigationProp<AuthNavigatorParamList>
 }
 
-export default function Login (props: Props) {
+export default function Login(props: Props) {
     const { signIn } = useContext(AuthContext)
 
     const [_scannerVisibility, setScannerVisibility] = useState(false)
@@ -46,27 +46,33 @@ export default function Login (props: Props) {
     return (
         <View style={styles.container}>
             <View style={{ alignItems: "center" }}>
-                <Image style={styles.logo}
-                    source={theme.dark
-                        ? require("../../assets/images/dark-icon.png")
-                        : require("../../assets/images/icon.png")} />
+                <Image
+                    style={styles.logo}
+                    source={
+                        theme.dark
+                            ? require("../../assets/images/dark-icon.png")
+                            : require("../../assets/images/icon.png")
+                    }
+                />
                 <Text style={[{ color: theme.colors.primary }, styles.logoText]}>Elekton</Text>
             </View>
             <View>
                 <Button style={styles.button} mode="outlined" onPress={bindWithTrue(setScannerVisibility)}>
-                        Sign In
+                    Sign In
                 </Button>
-                <Button style={styles.button} mode="outlined"
-                    onPress={() => props.navigation?.navigate("SignUp")}>
-                        Sign Up
+                <Button style={styles.button} mode="outlined" onPress={() => props.navigation?.navigate("SignUp")}>
+                    Sign Up
                 </Button>
             </View>
 
             <Portal>
                 <FullscreenLoader visible={_loadingVisibility} />
-                <Scanner visible={_scannerVisibility} onClose={tryLogin} onError={showError}/>
-                <Snackbar visible={_snackBarVisibility} onDismiss={bindWithFalse(setSnackBarVisibility)}
-                    message={_snackBarMessage}/>
+                <Scanner visible={_scannerVisibility} onClose={tryLogin} onError={showError} />
+                <Snackbar
+                    visible={_snackBarVisibility}
+                    onDismiss={bindWithFalse(setSnackBarVisibility)}
+                    message={_snackBarMessage}
+                />
             </Portal>
         </View>
     )

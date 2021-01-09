@@ -7,14 +7,14 @@ import * as SplashScreen from "expo-splash-screen"
 import * as Font from "expo-font"
 import { Ionicons } from "@expo/vector-icons"
 
-export default function App () {
+export default function App() {
     const [_isLoadingComplete, setLoadingComplete] = useState(false)
     const [_user, setUser] = useState<User | null>(null)
     const [_themeType, setThemeType] = useState<"light" | "dark">("light")
 
     // Load any resources or data that we need prior to rendering the app.
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             try {
                 SplashScreen.preventAutoHideAsync()
 
@@ -53,7 +53,7 @@ export default function App () {
     } else {
         return (
             <SafeAreaProvider>
-                <Main user={_user} themeType={_themeType}/>
+                <Main user={_user} themeType={_themeType} />
             </SafeAreaProvider>
         )
     }
