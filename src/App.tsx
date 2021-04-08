@@ -115,9 +115,7 @@ export default function App() {
                         </Toolbar>
                     </AppBar>
                     <Switch>
-                        <Route path="/elections">
-                            {auth._user ? <Ballots /> : <Redirect to={{ pathname: "/" }} />}
-                        </Route>
+                        <Route path="/ballots">{auth._user ? <Ballots /> : <Redirect to={{ pathname: "/" }} />}</Route>
                         <Route path="/">
                             <Login />
                         </Route>

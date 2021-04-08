@@ -9,7 +9,7 @@ export default function useAuth(): AuthContextType {
 
     const signIn = (user: string) => {
         setUser(user)
-        history.replace("/elections")
+        history.replace("/ballots")
     }
 
     const signOut = () => {
