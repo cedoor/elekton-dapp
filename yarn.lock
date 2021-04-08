@@ -1164,7 +1164,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cedoor/smt@^0.1.7":
+"@cedoor/smt@^0.1.6":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@cedoor/smt/-/smt-0.1.7.tgz#70a35f17cf6de21fc43e97617be59d1b06a2853c"
   integrity sha512-DSD0gPneaAKS+RBa2tJu9SkFTpAGg2hmOXy7Z9juwts3cVu1cBwMPfC4Pe1wNNFCJsBvCFfkzSbJzUNPrx+img==
@@ -3553,9 +3553,9 @@ blake2b-wasm@^1.1.0:
   dependencies:
     nanoassert "^1.0.0"
 
-"blake2b-wasm@https://github.com/jbaylina/blake2b-wasm.git":
+"blake2b-wasm@git+https://github.com/jbaylina/blake2b-wasm.git":
   version "2.1.0"
-  resolved "https://github.com/jbaylina/blake2b-wasm.git#0d5f024b212429c7f50a7f533aa3a2406b5b42b3"
+  resolved "git+https://github.com/jbaylina/blake2b-wasm.git#0d5f024b212429c7f50a7f533aa3a2406b5b42b3"
   dependencies:
     nanoassert "^1.0.0"
 
@@ -5403,10 +5403,12 @@ electron-to-chromium@^1.3.564, electron-to-chromium@^1.3.649:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.708.tgz#127970d2fc665ab356be59e668f2914856419176"
   integrity sha512-+A8ggYZ5riOLMcVAuzHx6bforaPzaiLnW1QOMD2SlMYQVi7QQTyQ/WrlZoebIH9ikmgr+tLJGpNITFFCUiQcPw==
 
-elekton@../elekton.js/:
+elekton@^0.1.0:
   version "0.1.0"
+  resolved "https://registry.yarnpkg.com/elekton/-/elekton-0.1.0.tgz#6373272daa6f082f6c06ed59ff15c1d9991d175e"
+  integrity sha512-Wf302CuO3BZV91bwjlf8W/R+GP4obLGxmTP6nVLHGMIRkMzvEo2PoqVXoQZgBOoe7GW/c5fpnvPoe2ir+3X0ig==
   dependencies:
-    "@cedoor/smt" "^0.1.7"
+    "@cedoor/smt" "^0.1.6"
     blake-hash "^2.0.0"
     circomlib "^0.5.1"
     ethers "^5.0.32"
@@ -7430,9 +7432,9 @@ ipfs-http-client@^49.0.4:
     uint8arrays "^2.1.3"
 
 ipfs-utils@^6.0.1:
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/ipfs-utils/-/ipfs-utils-6.0.5.tgz#9bfa6ff7bc81a5e0be9b316c826fbb4adbfbf9e8"
-  integrity sha512-SB3N7vni13QmbOjxAvTeP8H4CrZw3qSmwtnSgcFFd3ovukC6sIgcYGz8ljxwMcsyYSPqv5f5UHEbFLB8/dnmlA==
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/ipfs-utils/-/ipfs-utils-6.0.6.tgz#c2d09263a340eb8fb32a91eea71fa7baba3fa082"
+  integrity sha512-MqLrdaikkFd1VF1/XlzMD6w7euJ5+iigKt2jpIIPHDgdnNsV/9v5BrMOB6oMO/GK/k1krqyLoOiwd0HBYArpbw==
   dependencies:
     abort-controller "^3.0.0"
     any-signal "^2.1.0"
@@ -7450,7 +7452,6 @@ ipfs-utils@^6.0.1:
     native-fetch "^3.0.0"
     node-fetch "^2.6.1"
     stream-to-it "^0.2.2"
-    web-encoding "^1.0.6"
 
 ipld-block@^0.11.0:
   version "0.11.1"
@@ -9505,12 +9506,11 @@ multibase@^3.0.0:
     web-encoding "^1.0.6"
 
 multibase@^4.0.1, multibase@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/multibase/-/multibase-4.0.2.tgz#8250a0f50d0ed49765146bf0e3431e3df9b249ac"
-  integrity sha512-l0XMK4O5I9cCfxC0/UMDX/UxlIlrqkjEZQNG+ZUUrsGhnXWgFXgatYOQSONiR/lQGfBO463UyZkh3SiQBpjRIQ==
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/multibase/-/multibase-4.0.4.tgz#55ef53e6acce223c5a09341a8a3a3d973871a577"
+  integrity sha512-8/JmrdSGzlw6KTgAJCOqUBSGd1V6186i/X8dDCGy/lbCKrQ+1QB6f3HE+wPr7Tpdj4U3gutaj9jG2rNX6UpiJg==
   dependencies:
     "@multiformats/base-x" "^4.0.1"
-    web-encoding "^1.1.0"
 
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
@@ -13472,12 +13472,11 @@ uint8arrays@1.1.0, uint8arrays@^1.0.0, uint8arrays@^1.1.0:
     web-encoding "^1.0.2"
 
 uint8arrays@^2.0.5, uint8arrays@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/uint8arrays/-/uint8arrays-2.1.3.tgz#6e09ed40687042ed7b0047b498c0e876efe5a49a"
-  integrity sha512-2h2Z2OIqzrhHmZTv9ViJVyZZreFkHRHeihh7SxLVY/nLUVJhU4ey/u74tWsgMR6hhMSO2g5rhKmdLQIg3lKiUQ==
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/uint8arrays/-/uint8arrays-2.1.4.tgz#ffd7f874819096aa33a47a336d4c660708d08049"
+  integrity sha512-Q/Ys2JhFWpZkw8Hi2Zz7NFpVDH8avK9k2NjYKdOHoOAn5dTtOSNT9xMtaQz5D4kWVPOGKte8CAroEIdTzvF9AA==
   dependencies:
     multibase "^4.0.1"
-    web-encoding "^1.1.0"
 
 unbox-primitive@^1.0.0:
   version "1.0.1"
@@ -13858,7 +13857,7 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-encoding@^1.0.2, web-encoding@^1.0.6, web-encoding@^1.1.0:
+web-encoding@^1.0.2, web-encoding@^1.0.6:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/web-encoding/-/web-encoding-1.1.4.tgz#fe15f7be090e64c3b640e8e9f3846403fe6fef9e"
   integrity sha512-EJn3rQ/blHgaOTG8XvxGsZXTCyw9p1RAaDI/L0W3jjJRvW25F8uRshacU4h49wc9Fj0JlKU+oyOKm40HDAj75w==

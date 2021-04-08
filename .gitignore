@@ -36,6 +36,7 @@ node_modules/
 .yarn-integrity
 
 # Generate output
+build
 dist
 docs
 
