@@ -64,7 +64,7 @@ export default function Ballots() {
                             <Box style={{ display: "flex", justifyContent: "space-between" }} px={2} py={1}>
                                 <Box>
                                     <Skeleton variant="text" width={120} height={30} />
-                                    <Skeleton variant="text" width={300} height={26} />
+                                    <Skeleton variant="text" width={250} height={26} />
                                 </Box>
                                 <Box style={{ display: "flex", flexDirection: "column", alignItems: "end" }}>
                                     <Skeleton variant="text" width={40} height={30} />
