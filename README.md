@@ -40,23 +40,24 @@ ___
 
 With the following installed:
 - git
-- node >= 12
-- npm >= 6
+- node >= 14
+- npm >= 7
+- yarn >= 1
 
 Clone the repo and install the dependencies from npm.
 
 ```bash
 git clone https://github.com/elekton/elekton-dapp.git
-cd dapp
-npm i
+cd elekton-dapp
+yarn
 ```
 
 ## Usage
 
-For local *development* with expo:
+For local *development*:
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Contacts
