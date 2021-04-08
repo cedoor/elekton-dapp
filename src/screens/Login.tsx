@@ -1,102 +1,43 @@
-import React, { useContext, useState } from "react"
-import { Image, StyleSheet, Text, View } from "react-native"
-import { AuthContext } from "../context/AuthContext"
-import { Button, Portal } from "react-native-paper"
-import useTheme from "../hooks/useTheme"
-import Scanner from "../components/Scanner"
-import { StackNavigationProp } from "@react-navigation/stack"
-import { AuthNavigatorParamList } from "../Types"
-import Snackbar from "../components/Snackbar"
-import FullscreenLoader from "../components/FullscreenLoader"
-import { bindWithFalse, bindWithTrue } from "../utils/helper"
+import React from "react"
+import AuthContext from "../context/AuthContext"
+import Button from "@material-ui/core/Button"
+import Container from "@material-ui/core/Container"
+import createStyles from "@material-ui/core/styles/createStyles"
+import makeStyles from "@material-ui/core/styles/makeStyles"
+import { useTheme, Theme } from "@material-ui/core"
+import logo from "../logo/logo.svg"
+import darkLogo from "../logo/dark-logo.svg"
 
-type Props = {
-    navigation?: StackNavigationProp<AuthNavigatorParamList>
-}
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            paddingBottom: theme.spacing(8),
+            flex: 1,
+            height: "100vh"
+        },
+        logo: {
+            height: "200px",
+            pointerEvents: "none",
+            paddingBottom: theme.spacing(6)
+        }
+    })
+)
 
-export default function Login(props: Props) {
-    const { signIn } = useContext(AuthContext)
-
-    const [_scannerVisibility, setScannerVisibility] = useState(false)
-    const [_snackBarVisibility, setSnackBarVisibility] = useState(false)
-    const [_snackBarMessage, setSnackBarMessage] = useState("")
-    const [_loadingVisibility, setLoadingVisibility] = useState(false)
-
+export default function Login() {
+    const classes = useStyles()
+    const auth = React.useContext(AuthContext)
     const theme = useTheme()
 
-    const tryLogin = async (username?: string) => {
-        setScannerVisibility(false)
-
-        if (username) {
-            try {
-                setLoadingVisibility(true)
-                await signIn(username)
-            } catch (error) {
-                setLoadingVisibility(false)
-                showError(error.message)
-            }
-        }
-    }
-
-    const showError = (message: string) => {
-        setSnackBarMessage(message)
-        setSnackBarVisibility(true)
-    }
-
     return (
-        <View style={styles.container}>
-            <View style={{ alignItems: "center" }}>
-                <Image
-                    style={styles.logo}
-                    source={
-                        theme.dark
-                            ? require("../../assets/images/dark-icon.png")
-                            : require("../../assets/images/icon.png")
-                    }
-                />
-                <Text style={[{ color: theme.colors.primary }, styles.logoText]}>Elekton</Text>
-            </View>
-            <View>
-                <Button style={styles.button} mode="outlined" onPress={bindWithTrue(setScannerVisibility)}>
-                    Sign In
-                </Button>
-                <Button style={styles.button} mode="outlined" onPress={() => props.navigation?.navigate("SignUp")}>
-                    Sign Up
-                </Button>
-            </View>
-
-            <Portal>
-                <FullscreenLoader visible={_loadingVisibility} />
-                <Scanner visible={_scannerVisibility} onClose={tryLogin} onError={showError} />
-                <Snackbar
-                    visible={_snackBarVisibility}
-                    onDismiss={bindWithFalse(setSnackBarVisibility)}
-                    message={_snackBarMessage}
-                />
-            </Portal>
-        </View>
+        <Container className={classes.container} maxWidth="md">
+            <img className={classes.logo} src={theme.palette.type === "dark" ? darkLogo : logo} alt="logo" />
+            <Button onClick={() => auth?.signIn("pinco")} variant="outlined">
+                Sign in
+            </Button>
+        </Container>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-around",
-        paddingHorizontal: 16,
-        paddingVertical: 40,
-        flex: 1
-    },
-    button: {
-        marginBottom: 10,
-        width: 250
-    },
-    logo: {
-        width: 160,
-        height: 160
-    },
-    logoText: {
-        marginTop: 10,
-        fontSize: 26
-    }
-})
