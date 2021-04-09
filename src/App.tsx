@@ -22,6 +22,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import Ballots from "./screens/Ballots"
 import Paper from "@material-ui/core/Paper"
 import SignUp from "./screens/SignUp"
+import useBooleanCondition from "./hooks/useBooleanCondition"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,7 +49,7 @@ export default function App() {
     const auth = useAuth()
     const location = useLocation()
     const history = useHistory()
-    const [_drawer, toggleDrawer] = React.useState<boolean>(false)
+    const [_drawer, toggleDrawer] = useBooleanCondition()
     const [_darkTheme, setDarkTheme] = React.useState<boolean>(false)
 
     const theme = React.useMemo(() => {
@@ -73,24 +74,19 @@ export default function App() {
                                     <IconButton
                                         edge="start"
                                         className={classes.leftAppBarButton}
-                                        onClick={() => toggleDrawer(true)}
+                                        onClick={toggleDrawer}
                                     >
                                         <MenuIcon />
                                     </IconButton>
 
-                                    <Drawer anchor="left" open={_drawer} onClose={() => toggleDrawer(false)}>
-                                        <div
-                                            className={classes.list}
-                                            role="presentation"
-                                            onClick={() => toggleDrawer(false)}
-                                            onKeyDown={() => toggleDrawer(false)}
-                                        >
+                                    <Drawer anchor="left" open={_drawer} onClose={toggleDrawer}>
+                                        <div className={classes.list} role="presentation">
                                             <div className={classes.userInformation}>
                                                 <Typography variant="body1">Pinco Pallino</Typography>
                                                 <Typography variant="caption">@Pinco</Typography>
                                             </div>
                                             <Divider />
-                                            <List>
+                                            <List onClick={toggleDrawer}>
                                                 <ListItem onClick={() => auth.signOut()} button>
                                                     <ListItemIcon>
                                                         <ExitToAppIcon />
