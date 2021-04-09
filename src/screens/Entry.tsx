@@ -3,6 +3,7 @@ import AuthContext from "../context/AuthContext"
 import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
 import Typography from "@material-ui/core/Typography"
+import { Link as RouterLink } from "react-router-dom"
 import createStyles from "@material-ui/core/styles/createStyles"
 import makeStyles from "@material-ui/core/styles/makeStyles"
 import { useTheme, Theme } from "@material-ui/core"
@@ -49,7 +50,7 @@ export default function Entry() {
             <Button className={classes.buttons} onClick={() => auth?.signIn("pinco")} variant="outlined">
                 Sign In
             </Button>
-            <Button className={classes.buttons} onClick={() => auth?.signIn("pinco")} variant="outlined">
+            <Button className={classes.buttons} component={RouterLink} to="/sign-up" variant="outlined">
                 Sign Up
             </Button>
         </Container>

@@ -7,19 +7,25 @@ export default function useAuth(): AuthContextType {
 
     const history = useHistory()
 
-    const signIn = (user: string) => {
+    function signIn(user: string) {
         setUser(user)
         history.replace("/ballots")
     }
 
-    const signOut = () => {
+    function signUp() {
+        setUser("pinco")
+        history.replace("/ballots")
+    }
+
+    function signOut() {
         setUser(null)
         history.push("/")
     }
 
     return {
         _user,
-        signOut,
-        signIn
+        signIn,
+        signUp,
+        signOut
     }
 }
