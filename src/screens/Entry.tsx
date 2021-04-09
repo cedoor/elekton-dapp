@@ -2,6 +2,7 @@ import React from "react"
 import AuthContext from "../context/AuthContext"
 import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
+import Typography from "@material-ui/core/Typography"
 import createStyles from "@material-ui/core/styles/createStyles"
 import makeStyles from "@material-ui/core/styles/makeStyles"
 import { useTheme, Theme } from "@material-ui/core"
@@ -22,12 +23,19 @@ const useStyles = makeStyles((theme: Theme) =>
         logo: {
             height: "200px",
             pointerEvents: "none",
-            paddingBottom: theme.spacing(6)
+            marginBottom: theme.spacing(2)
+        },
+        appName: {
+            marginBottom: theme.spacing(2)
+        },
+        buttons: {
+            marginTop: theme.spacing(1),
+            width: "200px"
         }
     })
 )
 
-export default function Login() {
+export default function Entry() {
     const classes = useStyles()
     const auth = React.useContext(AuthContext)
     const theme = useTheme()
@@ -35,8 +43,14 @@ export default function Login() {
     return (
         <Container className={classes.container} maxWidth="md">
             <img className={classes.logo} src={theme.palette.type === "dark" ? darkLogo : logo} alt="logo" />
-            <Button onClick={() => auth?.signIn("pinco")} variant="outlined">
-                Sign in
+            <Typography className={classes.appName} variant="h5">
+                Elekton
+            </Typography>
+            <Button className={classes.buttons} onClick={() => auth?.signIn("pinco")} variant="outlined">
+                Sign In
+            </Button>
+            <Button className={classes.buttons} onClick={() => auth?.signIn("pinco")} variant="outlined">
+                Sign Up
             </Button>
         </Container>
     )
