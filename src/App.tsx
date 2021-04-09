@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles, Theme, createStyles, useMediaQuery, createMuiTheme, ThemeProvider } from "@material-ui/core"
 import Brightness7Icon from "@material-ui/icons/Brightness7"
 import Brightness4Icon from "@material-ui/icons/Brightness4"
-import Login from "./screens/Login"
+import Entry from "./screens/Entry"
 import AuthContext from "./context/AuthContext"
 import useAuth from "./hooks/useAuth"
 import ListItem from "@material-ui/core/ListItem"
@@ -117,7 +117,7 @@ export default function App() {
                     <Switch>
                         <Route path="/ballots">{auth._user ? <Ballots /> : <Redirect to={{ pathname: "/" }} />}</Route>
                         <Route path="/">
-                            <Login />
+                            <Entry />
                         </Route>
                     </Switch>
                 </Paper>
