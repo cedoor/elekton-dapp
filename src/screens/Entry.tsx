@@ -47,7 +47,7 @@ export default function Entry() {
             <Typography className={classes.appName} variant="h5">
                 Elekton
             </Typography>
-            <Button className={classes.buttons} onClick={() => auth?.signIn("pinco")} variant="outlined">
+            <Button className={classes.buttons} onClick={() => auth?.signIn("Pinco Pallino")} variant="outlined">
                 Sign In
             </Button>
             <Button className={classes.buttons} component={RouterLink} to="/sign-up" variant="outlined">

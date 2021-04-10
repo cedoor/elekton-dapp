@@ -49,12 +49,12 @@ export default function SignUp() {
     function downloadQRCode() {
         const svg = document.querySelector("#qr-code > svg") as Element
 
-        downloadSVG(svg)
+        downloadSVG(svg, "AccessKey")
     }
 
     function signUp() {
         toggleQRCode()
-        auth?.signUp()
+        auth?.signUp(_name + " " + _surname)
     }
 
     return (
@@ -70,7 +70,7 @@ export default function SignUp() {
                 open={_QRCode}
                 title="Access key"
                 message="Download the QR code of your access key and sign up!"
-                value={_name + _surname}
+                value={_name + " " + _surname}
             >
                 <Button onClick={downloadQRCode}>Download</Button>
                 <Button onClick={signUp}>Sign Up</Button>

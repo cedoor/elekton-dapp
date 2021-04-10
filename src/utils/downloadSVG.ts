@@ -1,4 +1,4 @@
-export default function downloadSVG(svg: Element) {
+export default function downloadSVG(svg: Element, fileName: string) {
     const svgData = new XMLSerializer().serializeToString(svg)
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
@@ -11,7 +11,7 @@ export default function downloadSVG(svg: Element) {
             ctx.drawImage(img, 0, 0)
             const pngFile = canvas.toDataURL("image/png")
             const downloadLink = document.createElement("a")
-            downloadLink.download = "QRCode"
+            downloadLink.download = fileName
             downloadLink.href = `${pngFile}`
             downloadLink.click()
             downloadLink.remove()

@@ -82,7 +82,7 @@ export default function App() {
                                     <Drawer anchor="left" open={_drawer} onClose={toggleDrawer}>
                                         <div className={classes.list} role="presentation">
                                             <div className={classes.userInformation}>
-                                                <Typography variant="body1">Pinco Pallino</Typography>
+                                                <Typography variant="body1">{auth._user}</Typography>
                                                 <Typography variant="caption">@Pinco</Typography>
                                             </div>
                                             <Divider />
