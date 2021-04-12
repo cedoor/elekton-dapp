@@ -9,6 +9,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles"
 import { useTheme, Theme } from "@material-ui/core"
 import logo from "../logo/logo.svg"
 import darkLogo from "../logo/dark-logo.svg"
+import useBooleanCondition from "../hooks/useBooleanCondition"
+import QRCodeScanner from "../components/QRCodeScanner"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -40,6 +42,11 @@ export default function Entry() {
     const classes = useStyles()
     const auth = React.useContext(AuthContext)
     const theme = useTheme()
+    const [_QRCodeScanner, toggleQRCodeScanner] = useBooleanCondition()
+
+    function signIn(user: string) {
+        auth?.signIn(user)
+    }
 
     return (
         <Container className={classes.container} maxWidth="md">
@@ -47,12 +54,13 @@ export default function Entry() {
             <Typography className={classes.appName} variant="h5">
                 Elekton
             </Typography>
-            <Button className={classes.buttons} onClick={() => auth?.signIn("Pinco Pallino")} variant="outlined">
+            <Button className={classes.buttons} onClick={toggleQRCodeScanner} variant="outlined">
                 Sign In
             </Button>
             <Button className={classes.buttons} component={RouterLink} to="/sign-up" variant="outlined">
                 Sign Up
             </Button>
+            <QRCodeScanner open={_QRCodeScanner} onScan={signIn} onClose={toggleQRCodeScanner} />
         </Container>
     )
 }

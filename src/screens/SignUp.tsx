@@ -1,13 +1,8 @@
 import React from "react"
-import Container from "@material-ui/core/Container"
 import AuthContext from "../context/AuthContext"
-import Button from "@material-ui/core/Button"
-import TextField from "@material-ui/core/TextField"
-import createStyles from "@material-ui/core/styles/createStyles"
-import makeStyles from "@material-ui/core/styles/makeStyles"
-import { Theme } from "@material-ui/core"
+import { Theme, Container, Button, TextField, createStyles, makeStyles, useTheme } from "@material-ui/core"
 import useBooleanCondition from "../hooks/useBooleanCondition"
-import QRCodeDialog from "../components/QRCodeDialog"
+import QRCodeViewer from "../components/QRCodeViewer"
 import downloadSVG from "../utils/downloadSVG"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,7 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SignUp() {
     const classes = useStyles()
     const auth = React.useContext(AuthContext)
-    const [_QRCode, toggleQRCode] = useBooleanCondition()
+    const theme = useTheme()
+    const [_QRCodeViewer, toggleQRCodeViewer] = useBooleanCondition()
     const [_name, setName] = React.useState<string>("")
     const [_surname, setSurname] = React.useState<string>("")
 
@@ -49,11 +45,15 @@ export default function SignUp() {
     function downloadQRCode() {
         const svg = document.querySelector("#qr-code > svg") as Element
 
-        downloadSVG(svg, "AccessKey")
+        downloadSVG(svg, {
+            fileName: "AccessKey",
+            padding: 15,
+            backgroundColor: theme.palette.background.paper
+        })
     }
 
     function signUp() {
-        toggleQRCode()
+        toggleQRCodeViewer()
         auth?.signUp(_name + " " + _surname)
     }
 
@@ -62,19 +62,20 @@ export default function SignUp() {
             <form className={classes.form} noValidate autoComplete="off">
                 <TextField id="user-name" value={_name} onChange={updateName} label="Name" />
                 <TextField id="user-surname" value={_surname} onChange={updateSurname} label="Surname" />
-                <Button className={classes.button} onClick={toggleQRCode} variant="outlined">
+                <Button className={classes.button} onClick={toggleQRCodeViewer} variant="outlined">
                     Create
                 </Button>
             </form>
-            <QRCodeDialog
-                open={_QRCode}
+            <QRCodeViewer
+                open={_QRCodeViewer}
+                onClose={toggleQRCodeViewer}
                 title="Access key"
                 message="Download the QR code of your access key and sign up!"
                 value={_name + " " + _surname}
             >
                 <Button onClick={downloadQRCode}>Download</Button>
                 <Button onClick={signUp}>Sign Up</Button>
-            </QRCodeDialog>
+            </QRCodeViewer>
         </Container>
     )
 }
