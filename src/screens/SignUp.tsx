@@ -9,13 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
             display: "flex",
-            flex: 1,
-            paddingBottom: theme.spacing(8)
-        },
-        form: {
-            flex: 1,
-            display: "flex",
             flexDirection: "column",
+            flex: 1,
+            paddingBottom: theme.spacing(8),
             [theme.breakpoints.up("sm")]: {
                 justifyContent: "center"
             }
@@ -59,13 +55,11 @@ export default function SignUp() {
 
     return (
         <Container className={classes.container} maxWidth="sm">
-            <form className={classes.form} noValidate autoComplete="off">
-                <TextField id="user-name" value={_name} onChange={updateName} label="Name" />
-                <TextField id="user-surname" value={_surname} onChange={updateSurname} label="Surname" />
-                <Button className={classes.button} onClick={toggleQRCodeViewer} variant="outlined">
-                    Create
-                </Button>
-            </form>
+            <TextField id="user-name" value={_name} onChange={updateName} label="Name" />
+            <TextField id="user-surname" value={_surname} onChange={updateSurname} label="Surname" />
+            <Button className={classes.button} onClick={toggleQRCodeViewer} variant="outlined">
+                Create
+            </Button>
             <QRCodeViewer
                 open={_QRCodeViewer}
                 onClose={toggleQRCodeViewer}

@@ -23,6 +23,7 @@ import Ballots from "./screens/Ballots"
 import Paper from "@material-ui/core/Paper"
 import SignUp from "./screens/SignUp"
 import useBooleanCondition from "./hooks/useBooleanCondition"
+import Ballot from "./screens/Ballot"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -108,7 +109,7 @@ export default function App() {
                             ) : null}
 
                             <Typography variant="h6" className={classes.title}>
-                                {auth._user && "Ballots"}
+                                {location.pathname === "/ballots" && "Ballots"}
                             </Typography>
 
                             <IconButton edge="end" onClick={() => setDarkTheme(theme.palette.type !== "dark")}>
@@ -117,6 +118,9 @@ export default function App() {
                         </Toolbar>
                     </AppBar>
                     <Switch>
+                        <Route path="/ballots/:id">
+                            {auth._user ? <Ballot /> : <Redirect to={{ pathname: "/" }} />}
+                        </Route>
                         <Route path="/ballots">{auth._user ? <Ballots /> : <Redirect to={{ pathname: "/" }} />}</Route>
                         <Route path="/sign-up">
                             {auth._user ? <Redirect to={{ pathname: "/ballots" }} /> : <SignUp />}

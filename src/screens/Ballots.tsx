@@ -10,10 +10,10 @@ import Typography from "@material-ui/core/Typography"
 import CreateIcon from "@material-ui/icons/Create"
 import Skeleton from "@material-ui/lab/Skeleton"
 import ballots from "../data/ballots"
-import { BallotInputData } from "elekton/dist/types/types"
 import { format } from "date-fns"
 import Fab from "@material-ui/core/Fab"
 import { createStyles, makeStyles, Theme } from "@material-ui/core"
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,23 +30,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Ballots() {
     const classes = useStyles()
-    const [wait, setWait] = React.useState<boolean>(false)
+    const history = useHistory()
+    const [_wait, setWait] = React.useState<boolean>(false)
 
     React.useEffect(() => {
         const timer = setTimeout(() => {
             setWait(true)
-        }, 1000)
+        }, 500)
 
         return () => clearTimeout(timer)
     }, [])
 
     return (
         <Container className={classes.container} maxWidth="md">
-            {wait ? (
+            {_wait ? (
                 <List component="nav">
-                    {ballots.map((ballot: BallotInputData, i) => (
+                    {ballots.map((ballot, i) => (
                         <Box key={i}>
-                            <ListItem button>
+                            <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
                                 <ListItemText primary={ballot.name} secondary={ballot.description} />
                                 <ListItemSecondaryAction style={{ textAlign: "right" }}>
                                     <Typography variant="body1">{format(ballot.startDate, "MMM dd")}</Typography>
@@ -59,7 +60,7 @@ export default function Ballots() {
                 </List>
             ) : (
                 <Box py={1}>
-                    {ballots.map((ballot: BallotInputData, i) => (
+                    {ballots.map((ballot, i) => (
                         <Box key={i}>
                             <Box style={{ display: "flex", justifyContent: "space-between" }} px={2} py={1}>
                                 <Box>
