@@ -41,17 +41,17 @@ const useStyles = makeStyles((theme: Theme) =>
         ballotName: {
             marginBottom: theme.spacing(2)
         },
-        listItem: {
-            paddingBottom: 0
-        },
+        listItem: {},
         card: {
             marginTop: theme.spacing(1),
-            paddingBottom: theme.spacing(2),
-            marginBottom: theme.spacing(3)
+            marginBottom: theme.spacing(2)
         },
         ballotProposals: {
-            paddingLeft: theme.spacing(3),
+            paddingLeft: theme.spacing(2),
             display: "flex"
+        },
+        button: {
+            marginTop: theme.spacing(3)
         }
     })
 )
@@ -105,7 +105,9 @@ export default function Ballot(): JSX.Element {
                 </ListItem>
             </List>
 
-            <Card className={classes.card}>
+            <Divider />
+
+            <Card elevation={0} square={true} className={classes.card}>
                 <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title={_ballot.description} />
                 <FormControl className={classes.ballotProposals} component="fieldset">
                     <RadioGroup value={_proposal} onChange={selectProposal}>
@@ -122,7 +124,9 @@ export default function Ballot(): JSX.Element {
                 </FormControl>
             </Card>
 
-            <Button onClick={vote} variant="outlined">
+            <Divider />
+
+            <Button className={classes.button} onClick={vote} variant="outlined">
                 Vote
             </Button>
         </Container>
