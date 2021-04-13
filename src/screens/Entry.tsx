@@ -45,6 +45,7 @@ export default function Entry() {
     const [_QRCodeScanner, toggleQRCodeScanner] = useBooleanCondition()
 
     function signIn(user: string) {
+        toggleQRCodeScanner()
         auth?.signIn(user)
     }
 

@@ -119,11 +119,9 @@ export default function App() {
                     <Switch>
                         <Route path="/ballots">{auth._user ? <Ballots /> : <Redirect to={{ pathname: "/" }} />}</Route>
                         <Route path="/sign-up">
-                            <SignUp />
+                            {auth._user ? <Redirect to={{ pathname: "/ballots" }} /> : <SignUp />}
                         </Route>
-                        <Route path="/">
-                            <Entry />
-                        </Route>
+                        <Route path="/">{auth._user ? <Redirect to={{ pathname: "/ballots" }} /> : <Entry />}</Route>
                     </Switch>
                 </Paper>
             </AuthContext.Provider>
