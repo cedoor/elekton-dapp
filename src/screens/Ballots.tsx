@@ -9,7 +9,6 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
 import Typography from "@material-ui/core/Typography"
 import CreateIcon from "@material-ui/icons/Create"
 import Skeleton from "@material-ui/lab/Skeleton"
-import ballots from "../data/ballots"
 import { format } from "date-fns"
 import Fab from "@material-ui/core/Fab"
 import { createStyles, makeStyles, Theme } from "@material-ui/core"
@@ -32,8 +31,13 @@ export default function Ballots() {
     const classes = useStyles()
     const history = useHistory()
     const [_wait, setWait] = React.useState<boolean>(false)
+    const [_ballots, setBallots] = React.useState<any[]>([])
 
     React.useEffect(() => {
+        const ballots = JSON.parse(localStorage.getItem("ballots") || "[]")
+
+        setBallots(ballots)
+
         const timer = setTimeout(() => {
             setWait(true)
         }, 500)
@@ -45,7 +49,7 @@ export default function Ballots() {
         <Container className={classes.container} maxWidth="md">
             {_wait ? (
                 <List component="nav">
-                    {ballots.map((ballot, i) => (
+                    {_ballots.map((ballot, i) => (
                         <Box key={i}>
                             <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
                                 <ListItemText primary={ballot.name} secondary={ballot.description} />
@@ -54,13 +58,13 @@ export default function Ballots() {
                                     <Typography variant="caption">{format(ballot.startDate, "HH:mm")}</Typography>
                                 </ListItemSecondaryAction>
                             </ListItem>
-                            {i < ballots.length - 1 && <Divider variant="middle" />}
+                            {i < _ballots.length - 1 && <Divider variant="middle" />}
                         </Box>
                     ))}
                 </List>
             ) : (
                 <Box py={1}>
-                    {ballots.map((ballot, i) => (
+                    {_ballots.map((ballot, i) => (
                         <Box key={i}>
                             <Box style={{ display: "flex", justifyContent: "space-between" }} px={2} py={1}>
                                 <Box>
@@ -72,12 +76,12 @@ export default function Ballots() {
                                     <Skeleton variant="text" width={25} height={26} />
                                 </Box>
                             </Box>
-                            {i < ballots.length - 1 && <Divider variant="middle" />}
+                            {i < 2 && <Divider variant="middle" />}
                         </Box>
                     ))}
                 </Box>
             )}
-            <Fab className={classes.fab} variant="extended">
+            <Fab className={classes.fab} onClick={() => history.push("/ballots/create")} variant="extended">
                 <CreateIcon />
                 Create
             </Fab>

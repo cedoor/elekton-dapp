@@ -28,6 +28,7 @@ import Ballots from "./screens/Ballots"
 import SignUp from "./screens/SignUp"
 import useBooleanCondition from "./hooks/useBooleanCondition"
 import Ballot from "./screens/Ballot"
+import CreateBallot from "./screens/CreateBallot"
 import ThemeTypeContext from "./context/ThemeTypeContext"
 import useThemeType from "./hooks/useThemeType"
 
@@ -115,6 +116,9 @@ export default function App() {
                             </Toolbar>
                         </AppBar>
                         <Switch>
+                            <Route path="/ballots/create">
+                                {auth._user ? <CreateBallot /> : <Redirect to={{ pathname: "/" }} />}
+                            </Route>
                             <Route path="/ballots/:id">
                                 {auth._user ? <Ballot /> : <Redirect to={{ pathname: "/" }} />}
                             </Route>

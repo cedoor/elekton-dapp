@@ -1,5 +1,4 @@
 import React from "react"
-import ballots from "../data/ballots"
 import PersonIcon from "@material-ui/icons/Person"
 import TodayIcon from "@material-ui/icons/Today"
 import InsertInvitationIcon from "@material-ui/icons/InsertInvitation"
@@ -41,10 +40,12 @@ const useStyles = makeStyles((theme: Theme) =>
         ballotName: {
             marginBottom: theme.spacing(2)
         },
-        listItem: {},
         card: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(2)
+        },
+        ballotDescription: {
+            paddingBottom: theme.spacing(2)
         },
         ballotProposals: {
             paddingLeft: theme.spacing(2),
@@ -63,7 +64,8 @@ export default function Ballot(): JSX.Element {
     const [_proposal, setProposal] = React.useState<number>(-1)
 
     React.useEffect(() => {
-        const ballot = ballots.find((ballot) => ballot.id === Number(id))
+        const ballots = JSON.parse(localStorage.getItem("ballots") || "[]")
+        const ballot = ballots.find((ballot: any) => ballot.id === Number(id))
 
         setBallot(ballot)
     }, [id])
@@ -85,19 +87,19 @@ export default function Ballot(): JSX.Element {
             <Divider />
 
             <List component="nav">
-                <ListItem className={classes.listItem}>
+                <ListItem>
                     <ListItemIcon>
                         <PersonIcon />
                     </ListItemIcon>
                     <ListItemText primary="Admin" secondary={_ballot.admin} />
                 </ListItem>
-                <ListItem className={classes.listItem}>
+                <ListItem>
                     <ListItemIcon>
                         <TodayIcon />
                     </ListItemIcon>
                     <ListItemText primary="Start date" secondary={format(_ballot.startDate, "MMM dd yyyy - HH:mm")} />
                 </ListItem>
-                <ListItem className={classes.listItem}>
+                <ListItem>
                     <ListItemIcon>
                         <InsertInvitationIcon />
                     </ListItemIcon>
@@ -108,7 +110,11 @@ export default function Ballot(): JSX.Element {
             <Divider />
 
             <Card elevation={0} square={true} className={classes.card}>
-                <CardHeader titleTypographyProps={{ variant: "subtitle1" }} title={_ballot.description} />
+                <CardHeader
+                    className={classes.ballotDescription}
+                    titleTypographyProps={{ variant: "subtitle1" }}
+                    title={_ballot.description}
+                />
                 <FormControl className={classes.ballotProposals} component="fieldset">
                     <RadioGroup value={_proposal} onChange={selectProposal}>
                         <FormControlLabel
