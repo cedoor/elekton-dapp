@@ -40,12 +40,16 @@ const useStyles = makeStyles((theme: Theme) =>
         ballotName: {
             marginBottom: theme.spacing(2)
         },
+        listItem: {
+            paddingTop: theme.spacing(0.5),
+            paddingBottom: theme.spacing(0.5)
+        },
         card: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(2)
         },
         ballotDescription: {
-            paddingBottom: theme.spacing(2)
+            paddingBottom: theme.spacing(1)
         },
         ballotProposals: {
             paddingLeft: theme.spacing(2),
@@ -87,19 +91,19 @@ export default function Ballot(): JSX.Element {
             <Divider />
 
             <List component="nav">
-                <ListItem>
+                <ListItem className={classes.listItem}>
                     <ListItemIcon>
                         <PersonIcon />
                     </ListItemIcon>
                     <ListItemText primary="Admin" secondary={_ballot.admin} />
                 </ListItem>
-                <ListItem>
+                <ListItem className={classes.listItem}>
                     <ListItemIcon>
                         <TodayIcon />
                     </ListItemIcon>
                     <ListItemText primary="Start date" secondary={format(_ballot.startDate, "MMM dd yyyy - HH:mm")} />
                 </ListItem>
-                <ListItem>
+                <ListItem className={classes.listItem}>
                     <ListItemIcon>
                         <InsertInvitationIcon />
                     </ListItemIcon>

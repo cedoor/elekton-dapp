@@ -1,28 +1,49 @@
 import React from "react"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import Container from "@material-ui/core/Container"
-import Box from "@material-ui/core/Box"
-import Divider from "@material-ui/core/Divider"
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import Typography from "@material-ui/core/Typography"
 import CreateIcon from "@material-ui/icons/Create"
 import Skeleton from "@material-ui/lab/Skeleton"
 import { format } from "date-fns"
-import Fab from "@material-ui/core/Fab"
-import { createStyles, makeStyles, Theme } from "@material-ui/core"
+import {
+    createStyles,
+    makeStyles,
+    Theme,
+    List,
+    ListItem,
+    ListItemText,
+    Container,
+    Box,
+    Divider,
+    ListItemSecondaryAction,
+    Typography,
+    Fab
+} from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            padding: 0
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            [theme.breakpoints.down("xs")]: {
+                padding: 0
+            }
         },
         fab: {
             position: "absolute",
             right: theme.spacing(2),
             bottom: theme.spacing(2)
+        },
+        emptyListBox: {
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            paddingBottom: theme.spacing(8)
+        },
+        emptyListText: {
+            color: theme.palette.text.hint
         }
     })
 )
@@ -48,20 +69,31 @@ export default function Ballots() {
     return (
         <Container className={classes.container} maxWidth="md">
             {_wait ? (
-                <List component="nav">
-                    {_ballots.map((ballot, i) => (
-                        <Box key={i}>
-                            <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
-                                <ListItemText primary={ballot.name} secondary={ballot.description} />
-                                <ListItemSecondaryAction style={{ textAlign: "right" }}>
-                                    <Typography variant="body1">{format(ballot.startDate, "MMM dd")}</Typography>
-                                    <Typography variant="caption">{format(ballot.startDate, "HH:mm")}</Typography>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            {i < _ballots.length - 1 && <Divider variant="middle" />}
-                        </Box>
-                    ))}
-                </List>
+                _ballots.length > 0 ? (
+                    <List component="nav">
+                        {_ballots.map((ballot, i) => (
+                            <Box key={i}>
+                                <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
+                                    <ListItemText primary={ballot.name} secondary={ballot.description} />
+                                    <ListItemSecondaryAction style={{ textAlign: "right" }}>
+                                        <Typography variant="body1">{format(ballot.startDate, "MMM dd")}</Typography>
+                                        <Typography variant="caption">{format(ballot.startDate, "HH:mm")}</Typography>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                                {i < _ballots.length - 1 && <Divider variant="middle" />}
+                            </Box>
+                        ))}
+                    </List>
+                ) : (
+                    <Box className={classes.emptyListBox}>
+                        <Typography className={classes.emptyListText} variant="h4">
+                            No ballot
+                        </Typography>
+                        <Typography className={classes.emptyListText} variant="subtitle1">
+                            Create your own ballot!
+                        </Typography>
+                    </Box>
+                )
             ) : (
                 <Box py={1}>
                     {_ballots.map((ballot, i) => (
