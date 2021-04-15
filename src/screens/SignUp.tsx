@@ -1,7 +1,17 @@
 import React from "react"
 import AuthContext from "../context/AuthContext"
-import { Theme, Container, Button, TextField, createStyles, makeStyles, useTheme } from "@material-ui/core"
+import {
+    Theme,
+    Container,
+    Button,
+    TextField,
+    createStyles,
+    makeStyles,
+    useTheme,
+    InputAdornment
+} from "@material-ui/core"
 import useBooleanCondition from "../hooks/useBooleanCondition"
+import NotesIcon from "@material-ui/icons/Notes"
 import QRCodeViewer from "../components/QRCodeViewer"
 import downloadSVG from "../utils/downloadSVG"
 
@@ -30,14 +40,6 @@ export default function SignUp() {
     const [_name, setName] = React.useState<string>("")
     const [_surname, setSurname] = React.useState<string>("")
 
-    function updateName(event: React.ChangeEvent<HTMLInputElement>) {
-        setName(event.target.value)
-    }
-
-    function updateSurname(event: React.ChangeEvent<HTMLInputElement>) {
-        setSurname(event.target.value)
-    }
-
     function downloadQRCode() {
         const svg = document.querySelector("#qr-code > svg") as Element
 
@@ -55,11 +57,39 @@ export default function SignUp() {
 
     return (
         <Container className={classes.container} maxWidth="sm">
-            <TextField id="user-name" value={_name} onChange={updateName} label="Name" />
-            <TextField id="user-surname" value={_surname} onChange={updateSurname} label="Surname" />
+            <TextField
+                id="user-name"
+                value={_name}
+                onChange={(event) => setName(event.target.value)}
+                label="Name"
+                margin="dense"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <NotesIcon color="action" />
+                        </InputAdornment>
+                    )
+                }}
+            />
+            <TextField
+                id="user-surname"
+                value={_surname}
+                onChange={(event) => setSurname(event.target.value)}
+                label="Surname"
+                margin="dense"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <NotesIcon color="action" />
+                        </InputAdornment>
+                    )
+                }}
+            />
+
             <Button className={classes.button} onClick={toggleQRCodeViewer} variant="outlined">
                 Create
             </Button>
+
             <QRCodeViewer
                 open={_QRCodeViewer}
                 onClose={toggleQRCodeViewer}

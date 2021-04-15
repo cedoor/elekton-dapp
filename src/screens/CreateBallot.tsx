@@ -21,7 +21,7 @@ import TodayIcon from "@material-ui/icons/Today"
 import InsertInvitationIcon from "@material-ui/icons/InsertInvitation"
 import DescriptionIcon from "@material-ui/icons/Description"
 import PeopleIcon from "@material-ui/icons/People"
-import SubjectIcon from "@material-ui/icons/Subject"
+import NotesIcon from "@material-ui/icons/Notes"
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import DynamicList from "../components/DynamicList"
 import users from "../data/users"
@@ -73,7 +73,7 @@ export default function CreateBallot(): JSX.Element {
 
         localStorage.setItem("ballots", JSON.stringify(ballots))
 
-        history.goBack()
+        history.replace("/ballots")
     }
 
     return (
@@ -88,7 +88,7 @@ export default function CreateBallot(): JSX.Element {
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <SubjectIcon color="action" />
+                            <NotesIcon color="action" />
                         </InputAdornment>
                     )
                 }}

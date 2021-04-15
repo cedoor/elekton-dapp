@@ -71,18 +71,24 @@ export default function Ballots() {
             {_wait ? (
                 _ballots.length > 0 ? (
                     <List component="nav">
-                        {_ballots.map((ballot, i) => (
-                            <Box key={i}>
-                                <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
-                                    <ListItemText primary={ballot.name} secondary={ballot.description} />
-                                    <ListItemSecondaryAction style={{ textAlign: "right" }}>
-                                        <Typography variant="body1">{format(ballot.startDate, "MMM dd")}</Typography>
-                                        <Typography variant="caption">{format(ballot.startDate, "HH:mm")}</Typography>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                                {i < _ballots.length - 1 && <Divider variant="middle" />}
-                            </Box>
-                        ))}
+                        {_ballots
+                            .sort((a, b) => a.startDate - b.startDate)
+                            .map((ballot, i) => (
+                                <Box key={i}>
+                                    <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
+                                        <ListItemText primary={ballot.name} secondary={ballot.description} />
+                                        <ListItemSecondaryAction style={{ textAlign: "right" }}>
+                                            <Typography variant="body1">
+                                                {format(ballot.startDate, "MMM dd")}
+                                            </Typography>
+                                            <Typography variant="caption">
+                                                {format(ballot.startDate, "HH:mm")}
+                                            </Typography>
+                                        </ListItemSecondaryAction>
+                                    </ListItem>
+                                    {i < _ballots.length - 1 && <Divider variant="middle" />}
+                                </Box>
+                            ))}
                     </List>
                 ) : (
                     <Box className={classes.emptyListBox}>

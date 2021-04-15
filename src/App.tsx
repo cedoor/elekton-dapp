@@ -100,7 +100,7 @@ export default function App() {
                                     <IconButton
                                         edge="start"
                                         className={classes.leftAppBarButton}
-                                        onClick={() => history.goBack()}
+                                        onClick={() => history.replace("/")}
                                     >
                                         <ArrowBackRoundedIcon />
                                     </IconButton>

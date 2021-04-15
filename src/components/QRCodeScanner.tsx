@@ -1,6 +1,7 @@
 import React from "react"
 import { createStyles, Dialog, makeStyles } from "@material-ui/core"
 import decodeQRcode from "../utils/decodeQRcode"
+import delay from "../utils/delay"
 
 export interface QRCodeScannerProps {
     open: boolean
@@ -59,12 +60,6 @@ export default function QRCodeScanner({ open, onScan, onClose }: QRCodeScannerPr
     function stopScanning() {
         stopVideoStream()
         onClose && onClose()
-    }
-
-    async function delay(milliseconds = 50) {
-        return new Promise((resolve) => {
-            setTimeout(resolve, milliseconds)
-        })
     }
 
     return (

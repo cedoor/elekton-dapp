@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            minWidth: "320px"
+            [theme.breakpoints.up("sm")]: {
+                width: "300px"
+            }
         },
         dialogMessage: {
             marginTop: theme.spacing(2),

@@ -11,7 +11,7 @@ import {
     makeStyles,
     Theme
 } from "@material-ui/core"
-import NotesIcon from "@material-ui/icons/Notes"
+import ListAltIcon from "@material-ui/icons/ListAlt"
 import AddIcon from "@material-ui/icons/Add"
 
 export interface DynamicListProps {
@@ -65,7 +65,7 @@ export default function DynamicList({ label, items, onChange }: DynamicListProps
                 onKeyPress={(event) => event.code === "Enter" && addItem(_inputValue)}
                 startAdornment={
                     <InputAdornment position="start">
-                        <NotesIcon color="action" />
+                        <ListAltIcon color="action" />
                     </InputAdornment>
                 }
                 endAdornment={
