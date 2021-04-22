@@ -42,10 +42,10 @@ export default function EntryPage() {
     const classes = useStyles()
     const elekton = React.useContext(ElektonContext)
     const theme = useTheme()
-    const [_QRCodeScanner, toggleQRCodeScanner] = useBooleanCondition()
+    const [_QRCodeScanner, openQRCodeScanner, closeQRCodeScanner] = useBooleanCondition()
 
     function signIn(accessKey: string) {
-        toggleQRCodeScanner()
+        closeQRCodeScanner()
 
         elekton?.signIn(accessKey)
     }
@@ -56,13 +56,13 @@ export default function EntryPage() {
             <Typography className={classes.appName} variant="h5">
                 Elekton
             </Typography>
-            <Button className={classes.buttons} onClick={toggleQRCodeScanner} variant="outlined">
+            <Button className={classes.buttons} onClick={openQRCodeScanner} variant="outlined">
                 Sign In
             </Button>
             <Button className={classes.buttons} component={RouterLink} to="/sign-up" variant="outlined">
                 Sign Up
             </Button>
-            <QRCodeScanner open={_QRCodeScanner} onScan={signIn} onClose={toggleQRCodeScanner} />
+            <QRCodeScanner open={_QRCodeScanner} onScan={signIn} onClose={closeQRCodeScanner} />
         </Container>
     )
 }

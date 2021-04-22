@@ -1,7 +1,8 @@
 import { Box, Container, createStyles, makeStyles } from "@material-ui/core"
+import { ReactNode } from "react"
 
 export interface ScrollableContainerProps {
-    children?: React.ReactElement | React.ReactElement[]
+    children?: ReactNode
     className?: string
     maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | false
 }

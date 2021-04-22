@@ -40,7 +40,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
     const classes = useStyles()
     const theme = useTheme()
     const elekton = React.useContext(ElektonContext) as ElektonContextType
-    const [_QRCodeViewer, toggleQRCodeViewer] = useBooleanCondition()
+    const [_QRCodeViewer, openQRCodeViewer, closeQRCodeViewer] = useBooleanCondition()
 
     function downloadQRCode() {
         const svg = document.querySelector("#qr-code > svg") as Element
@@ -51,7 +51,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             backgroundColor: theme.palette.background.paper
         })
 
-        toggleQRCodeViewer()
+        closeQRCodeViewer()
     }
 
     function signOut() {
@@ -69,7 +69,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem onClick={toggleQRCodeViewer} button>
+                    <ListItem onClick={openQRCodeViewer} button>
                         <ListItemIcon>
                             <VpnKeyIcon />
                         </ListItemIcon>
@@ -83,9 +83,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                     </ListItem>
                 </List>
             </div>
+
             <QRCodeViewer
                 open={_QRCodeViewer}
-                onClose={toggleQRCodeViewer}
+                onClose={closeQRCodeViewer}
                 title="Access key"
                 message="Download the QR code of your access key!"
                 value={elekton._user?.privateKey + "," + elekton._user?.voterPrivateKey}

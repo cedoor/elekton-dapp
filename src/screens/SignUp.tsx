@@ -30,8 +30,8 @@ export default function SignUpPage() {
     const [_name, setName] = React.useState<string>("")
     const [_surname, setSurname] = React.useState<string>("")
     const [_user, setUser] = React.useState<User>()
-    const [_QRCodeViewer, toggleQRCodeViewer] = useBooleanCondition()
-    const [_progress, toggleProgress] = useBooleanCondition()
+    const [_QRCodeViewer, openQRCodeViewer, closeQRCodeViewer] = useBooleanCondition()
+    const [_progress, openProgress, closeProgress] = useBooleanCondition()
 
     function downloadQRCode() {
         const svg = document.querySelector("#qr-code > svg") as Element
@@ -44,20 +44,25 @@ export default function SignUpPage() {
     }
 
     async function createUser() {
-        toggleProgress()
+        openProgress()
 
         const user = await elekton.createUser({
             name: _name,
             surname: _surname
         })
 
-        toggleProgress()
+        closeProgress()
 
         if (user) {
             setUser(user)
 
-            toggleQRCodeViewer()
+            openQRCodeViewer()
         }
+    }
+
+    function signUp() {
+        closeQRCodeViewer()
+        elekton.signUp(_user as User)
     }
 
     return (
@@ -100,10 +105,10 @@ export default function SignUpPage() {
                 value={_user?.privateKey + "," + _user?.voterPrivateKey}
             >
                 <Button onClick={downloadQRCode}>Download</Button>
-                <Button onClick={() => elekton.signUp(_user as User)}>Sign Up</Button>
+                <Button onClick={signUp}>Sign Up</Button>
             </QRCodeViewer>
 
-            <BackdropProgress open={_progress} onClose={toggleProgress} />
+            <BackdropProgress open={_progress} />
         </ScrollableContainer>
     )
 }

@@ -1,11 +1,15 @@
 import React from "react"
 
-export default function useBooleanCondition(state: boolean = false): [boolean, () => void] {
+export default function useBooleanCondition(state: boolean = false): [boolean, () => void, () => void] {
     const [_condition, setCondition] = React.useState<boolean>(state)
 
-    function toggleCondition() {
-        setCondition(!_condition)
+    function turnOnCondition() {
+        setCondition(true)
     }
 
-    return [_condition, toggleCondition]
+    function turnOffCondition() {
+        setCondition(false)
+    }
+
+    return [_condition, turnOnCondition, turnOffCondition]
 }

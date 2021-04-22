@@ -1,18 +1,19 @@
-import QRCode from "react-qr-code"
 import {
     createStyles,
-    makeStyles,
     Dialog,
-    DialogContent,
     DialogActions,
-    Typography,
-    Theme,
+    DialogContent,
+    DialogTitle,
     IconButton,
-    useTheme,
+    makeStyles,
+    Theme,
+    Typography,
     useMediaQuery,
-    DialogTitle
+    useTheme
 } from "@material-ui/core"
 import CloseIcon from "@material-ui/icons/Close"
+import { ReactNode } from "react"
+import QRCode from "react-qr-code"
 
 export interface QRCodeViewerProps {
     title: string
@@ -20,7 +21,7 @@ export interface QRCodeViewerProps {
     value: string
     open: boolean
     onClose?: () => void
-    children: React.ReactElement | React.ReactElement[]
+    children: ReactNode
 }
 
 const useStyles = makeStyles((theme: Theme) =>

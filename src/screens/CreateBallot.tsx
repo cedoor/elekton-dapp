@@ -55,10 +55,10 @@ export default function CreateBallotPage(): JSX.Element {
     const [_endDate, setEndDate] = React.useState<Date | null>(new Date())
     const [_voterPublicKeys, setVoterPublicKeys] = React.useState<string[]>([])
     const [_proposals, setProposals] = React.useState<string[]>([])
-    const [_progress, toggleProgress] = useBooleanCondition()
+    const [_progress, openProgress, closeProgress] = useBooleanCondition()
 
     async function createBallot() {
-        toggleProgress()
+        openProgress()
 
         await elekton.createBallot({
             name: _name,
@@ -69,7 +69,7 @@ export default function CreateBallotPage(): JSX.Element {
             voterPublicKeys: _voterPublicKeys
         })
 
-        toggleProgress()
+        closeProgress()
 
         history.replace("/ballots")
     }
@@ -174,7 +174,7 @@ export default function CreateBallotPage(): JSX.Element {
                 Create
             </Button>
 
-            <BackdropProgress open={_progress} onClose={toggleProgress} />
+            <BackdropProgress open={_progress} />
         </ScrollableContainer>
     )
 }

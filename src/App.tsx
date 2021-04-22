@@ -53,7 +53,7 @@ export default function App() {
     const themeType = useThemeType()
     const location = useLocation()
     const history = useHistory()
-    const [_sidebar, toggleSidebar] = useBooleanCondition()
+    const [_sidebar, openSidebar, closeSidebar] = useBooleanCondition()
     const { _theme, toggleTheme } = themeType
 
     return (
@@ -70,12 +70,12 @@ export default function App() {
                                                 <IconButton
                                                     edge="start"
                                                     className={classes.leftAppBarButton}
-                                                    onClick={toggleSidebar}
+                                                    onClick={openSidebar}
                                                 >
                                                     <MenuIcon />
                                                 </IconButton>
 
-                                                <Sidebar open={_sidebar} onClose={toggleSidebar} />
+                                                <Sidebar open={_sidebar} onClose={closeSidebar} />
                                             </div>
                                         ) : location.pathname !== "/" ? (
                                             <IconButton
