@@ -1,6 +1,5 @@
 import React from "react"
 import CreateIcon from "@material-ui/icons/Create"
-import Skeleton from "@material-ui/lab/Skeleton"
 import { format } from "date-fns"
 import {
     createStyles,
@@ -17,13 +16,12 @@ import {
     Fab
 } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
+import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
+import ScrollableBox from "../components/ScrollableBox"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
             [theme.breakpoints.down("xs")]: {
                 padding: 0
             }
@@ -48,41 +46,28 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export default function Ballots() {
+export default function BallotsPage() {
     const classes = useStyles()
     const history = useHistory()
-    const [_wait, setWait] = React.useState<boolean>(false)
-    const [_ballots, setBallots] = React.useState<any[]>([])
-
-    React.useEffect(() => {
-        const ballots = JSON.parse(localStorage.getItem("ballots") || "[]")
-
-        setBallots(ballots)
-
-        const timer = setTimeout(() => {
-            setWait(true)
-        }, 500)
-
-        return () => clearTimeout(timer)
-    }, [])
+    const { _ballots } = React.useContext(ElektonContext) as ElektonContextType
 
     return (
-        <Container className={classes.container} maxWidth="md">
-            {_wait ? (
-                _ballots.length > 0 ? (
+        <ScrollableBox>
+            <Container className={classes.container} maxWidth="md">
+                {_ballots.length > 0 ? (
                     <List component="nav">
                         {_ballots
                             .sort((a, b) => a.startDate - b.startDate)
                             .map((ballot, i) => (
                                 <Box key={i}>
-                                    <ListItem onClick={() => history.push(`/ballots/${ballot.id}`)} button>
+                                    <ListItem onClick={() => history.push(`/ballots/${ballot.index}`)} button>
                                         <ListItemText primary={ballot.name} secondary={ballot.description} />
                                         <ListItemSecondaryAction style={{ textAlign: "right" }}>
                                             <Typography variant="body1">
-                                                {format(ballot.startDate, "MMM dd")}
+                                                {format(ballot.startDate * 1000, "MMM dd")}
                                             </Typography>
                                             <Typography variant="caption">
-                                                {format(ballot.startDate, "HH:mm")}
+                                                {format(ballot.startDate * 1000, "HH:mm")}
                                             </Typography>
                                         </ListItemSecondaryAction>
                                     </ListItem>
@@ -99,30 +84,12 @@ export default function Ballots() {
                             Create your own ballot!
                         </Typography>
                     </Box>
-                )
-            ) : (
-                <Box py={1}>
-                    {_ballots.map((ballot, i) => (
-                        <Box key={i}>
-                            <Box style={{ display: "flex", justifyContent: "space-between" }} px={2} py={1}>
-                                <Box>
-                                    <Skeleton variant="text" width={120} height={30} />
-                                    <Skeleton variant="text" width={250} height={26} />
-                                </Box>
-                                <Box style={{ display: "flex", flexDirection: "column", alignItems: "end" }}>
-                                    <Skeleton variant="text" width={40} height={30} />
-                                    <Skeleton variant="text" width={25} height={26} />
-                                </Box>
-                            </Box>
-                            {i < 2 && <Divider variant="middle" />}
-                        </Box>
-                    ))}
-                </Box>
-            )}
-            <Fab className={classes.fab} onClick={() => history.push("/ballots/create")} variant="extended">
-                <CreateIcon />
-                Create
-            </Fab>
-        </Container>
+                )}
+                <Fab className={classes.fab} onClick={() => history.push("/ballots/create")} variant="extended">
+                    <CreateIcon />
+                    Create
+                </Fab>
+            </Container>
+        </ScrollableBox>
     )
 }

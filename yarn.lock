@@ -1164,7 +1164,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cedoor/smt@^0.1.6":
+"@cedoor/smt@^0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@cedoor/smt/-/smt-0.1.7.tgz#70a35f17cf6de21fc43e97617be59d1b06a2853c"
   integrity sha512-DSD0gPneaAKS+RBa2tJu9SkFTpAGg2hmOXy7Z9juwts3cVu1cBwMPfC4Pe1wNNFCJsBvCFfkzSbJzUNPrx+img==
@@ -1951,17 +1951,6 @@
   integrity sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
   dependencies:
     "@babel/runtime" "^7.4.4"
-
-"@material-ui/lab@^4.0.0-alpha.57":
-  version "4.0.0-alpha.57"
-  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.57.tgz#e8961bcf6449e8a8dabe84f2700daacfcafbf83a"
-  integrity sha512-qo/IuIQOmEKtzmRD2E4Aa6DB4A87kmY6h0uYhjUmrrgmEAgbbw9etXpWPVXuRK6AGIQCjFzV6WO2i21m1R4FCw==
-  dependencies:
-    "@babel/runtime" "^7.4.4"
-    "@material-ui/utils" "^4.11.2"
-    clsx "^1.0.4"
-    prop-types "^15.7.2"
-    react-is "^16.8.0 || ^17.0.0"
 
 "@material-ui/pickers@^3.3.10":
   version "3.3.10"
@@ -5458,12 +5447,10 @@ electron-to-chromium@^1.3.564, electron-to-chromium@^1.3.649:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.708.tgz#127970d2fc665ab356be59e668f2914856419176"
   integrity sha512-+A8ggYZ5riOLMcVAuzHx6bforaPzaiLnW1QOMD2SlMYQVi7QQTyQ/WrlZoebIH9ikmgr+tLJGpNITFFCUiQcPw==
 
-elekton@^0.1.0:
+elekton@../elekton.js/:
   version "0.1.0"
-  resolved "https://registry.yarnpkg.com/elekton/-/elekton-0.1.0.tgz#6373272daa6f082f6c06ed59ff15c1d9991d175e"
-  integrity sha512-Wf302CuO3BZV91bwjlf8W/R+GP4obLGxmTP6nVLHGMIRkMzvEo2PoqVXoQZgBOoe7GW/c5fpnvPoe2ir+3X0ig==
   dependencies:
-    "@cedoor/smt" "^0.1.6"
+    "@cedoor/smt" "^0.1.7"
     blake-hash "^2.0.0"
     circomlib "^0.5.1"
     ethers "^5.0.32"

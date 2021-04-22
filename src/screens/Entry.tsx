@@ -1,5 +1,5 @@
 import React from "react"
-import AuthContext from "../context/AuthContext"
+import ElektonContext from "../context/ElektonContext"
 import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
 import Typography from "@material-ui/core/Typography"
@@ -38,15 +38,16 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export default function Entry() {
+export default function EntryPage() {
     const classes = useStyles()
-    const auth = React.useContext(AuthContext)
+    const elekton = React.useContext(ElektonContext)
     const theme = useTheme()
     const [_QRCodeScanner, toggleQRCodeScanner] = useBooleanCondition()
 
-    function signIn(user: string) {
+    function signIn(accessKey: string) {
         toggleQRCodeScanner()
-        auth?.signIn(user)
+
+        elekton?.signIn(accessKey)
     }
 
     return (

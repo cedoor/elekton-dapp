@@ -1,9 +1,14 @@
-body {
-    margin: 0;
+html,
+body,
+#root {
+    height: 100%;
 }
 
-#root > div {
+body {
+    margin: 0;
+    overflow-y: hidden;
+}
+
+#root {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }

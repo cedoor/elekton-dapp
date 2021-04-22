@@ -1,5 +1,5 @@
 import React from "react"
-import AuthContext from "../context/AuthContext"
+import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
 import {
     Theme,
     Container,
@@ -14,6 +14,7 @@ import useBooleanCondition from "../hooks/useBooleanCondition"
 import NotesIcon from "@material-ui/icons/Notes"
 import QRCodeViewer from "../components/QRCodeViewer"
 import downloadSVG from "../utils/downloadSVG"
+import { User } from "elekton/dist/types/User"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,13 +33,14 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export default function SignUp() {
+export default function SignUpPage() {
     const classes = useStyles()
-    const auth = React.useContext(AuthContext)
+    const elekton = React.useContext(ElektonContext) as ElektonContextType
     const theme = useTheme()
     const [_QRCodeViewer, toggleQRCodeViewer] = useBooleanCondition()
     const [_name, setName] = React.useState<string>("")
     const [_surname, setSurname] = React.useState<string>("")
+    const [_user, setUser] = React.useState<User>()
 
     function downloadQRCode() {
         const svg = document.querySelector("#qr-code > svg") as Element
@@ -50,15 +52,22 @@ export default function SignUp() {
         })
     }
 
-    function signUp() {
-        toggleQRCodeViewer()
-        auth?.signUp(_name + " " + _surname)
+    async function createUser() {
+        const user = await elekton.createUser({
+            name: _name,
+            surname: _surname
+        })
+
+        if (user) {
+            setUser(user)
+
+            toggleQRCodeViewer()
+        }
     }
 
     return (
         <Container className={classes.container} maxWidth="sm">
             <TextField
-                id="user-name"
                 value={_name}
                 onChange={(event) => setName(event.target.value)}
                 label="Name"
@@ -72,7 +81,6 @@ export default function SignUp() {
                 }}
             />
             <TextField
-                id="user-surname"
                 value={_surname}
                 onChange={(event) => setSurname(event.target.value)}
                 label="Surname"
@@ -86,19 +94,18 @@ export default function SignUp() {
                 }}
             />
 
-            <Button className={classes.button} onClick={toggleQRCodeViewer} variant="outlined">
+            <Button className={classes.button} onClick={createUser} variant="outlined">
                 Create
             </Button>
 
             <QRCodeViewer
                 open={_QRCodeViewer}
-                onClose={toggleQRCodeViewer}
                 title="Access key"
                 message="Download the QR code of your access key and sign up!"
-                value={_name + " " + _surname}
+                value={_user?.privateKey + "," + _user?.voterPrivateKey}
             >
                 <Button onClick={downloadQRCode}>Download</Button>
-                <Button onClick={signUp}>Sign Up</Button>
+                <Button onClick={() => elekton.signUp(_user as User)}>Sign Up</Button>
             </QRCodeViewer>
         </Container>
     )

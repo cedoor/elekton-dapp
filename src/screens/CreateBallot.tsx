@@ -24,8 +24,7 @@ import PeopleIcon from "@material-ui/icons/People"
 import NotesIcon from "@material-ui/icons/Notes"
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import DynamicList from "../components/DynamicList"
-import users from "../data/users"
-import AuthContext from "../context/AuthContext"
+import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
 import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,32 +45,26 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export default function CreateBallot(): JSX.Element {
+export default function CreateBallotPage(): JSX.Element {
     const classes = useStyles()
-    const auth = React.useContext(AuthContext)
+    const elekton = React.useContext(ElektonContext) as ElektonContextType
     const history = useHistory()
     const [_name, setName] = React.useState<string>("")
     const [_description, setDescription] = React.useState<string>("")
     const [_startDate, setStartDate] = React.useState<Date | null>(new Date())
     const [_endDate, setEndDate] = React.useState<Date | null>(new Date())
-    const [_voters, setVoters] = React.useState<string[]>([])
+    const [_voterPublicKeys, setVoterPublicKeys] = React.useState<string[]>([])
     const [_proposals, setProposals] = React.useState<string[]>([])
 
-    function createBallot() {
-        const ballots = JSON.parse(localStorage.getItem("ballots") || "[]")
-
-        ballots.push({
-            id: ballots.length,
-            admin: auth?._user,
+    async function createBallot() {
+        await elekton.createBallot({
             name: _name,
             description: _description,
-            voters: _voters,
-            startDate: +(_startDate as Date),
-            endDate: +(_endDate as Date),
-            proposals: _proposals
+            startDate: Math.floor(+(_startDate as Date) / 1000),
+            endDate: Math.floor(+(_endDate as Date) / 1000),
+            proposals: _proposals,
+            voterPublicKeys: _voterPublicKeys
         })
-
-        localStorage.setItem("ballots", JSON.stringify(ballots))
 
         history.replace("/ballots")
     }
@@ -111,8 +104,8 @@ export default function CreateBallot(): JSX.Element {
                 <InputLabel>Voters</InputLabel>
                 <Select
                     multiple
-                    value={_voters}
-                    onChange={(event) => setVoters(event.target.value as string[])}
+                    value={_voterPublicKeys}
+                    onChange={(event) => setVoterPublicKeys(event.target.value as string[])}
                     input={
                         <Input
                             style={{ textAlign: "left" }}
@@ -123,15 +116,20 @@ export default function CreateBallot(): JSX.Element {
                             }
                         />
                     }
-                    renderValue={(selected) => (selected as string[]).join(", ")}
+                    renderValue={(voterPublicKeys) =>
+                        elekton._users
+                            .filter((user) => (voterPublicKeys as string[]).includes(user.voterPublicKey))
+                            .map((user) => user.name + " " + user.surname)
+                            .join(", ")
+                    }
                     MenuProps={{
                         getContentAnchorEl: null,
                         PaperProps: { style: { maxHeight: 440 } }
                     }}
                 >
-                    {users.map((user, i: number) => (
-                        <MenuItem key={i} value={user.name}>
-                            <Checkbox color="primary" checked={_voters.indexOf(user.name) > -1} />
+                    {elekton._users.map((user, i: number) => (
+                        <MenuItem key={i} value={user.voterPublicKey}>
+                            <Checkbox color="primary" checked={_voterPublicKeys.indexOf(user.voterPublicKey) > -1} />
                             <ListItemText primary={user.name + " " + user.surname} />
                         </MenuItem>
                     ))}

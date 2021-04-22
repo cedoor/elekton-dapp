@@ -24,6 +24,8 @@ import {
     RadioGroup,
     Radio
 } from "@material-ui/core"
+import { Ballot } from "elekton/dist/types/Ballot"
+import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -61,25 +63,23 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export default function Ballot(): JSX.Element {
+export default function BallotPage(): JSX.Element {
     const classes = useStyles()
+    const elekton = React.useContext(ElektonContext) as ElektonContextType
     const { id } = useParams<any>()
-    const [_ballot, setBallot] = React.useState<any>()
+    const [_ballot, setBallot] = React.useState<Ballot>()
     const [_proposal, setProposal] = React.useState<number>(-1)
 
     React.useEffect(() => {
-        const ballots = JSON.parse(localStorage.getItem("ballots") || "[]")
-        const ballot = ballots.find((ballot: any) => ballot.id === Number(id))
+        const ballot = elekton._ballots.find((ballot) => ballot.index === Number(id))
 
         setBallot(ballot)
-    }, [id])
+    }, [])
 
-    function selectProposal(event: React.ChangeEvent<HTMLInputElement>) {
-        setProposal(Number((event.target as HTMLInputElement).value))
-    }
-
-    function vote() {
-        console.log(_proposal)
+    async function vote() {
+        if (_proposal !== -1) {
+            await elekton.vote(_ballot as Ballot, _proposal)
+        }
     }
 
     return _ballot ? (
@@ -95,19 +95,25 @@ export default function Ballot(): JSX.Element {
                     <ListItemIcon>
                         <PersonIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Admin" secondary={_ballot.admin} />
+                    <ListItemText primary="Admin" secondary={_ballot.adminAddress} />
                 </ListItem>
                 <ListItem className={classes.listItem}>
                     <ListItemIcon>
                         <TodayIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Start date" secondary={format(_ballot.startDate, "MMM dd yyyy - HH:mm")} />
+                    <ListItemText
+                        primary="Start date"
+                        secondary={format(_ballot.startDate * 1000, "MMM dd yyyy - HH:mm")}
+                    />
                 </ListItem>
                 <ListItem className={classes.listItem}>
                     <ListItemIcon>
                         <InsertInvitationIcon />
                     </ListItemIcon>
-                    <ListItemText primary="End date" secondary={format(_ballot.endDate, "MMM dd yyyy - HH:mm")} />
+                    <ListItemText
+                        primary="End date"
+                        secondary={format(_ballot.endDate * 1000, "MMM dd yyyy - HH:mm")}
+                    />
                 </ListItem>
             </List>
 
@@ -120,7 +126,7 @@ export default function Ballot(): JSX.Element {
                     title={_ballot.description}
                 />
                 <FormControl className={classes.ballotProposals} component="fieldset">
-                    <RadioGroup value={_proposal} onChange={selectProposal}>
+                    <RadioGroup value={_proposal} onChange={(event) => setProposal(Number(event.target.value))}>
                         <FormControlLabel
                             style={{ display: "none" }}
                             value={-1}
@@ -136,9 +142,19 @@ export default function Ballot(): JSX.Element {
 
             <Divider />
 
-            <Button className={classes.button} onClick={vote} variant="outlined">
-                Vote
-            </Button>
+            {elekton._user && _ballot.voterPublicKeys.indexOf(elekton._user.voterPublicKey) !== -1 && (
+                <Button className={classes.button} onClick={vote} variant="outlined">
+                    Vote
+                </Button>
+            )}
+
+            {
+                // _user?.address === _ballot.adminAddress && (
+                //<Button className={classes.button} onClick={publishDecryptionKey} variant="outlined">
+                //Publish key
+                //</Button>
+                // )
+            }
         </Container>
     ) : (
         <Box />

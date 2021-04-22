@@ -20,7 +20,7 @@ export interface QRCodeViewerProps {
     value: string
     open: boolean
     onClose?: () => void
-    children: React.ReactElement[]
+    children: React.ReactElement | React.ReactElement[]
 }
 
 const useStyles = makeStyles((theme: Theme) =>
