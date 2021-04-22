@@ -111,16 +111,12 @@ export default function CreateBallotPage(): JSX.Element {
                     multiple
                     value={_voterPublicKeys}
                     onChange={(event) => setVoterPublicKeys(event.target.value as string[])}
-                    input={
-                        <Input
-                            style={{ textAlign: "left" }}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <PeopleIcon color="action" />
-                                </InputAdornment>
-                            }
-                        />
+                    startAdornment={
+                        <InputAdornment position="start">
+                            <PeopleIcon color="action" />
+                        </InputAdornment>
                     }
+                    input={<Input inputProps={{ style: { width: "auto" } }} style={{ textAlign: "left" }} />}
                     renderValue={(voterPublicKeys) =>
                         elekton._users
                             .filter((user) => (voterPublicKeys as string[]).includes(user.voterPublicKey))
