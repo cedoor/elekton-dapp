@@ -25,6 +25,7 @@ import CreateBallotPage from "./screens/CreateBallot"
 import ThemeTypeContext from "./context/ThemeTypeContext"
 import useThemeType from "./hooks/useThemeType"
 import Sidebar from "./components/Sidebar"
+import BackdropProgress from "./components/BackdropProgress"
 import { connect } from "elekton"
 import elektonConfig from "./config"
 
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             display: "flex",
             flexDirection: "column",
+            minHeight: "100vh",
             flex: 1
         },
         leftAppBarButton: {
@@ -111,6 +113,8 @@ export default function App() {
                             </Switch>
                         </Paper>
                     )}
+
+                    <BackdropProgress open={elekton._user === undefined} />
                 </ElektonContext.Provider>
             </ThemeProvider>
         </ThemeTypeContext.Provider>

@@ -3,7 +3,6 @@ import DateFnsUtils from "@date-io/date-fns"
 import {
     Button,
     Checkbox,
-    Container,
     createStyles,
     FormControl,
     Input,
@@ -26,21 +25,22 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import DynamicList from "../components/DynamicList"
 import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
 import { useHistory } from "react-router-dom"
+import useBooleanCondition from "../hooks/useBooleanCondition"
+import BackdropProgress from "../components/BackdropProgress"
+import ScrollableContainer from "../components/ScrollableContainer"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            paddingBottom: theme.spacing(8),
             textAlign: "center",
             [theme.breakpoints.up("sm")]: {
-                justifyContent: "center"
+                justifyContent: "center",
+                paddingBottom: theme.spacing(8)
             }
         },
         button: {
-            marginTop: theme.spacing(3)
+            marginTop: theme.spacing(3),
+            marginBottom: theme.spacing(2)
         }
     })
 )
@@ -55,8 +55,11 @@ export default function CreateBallotPage(): JSX.Element {
     const [_endDate, setEndDate] = React.useState<Date | null>(new Date())
     const [_voterPublicKeys, setVoterPublicKeys] = React.useState<string[]>([])
     const [_proposals, setProposals] = React.useState<string[]>([])
+    const [_progress, toggleProgress] = useBooleanCondition()
 
     async function createBallot() {
+        toggleProgress()
+
         await elekton.createBallot({
             name: _name,
             description: _description,
@@ -66,11 +69,13 @@ export default function CreateBallotPage(): JSX.Element {
             voterPublicKeys: _voterPublicKeys
         })
 
+        toggleProgress()
+
         history.replace("/ballots")
     }
 
     return (
-        <Container className={classes.container} maxWidth="sm">
+        <ScrollableContainer className={classes.container}>
             <Typography variant="h5">Create ballot</Typography>
 
             <TextField
@@ -172,6 +177,8 @@ export default function CreateBallotPage(): JSX.Element {
             <Button className={classes.button} onClick={createBallot} variant="outlined">
                 Create
             </Button>
-        </Container>
+
+            <BackdropProgress open={_progress} onClose={toggleProgress} />
+        </ScrollableContainer>
     )
 }

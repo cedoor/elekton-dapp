@@ -10,7 +10,6 @@ import {
     Typography,
     Divider,
     Box,
-    Container,
     ListItemText,
     ListItem,
     List,
@@ -26,17 +25,15 @@ import {
 } from "@material-ui/core"
 import { Ballot } from "elekton/dist/types/Ballot"
 import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
+import ScrollableContainer from "../components/ScrollableContainer"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            paddingBottom: theme.spacing(8),
             textAlign: "center",
             [theme.breakpoints.up("sm")]: {
-                justifyContent: "center"
+                justifyContent: "center",
+                paddingBottom: theme.spacing(8)
             }
         },
         ballotName: {
@@ -58,7 +55,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex"
         },
         button: {
-            marginTop: theme.spacing(3)
+            marginTop: theme.spacing(3),
+            marginBottom: theme.spacing(2)
         }
     })
 )
@@ -82,81 +80,92 @@ export default function BallotPage(): JSX.Element {
         }
     }
 
-    return _ballot ? (
-        <Container className={classes.container} maxWidth="sm">
-            <Typography className={classes.ballotName} variant="h5">
-                {_ballot.name}
-            </Typography>
+    return (
+        <ScrollableContainer className={classes.container}>
+            {_ballot && (
+                <Box>
+                    <Typography className={classes.ballotName} variant="h5">
+                        {_ballot.name}
+                    </Typography>
 
-            <Divider />
+                    <Divider />
 
-            <List component="nav">
-                <ListItem className={classes.listItem}>
-                    <ListItemIcon>
-                        <PersonIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Admin" secondary={_ballot.adminAddress} />
-                </ListItem>
-                <ListItem className={classes.listItem}>
-                    <ListItemIcon>
-                        <TodayIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary="Start date"
-                        secondary={format(_ballot.startDate * 1000, "MMM dd yyyy - HH:mm")}
-                    />
-                </ListItem>
-                <ListItem className={classes.listItem}>
-                    <ListItemIcon>
-                        <InsertInvitationIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary="End date"
-                        secondary={format(_ballot.endDate * 1000, "MMM dd yyyy - HH:mm")}
-                    />
-                </ListItem>
-            </List>
+                    <List component="nav">
+                        <ListItem className={classes.listItem}>
+                            <ListItemIcon>
+                                <PersonIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                secondaryTypographyProps={{ noWrap: true }}
+                                primary="Admin"
+                                secondary={_ballot.adminAddress}
+                            />
+                        </ListItem>
+                        <ListItem className={classes.listItem}>
+                            <ListItemIcon>
+                                <TodayIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="Start date"
+                                secondary={format(_ballot.startDate * 1000, "MMM dd yyyy - HH:mm")}
+                            />
+                        </ListItem>
+                        <ListItem className={classes.listItem}>
+                            <ListItemIcon>
+                                <InsertInvitationIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="End date"
+                                secondary={format(_ballot.endDate * 1000, "MMM dd yyyy - HH:mm")}
+                            />
+                        </ListItem>
+                    </List>
 
-            <Divider />
+                    <Divider />
 
-            <Card elevation={0} square={true} className={classes.card}>
-                <CardHeader
-                    className={classes.ballotDescription}
-                    titleTypographyProps={{ variant: "subtitle1" }}
-                    title={_ballot.description}
-                />
-                <FormControl className={classes.ballotProposals} component="fieldset">
-                    <RadioGroup value={_proposal} onChange={(event) => setProposal(Number(event.target.value))}>
-                        <FormControlLabel
-                            style={{ display: "none" }}
-                            value={-1}
-                            control={<Radio color="primary" />}
-                            label=""
+                    <Card elevation={0} square={true} className={classes.card}>
+                        <CardHeader
+                            className={classes.ballotDescription}
+                            titleTypographyProps={{ variant: "subtitle1" }}
+                            title={_ballot.description}
                         />
-                        {_ballot.proposals.map((proposal: string, i: number) => (
-                            <FormControlLabel key={i} value={i} control={<Radio color="primary" />} label={proposal} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
-            </Card>
+                        <FormControl className={classes.ballotProposals} component="fieldset">
+                            <RadioGroup value={_proposal} onChange={(event) => setProposal(Number(event.target.value))}>
+                                <FormControlLabel
+                                    style={{ display: "none" }}
+                                    value={-1}
+                                    control={<Radio color="primary" />}
+                                    label=""
+                                />
+                                {_ballot.proposals.map((proposal: string, i: number) => (
+                                    <FormControlLabel
+                                        key={i}
+                                        value={i}
+                                        control={<Radio color="primary" />}
+                                        label={proposal}
+                                    />
+                                ))}
+                            </RadioGroup>
+                        </FormControl>
+                    </Card>
 
-            <Divider />
+                    <Divider />
 
-            {elekton._user && _ballot.voterPublicKeys.indexOf(elekton._user.voterPublicKey) !== -1 && (
-                <Button className={classes.button} onClick={vote} variant="outlined">
-                    Vote
-                </Button>
+                    {elekton._user && _ballot.voterPublicKeys.indexOf(elekton._user.voterPublicKey) !== -1 && (
+                        <Button className={classes.button} onClick={vote} variant="outlined">
+                            Vote
+                        </Button>
+                    )}
+
+                    {
+                        // _user?.address === _ballot.adminAddress && (
+                        //<Button className={classes.button} onClick={publishDecryptionKey} variant="outlined">
+                        //Publish key
+                        //</Button>
+                        // )
+                    }
+                </Box>
             )}
-
-            {
-                // _user?.address === _ballot.adminAddress && (
-                //<Button className={classes.button} onClick={publishDecryptionKey} variant="outlined">
-                //Publish key
-                //</Button>
-                // )
-            }
-        </Container>
-    ) : (
-        <Box />
+        </ScrollableContainer>
     )
 }
