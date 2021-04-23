@@ -18,7 +18,8 @@ const useStyles = makeStyles(() =>
         },
         container: {
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
+            flex: 1
         }
     })
 )
@@ -27,8 +28,8 @@ export default function ScrollableContainer({ children, className, maxWidth }: S
     const classes = useStyles()
 
     return (
-        <Box className={classes.box + " " + className}>
-            <Container className={classes.container} maxWidth={maxWidth || "sm"}>
+        <Box className={classes.box}>
+            <Container className={classes.container + " " + className} maxWidth={maxWidth || "sm"}>
                 {children || false}
             </Container>
         </Box>

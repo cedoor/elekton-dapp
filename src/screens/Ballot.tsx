@@ -28,7 +28,7 @@ import ElektonContext, { ElektonContextType } from "../context/ElektonContext"
 import ScrollableContainer from "../components/ScrollableContainer"
 import BackdropProgress from "../components/BackdropProgress"
 import useBooleanCondition from "../hooks/useBooleanCondition"
-import delay from "../utils/delay"
+import { User } from "elekton/dist/types/User"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -69,24 +69,77 @@ export default function BallotPage() {
     const elekton = React.useContext(ElektonContext) as ElektonContextType
     const { id } = useParams<any>()
     const [_ballot, setBallot] = React.useState<Ballot>()
+    const [_votes, setVotes] = React.useState<number[]>([])
     const [_proposal, setProposal] = React.useState<number>(-1)
     const [_progress, openProgress, closeProgress] = useBooleanCondition()
+    const [_isVoteEnabled, enableVote, disableVote] = useBooleanCondition()
+    const [_hasAlreadyVoted, setAsAlreadyVoted] = useBooleanCondition()
 
     React.useEffect(() => {
-        const ballot = elekton._ballots.find((ballot) => ballot.index === Number(id))
+        ;(async function () {
+            const ballot = elekton._ballots.find((ballot) => ballot.index === Number(id))
 
-        setBallot(ballot)
+            if (ballot) {
+                const hasAlreadyVoted = await elekton._user?.hasVotedTwice(ballot.index)
+                const votes = await ballot.retrieveVotes()
+
+                if (hasAlreadyVoted) {
+                    setAsAlreadyVoted()
+                }
+
+                setVotes(votes)
+                setBallot(ballot)
+            }
+        })()
     }, [])
 
-    async function vote() {
-        if (_proposal !== -1) {
-            console.log(_progress)
-            openProgress()
+    React.useEffect(() => {
+        if (_ballot && !_hasAlreadyVoted) {
+            const cb = () => {
+                const user = elekton._user as User
 
-            await elekton.vote(_ballot as Ballot, _proposal)
+                if (isVoteEnabled(user, _ballot)) {
+                    enableVote()
+                } else {
+                    disableVote()
+                }
+            }
+            const intervalId = setInterval(cb, 2000)
 
-            closeProgress()
+            cb()
+
+            return () => clearInterval(intervalId)
         }
+    }, [_ballot, _hasAlreadyVoted, _isVoteEnabled])
+
+    React.useEffect(() => {
+        if (_ballot) {
+            return _ballot.onVoteAdded((vote) => {
+                setVotes([..._votes, vote])
+            })
+        }
+    }, [_ballot, _votes])
+
+    async function vote() {
+        openProgress()
+
+        await elekton.vote(_ballot as Ballot, _proposal)
+
+        setAsAlreadyVoted()
+        disableVote()
+        closeProgress()
+    }
+
+    function getProposalVotes(proposal: number): number {
+        return _votes.filter((vote) => vote === proposal).length
+    }
+
+    function isVoteEnabled(user: User, ballot: Ballot): boolean {
+        const now = Math.floor(Date.now() / 1000)
+
+        return (
+            ballot.voterPublicKeys.indexOf(user.voterPublicKey) !== -1 && now > ballot.startDate && now < ballot.endDate
+        )
     }
 
     return _ballot ? (
@@ -130,7 +183,7 @@ export default function BallotPage() {
                     <ListItemIcon>
                         <BallotIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Votes" secondary={_ballot.votes.length} />
+                    <ListItemText primary="Votes" secondary={_votes.length} />
                 </ListItem>
             </List>
 
@@ -151,7 +204,13 @@ export default function BallotPage() {
                             label=""
                         />
                         {_ballot.proposals.map((proposal: string, i: number) => (
-                            <FormControlLabel key={i} value={i} control={<Radio color="primary" />} label={proposal} />
+                            <FormControlLabel
+                                key={i}
+                                disabled={!_isVoteEnabled}
+                                value={i}
+                                control={<Radio color="primary" />}
+                                label={`${proposal} (${getProposalVotes(i)})`}
+                            />
                         ))}
                     </RadioGroup>
                 </FormControl>
@@ -159,7 +218,7 @@ export default function BallotPage() {
 
             <Divider />
 
-            {elekton._user && _ballot.voterPublicKeys.indexOf(elekton._user.voterPublicKey) !== -1 && (
+            {_isVoteEnabled && _proposal !== -1 && (
                 <Button className={classes.button} onClick={vote} variant="outlined">
                     Vote
                 </Button>
