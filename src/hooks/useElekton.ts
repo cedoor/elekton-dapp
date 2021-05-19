@@ -56,6 +56,9 @@ export default function useElekton(elekton: Elekton): ElektonContextType {
 
             setUser(user)
             localStorage.setItem("user", accessKey)
+        } else {
+            localStorage.removeItem("user")
+            setUser(null)
         }
     }
 
