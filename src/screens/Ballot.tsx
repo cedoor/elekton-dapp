@@ -142,6 +142,12 @@ export default function BallotPage() {
         )
     }
 
+    function getAdminName(address: string) {
+        const user = elekton._users.find((user) => user.address === address) as User
+
+        return `${user.name} ${user?.surname}`
+    }
+
     return _ballot ? (
         <ScrollableContainer className={classes.container}>
             <Typography className={classes.ballotName} variant="h5">
@@ -158,7 +164,7 @@ export default function BallotPage() {
                     <ListItemText
                         secondaryTypographyProps={{ noWrap: true }}
                         primary="Admin"
-                        secondary={_ballot.adminAddress}
+                        secondary={getAdminName(_ballot.adminAddress)}
                     />
                 </ListItem>
                 <ListItem className={classes.listItem}>
