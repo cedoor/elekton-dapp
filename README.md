@@ -73,6 +73,8 @@ yarn # or `npm i`
 5. start a local [IPFS](https://docs.ipfs.io/install/command-line/) node,
 6. finally run `yarn start` to start the application on a local server.
 
+**Notice**: ran `yarn --prod` within `./node_modules/elekton` if you have any problem with TextEncoder or TextDecoder!
+
 ## Contacts
 
 ### Developers
